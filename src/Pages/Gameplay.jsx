@@ -6,7 +6,7 @@ const Gameplay = () => {
     <div>
       <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid gap-8 mainGrid mx-auto">
         {randomColors.map((color, index) => {
           return <div key={index} className={`w-12 h-12 ${color}`}></div>;
         })}
