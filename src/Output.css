@@ -542,6 +542,10 @@ video {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
 .h-8 {
   height: 2rem;
 }
@@ -556,6 +560,18 @@ video {
 
 .w-12 {
   width: 3rem;
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .bg-blue-600 {

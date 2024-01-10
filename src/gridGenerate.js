@@ -1,4 +1,4 @@
-export const color_2x2_bg = [
+const color_2x2_bg = [
   "bg-red-600",
   "bg-yellow-400",
   "bg-green-600",
@@ -7,7 +7,7 @@ export const color_2x2_bg = [
   "bg-pink-600",
 ];
 
-export const color_3x3_bg = [
+const color_3x3_bg = [
   "bg-red-600",
   "bg-yellow-400",
   "bg-green-600",
@@ -19,7 +19,7 @@ export const color_3x3_bg = [
   "bg-teal-600",
 ];
 
-export const color_4x4_bg = [
+const color_4x4_bg = [
   "bg-red-600",
   "bg-yellow-400",
   "bg-green-600",
@@ -38,16 +38,16 @@ export const color_4x4_bg = [
   "bg-orange-300",
 ];
 
+let color_bg = color_4x4_bg;
+let totalColorNo = 16;
+let gridColorNo = 13;
+
 const shuffle = (list) => {
   for (let i = list.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [list[i], list[j]] = [list[j], list[i]];
   }
 };
-
-let color_bg = color_4x4_bg;
-let totalColorNo = 16;
-let gridColorNo = 9;
 
 const generateRandomIndex = (totalColorNo, gridColorNo) => {
   const possibleInts = Array.from({ length: totalColorNo }, (_, i) => i);
@@ -73,4 +73,9 @@ export const randomColors = generateRandomColors(
 
 export const primaryColor =
   randomColors[Math.floor(Math.random() * gridColorNo)];
-console.log(primaryColor);
+
+for (let i = 0; i < totalColorNo - gridColorNo; i++) {
+  randomColors.push(primaryColor);
+}
+
+shuffle(randomColors);
