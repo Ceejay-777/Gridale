@@ -1,9 +1,10 @@
 import React from "react";
+import Gameplay from "./Pages/Gameplay";
 
 const App = () => {
   return (
     <div>
-      <p className="text-sm bg-red-800 border-2 border-pink-900">App</p>
+      <Gameplay />
     </div>
   );
 };
