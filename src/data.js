@@ -34,7 +34,7 @@ export const color_4x4_bg = [
   "bg-lime-300",
   "bg-pink-400",
   "bg-gray-950",
-  "bg-white",
+  "bg-green-300",
   "bg-orange-300",
 ];
 
@@ -45,20 +45,32 @@ const shuffle = (list) => {
   }
 };
 
-const generateRandomIndex = (totalColorNo) => {
+let color_bg = color_4x4_bg;
+let totalColorNo = 16;
+let gridColorNo = 9;
+
+const generateRandomIndex = (totalColorNo, gridColorNo) => {
   const possibleInts = Array.from({ length: totalColorNo }, (_, i) => i);
   shuffle(possibleInts);
-  console.log(possibleInts.slice(0, totalColorNo));
-  return possibleInts.slice(0, gridNo);
+  console.log(possibleInts.slice(0, gridColorNo));
+  return possibleInts.slice(0, gridColorNo);
 };
 
-const generateRandomColors = (colorsList, randomIndex, gridNo) => {
+const generateRandomColors = (colorsList, randomIndex, gridColorNo) => {
   const randomColors = [];
-  for (let i = 0; i < gridNo; i++) {
+  for (let i = 0; i < gridColorNo; i++) {
     randomColors.push(colorsList[randomIndex[i]]);
   }
   console.log(randomColors);
+  return randomColors;
 };
 
-// generateRandomColors(color_2x2_bg, generateRandomIndex(4), 4);
-// console.log(generateRandomIndex(6));
+export const randomColors = generateRandomColors(
+  color_bg,
+  generateRandomIndex(totalColorNo, gridColorNo),
+  gridColorNo
+);
+
+export const primaryColor =
+  randomColors[Math.floor(Math.random() * gridColorNo)];
+console.log(primaryColor);
