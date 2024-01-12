@@ -1,10 +1,11 @@
 import React from "react";
-import Gameplay from "./Pages/Gameplay";
+// import Gameplay from "./Pages/Gameplay";
+import MyRoutes from "./MyRoutes.jsx";
 
 const App = () => {
   return (
     <div>
-      <Gameplay />
+      <MyRoutes />
     </div>
   );
 };
