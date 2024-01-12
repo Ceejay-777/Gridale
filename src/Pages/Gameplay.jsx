@@ -1,10 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  generateRandomColors,
-  color_2x2_bg,
-  color_3x3_bg,
-  color_4x4_bg,
-} from "../gridGenerate";
+import React, { useEffect, useId } from "react";
+import { generateRandomColors } from "../gridGenerate";
 import { useGridSettings } from "../../GridContext";
 import { useNavigate } from "react-router";
 
@@ -24,17 +19,24 @@ const Gameplay = () => {
     totalColorNo,
     gridColorNo
   );
+
   const [randomColors, primaryColor] = randomColorsList;
 
-  useEffect(() => {
-    console.log(
-      gridColorList,
-      gridColorNo,
-      totalColorNo,
-      randomColors,
-      primaryColor
-    );
-  }, []);
+  const handleGridClick = (event) => {
+    if (event.currentTarget.classList.contains(primaryColor)) {
+      event.currentTarget.style.opacity = "0.5";
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(
+  //     gridColorList,
+  //     gridColorNo,
+  //     totalColorNo,
+  //     randomColors,
+  //     primaryColor
+  //   );
+  // }, []);
 
   return (
     <div>
@@ -42,7 +44,13 @@ const Gameplay = () => {
 
       <div className="grid gap-8 mainGrid mx-auto">
         {randomColors.map((color, index) => {
-          return <div key={index} className={`w-12 h-12 ${color}`}></div>;
+          return (
+            <div
+              key={useId()}
+              className={`w-12 h-12 ${color}`}
+              onClick={handleGridClick}
+            ></div>
+          );
         })}
       </div>
 
