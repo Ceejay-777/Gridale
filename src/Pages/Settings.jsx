@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useGridSettings } from "../../GridContext";
 import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
+import { useNavigate } from "react-router";
 
 const Settings = () => {
+  const navigate = useNavigate();
   const {
     gridColorList,
     setGridColorList,
@@ -46,11 +48,20 @@ const Settings = () => {
         onClick={() => {
           console.log("Clicked");
           setGridColorList(color_4x4_bg);
-          setTotalColorNo(13);
-          setGridColorNo(16);
+          setTotalColorNo(16);
+          setGridColorNo(13);
         }}
       >
         4 x 4
+      </button>
+
+      <button
+        onClick={() => {
+          navigate("/game");
+        }}
+        className="p-4 border-2 border-black mt-8"
+      >
+        Game
       </button>
     </div>
   );
