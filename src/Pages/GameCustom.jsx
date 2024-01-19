@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId, useState, useRef } from "react";
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -44,6 +44,32 @@ const GameCustom = () => {
     } else setGridStyle("mainGrid-4x4");
   }, [gridColorList]);
 
+  const totalTime = useRef(null);
+  const countRef = useRef(1);
+
+  useEffect(() => {
+    clearInterval(totalTime.current);
+  }, []);
+
+  const startTime = () => {
+    totalTime.current = setInterval(() => {
+      console.log(countRef.current);
+      countRef.current += 10;
+    }, 2000);
+    if (countRef.current >= 30) {
+      clearInterval(totalTime.current);
+    }
+  };
+
+  const handleStart = () => {
+    console.log("Start");
+    startTime();
+  };
+
+  const handleStop = () => {
+    clearInterval(totalTime.current);
+  };
+
   return (
     <div>
       <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
@@ -67,6 +93,14 @@ const GameCustom = () => {
         className="p-4 border-2 border-black mt-8"
       >
         Settings
+      </button>
+
+      <button className="p-4 border-2 border-black mt-8" onClick={handleStart}>
+        Start
+      </button>
+
+      <button className="p-4 border-2 border-black mt-8" onClick={handleStop}>
+        Stop
       </button>
     </div>
   );
