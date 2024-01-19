@@ -6,6 +6,8 @@ export const GridContext = ({ children }) => {
   const [gridColorList, setGridColorList] = useState(color_4x4_bg);
   const [gridColorNo, setGridColorNo] = useState(13);
   const [totalColorNo, setTotalColorNo] = useState(16);
+  const [classicMode, setClassicMode] = useState(true);
+  const [customMode, setCustomMode] = useState(false);
 
   return (
     <gridSettings.Provider
@@ -16,6 +18,10 @@ export const GridContext = ({ children }) => {
         setGridColorNo,
         totalColorNo,
         setTotalColorNo,
+        classicMode,
+        setClassicMode,
+        customMode,
+        setCustomMode,
       }}
     >
       {children}
