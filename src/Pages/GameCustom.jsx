@@ -45,7 +45,7 @@ const GameCustom = () => {
   }, [gridColorList]);
 
   const totalTime = useRef(null);
-  const countRef = useRef(1);
+  const countRef = useRef(0);
 
   useEffect(() => {
     clearInterval(totalTime.current);
@@ -55,10 +55,10 @@ const GameCustom = () => {
     totalTime.current = setInterval(() => {
       console.log(countRef.current);
       countRef.current += 10;
-    }, 2000);
-    if (countRef.current >= 30) {
-      clearInterval(totalTime.current);
-    }
+      if (countRef.current > 30) {
+        clearInterval(totalTime.current);
+      }
+    }, 30000);
   };
 
   const handleStart = () => {
@@ -99,9 +99,9 @@ const GameCustom = () => {
         Start
       </button>
 
-      <button className="p-4 border-2 border-black mt-8" onClick={handleStop}>
+      {/* <button className="p-4 border-2 border-black mt-8" onClick={handleStop}>
         Stop
-      </button>
+      </button> */}
     </div>
   );
 };
