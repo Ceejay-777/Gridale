@@ -10,23 +10,39 @@ import { useNavigate } from "react-router";
 
 const GameCustom = () => {
   const navigate = useNavigate();
-
+  const [gridColorList, setGridColorList] = useState();
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+  const [randomColorsList] = useState(generate_2x2_grid());
 
-  const {
-    gridColorList,
-    // setGridColorList,
-    totalColorNo,
-    // setTotalColorNo,
-    gridColorNo,
-    // setGridColorNo,
-  } = useGridSettings();
+  //   const {
+  //     gridColorList,
+  //     setGridColorList,
+  //     totalColorNo,
+  //     // setTotalColorNo,
+  //     gridColorNo,
+  //     // setGridColorNo,
+  //   } = useGridSettings();
 
-  let randomColorsList = generateRandomColors(
-    gridColorList,
-    totalColorNo,
-    gridColorNo
-  );
+  const generate_2x2_grid = () => {
+    setGridColorList(color_2x2_bg);
+    generateRandomColors(color_2x2_bg, 4, 4);
+  };
+
+  const generate_3x3_grid = () => {
+    setGridColorList(color_3x3_bg);
+    generateRandomColors(color_3x3_bg, 9, 7);
+  };
+
+  const generate_4x4_grid = () => {
+    setGridColorList(color_4x4_bg);
+    generateRandomColors(color_4x4_bg, 13, 16);
+  };
+
+  //   let randomColorsList = generateRandomColors(
+  //     gridColorList,
+  //     totalColorNo,
+  //     gridColorNo
+  //   );
 
   const [randomColors, primaryColor] = randomColorsList;
 
