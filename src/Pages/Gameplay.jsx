@@ -1,5 +1,5 @@
 import React from "react";
-import GameCustom from "./GameClassic";
+import GameClassic from "./GameClassic";
 
 const Gameplay = () => {
   return (

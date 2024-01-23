@@ -8,41 +8,28 @@ import {
 import { useGridSettings } from "../../GridContext";
 import { useNavigate } from "react-router";
 
-const GameCustom = () => {
-  const navigate = useNavigate();
-  const [gridColorList, setGridColorList] = useState();
-  const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
-  const [randomColorsList] = useState(generate_2x2_grid());
-
-  //   const {
-  //     gridColorList,
-  //     setGridColorList,
-  //     totalColorNo,
-  //     // setTotalColorNo,
-  //     gridColorNo,
-  //     // setGridColorNo,
-  //   } = useGridSettings();
-
+const GameClassic = () => {
   const generate_2x2_grid = () => {
     setGridColorList(color_2x2_bg);
-    generateRandomColors(color_2x2_bg, 4, 4);
+    return generateRandomColors(color_2x2_bg, 4, 4);
   };
 
   const generate_3x3_grid = () => {
     setGridColorList(color_3x3_bg);
-    generateRandomColors(color_3x3_bg, 9, 7);
+    return generateRandomColors(color_3x3_bg, 9, 7);
   };
 
   const generate_4x4_grid = () => {
     setGridColorList(color_4x4_bg);
-    generateRandomColors(color_4x4_bg, 13, 16);
+    return generateRandomColors(color_4x4_bg, 16, 13);
   };
 
-  //   let randomColorsList = generateRandomColors(
-  //     gridColorList,
-  //     totalColorNo,
-  //     gridColorNo
-  //   );
+  const navigate = useNavigate();
+  const [gridColorList, setGridColorList] = useState();
+  const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+  const [randomColorsList] = useState(generate_4x4_grid);
+  const totalTime = useRef(null);
+  const countRef = useRef(0);
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -60,9 +47,6 @@ const GameCustom = () => {
     } else setGridStyle("mainGrid-4x4");
   }, [gridColorList]);
 
-  const totalTime = useRef(null);
-  const countRef = useRef(0);
-
   useEffect(() => {
     clearInterval(totalTime.current);
   }, []);
@@ -70,11 +54,11 @@ const GameCustom = () => {
   const startTime = () => {
     totalTime.current = setInterval(() => {
       console.log(countRef.current);
-      countRef.current += 10;
+      countRef.current += 1;
       if (countRef.current > 30) {
         clearInterval(totalTime.current);
       }
-    }, 30000);
+    }, 1000);
   };
 
   const handleStart = () => {
@@ -115,11 +99,11 @@ const GameCustom = () => {
         Start
       </button>
 
-      {/* <button className="p-4 border-2 border-black mt-8" onClick={handleStop}>
+      <button className="p-4 border-2 border-black mt-8" onClick={handleStop}>
         Stop
-      </button> */}
+      </button>
     </div>
   );
 };
 
-export default GameCustom;
+export default GameClassic;
