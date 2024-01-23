@@ -1,10 +1,10 @@
 import React from "react";
-import GameCustom from "./GameCustom";
+import GameCustom from "./GameClassic";
 
 const Gameplay = () => {
   return (
     <div>
-      <GameCustom></GameCustom>
+      <GameClassic></GameClassic>
     </div>
   );
 };

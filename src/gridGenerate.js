@@ -98,6 +98,18 @@ export const generateRandomColors = (colorsList, totalColorNo, gridColorNo) => {
   return [randomColors, primaryColor];
 };
 
+export const generate_2x2_grid = () => {
+  generateRandomColors(color_2x2_bg, 4, 4);
+};
+
+export const generate_3x3_grid = () => {
+  generateRandomColors(color_3x3_bg, 9, 7);
+};
+
+export const generate_4x4_grid = () => {
+  generateRandomColors(color_4x4_bg, 13, 16);
+};
+
 // export const result = generateRandomColors(color_bg, totalColorNo, gridColorNo);
 
 // console.log(result);
