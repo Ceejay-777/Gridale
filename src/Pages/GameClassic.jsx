@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -84,7 +84,7 @@ const GameClassic = () => {
       setRandomColorsList(generate_2x2_grid);
     } else if (gridsCountRef.current > 5 && gridsCountRef.current <= 8) {
       console.log("Okay");
-      // setRandomColorsList(generate_3x3_grid);
+      setRandomColorsList(generate_3x3_grid);
     } else if (gridsCountRef.current > 8) {
       setRandomColorsList(generate_4x4_grid);
     }
@@ -121,7 +121,7 @@ const GameClassic = () => {
         {randomColors.map((color, index) => {
           return (
             <div
-              key={useId()}
+              key={index}
               className={`w-12 h-12 ${color}`}
               onClick={handleGridClick}
             ></div>
