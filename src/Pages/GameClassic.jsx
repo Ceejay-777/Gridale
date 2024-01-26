@@ -30,16 +30,24 @@ const GameClassic = () => {
   const [randomColorsList] = useState(generate_4x4_grid);
   const totalTime = useRef(null);
   const countRef = useRef(0);
+  const clicksRef = useRef(0);
 
   const [randomColors, primaryColor] = randomColorsList;
 
   const handleGridClick = (event) => {
-    if (event.currentTarget.classList.contains(primaryColor)) {
+    const thisClasslist = event.currentTarget.classList;
+    if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
+      if (!thisClasslist.contains("clicked")) {
+        thisClasslist.add("clicked");
+        clicksRef.current += 1;
+        console.log(clicksRef.current);
+      }
     }
   };
 
   useEffect(() => {
+    clicksRef.current = 0;
     if (gridColorList == color_2x2_bg) {
       setGridStyle("mainGrid-2x2");
     } else if (gridColorList == color_3x3_bg) {
@@ -47,23 +55,14 @@ const GameClassic = () => {
     } else setGridStyle("mainGrid-4x4");
   }, [gridColorList]);
 
-  useEffect(() => {
-    clearInterval(totalTime.current);
-  }, []);
-
   const startTime = () => {
     totalTime.current = setInterval(() => {
-      console.log(countRef.current);
       countRef.current += 1;
-      if (countRef.current > 30) {
-        clearInterval(totalTime.current);
+      console.log(countRef.current);
+      if (countRef.current >= 30) {
+        handleStop();
       }
     }, 1000);
-  };
-
-  const handleStart = () => {
-    console.log("Start");
-    startTime();
   };
 
   const handleStop = () => {
@@ -95,7 +94,7 @@ const GameClassic = () => {
         Settings
       </button>
 
-      <button className="p-4 border-2 border-black mt-8" onClick={handleStart}>
+      <button className="p-4 border-2 border-black mt-8" onClick={startTime}>
         Start
       </button>
 
