@@ -9,6 +9,7 @@ import {
 } from "../gridGenerate";
 import { useGridSettings } from "../../GridContext";
 import { useNavigate } from "react-router";
+import Loading from "../Loading";
 
 const GameClassic = () => {
   const clicksRef = useRef(0);
@@ -35,6 +36,7 @@ const GameClassic = () => {
   const [gridColorList, setGridColorList] = useState();
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
+  const [started, setStarted] = useState(false);
   const totalTime = useRef(null);
   const countRef = useRef(0);
   const mainGridRef = useRef();
@@ -93,6 +95,7 @@ const GameClassic = () => {
   }, [gridColorList]);
 
   const startTime = () => {
+    setStarted(true);
     totalTime.current = setInterval(() => {
       countRef.current += 1;
       console.log(countRef.current);
@@ -108,20 +111,25 @@ const GameClassic = () => {
 
   return (
     <div>
-      <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
-
-      <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
-        {randomColors.map((color) => {
-          const Id = uuidv4();
-          return (
-            <div
-              key={Id}
-              className={`w-12 h-12 ${color} border-[1px] border-white`}
-              onClick={handleGridClick}
-            ></div>
-          );
-        })}
-      </div>
+      {started ? (
+        <div>
+          <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
+          <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
+            {randomColors.map((color) => {
+              const Id = uuidv4();
+              return (
+                <div
+                  key={Id}
+                  className={`w-12 h-12 ${color} border-[1px] border-white`}
+                  onClick={handleGridClick}
+                ></div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
 
       <button
         onClick={() => {
