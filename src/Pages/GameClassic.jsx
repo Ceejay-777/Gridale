@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -44,7 +46,7 @@ const GameClassic = () => {
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
     if (thisClasslist.contains(primaryColor)) {
-      // event.currentTarget.style.opacity = "0.5";
+      event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
@@ -69,13 +71,6 @@ const GameClassic = () => {
       nextGrid();
     }
   };
-
-  // useEffect(() => {
-  //   for (let i = 0; i < 4; i++) {
-  //     let random = generate_2x2_grid();
-  //     console.log(random);
-  //   }
-  // });
 
   const nextGrid = () => {
     gridsCountRef.current += 1;
@@ -117,12 +112,13 @@ const GameClassic = () => {
     <div>
       <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
 
-      <div className={`grid gap-8 ${gridStyle} mx-auto`} ref={mainGridRef}>
-        {randomColors.map((color, index) => {
+      <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
+        {randomColors.map((color) => {
+          const Id = uuidv4();
           return (
             <div
-              key={index}
-              className={`w-12 h-12 ${color}`}
+              key={Id}
+              className={`w-12 h-12 ${color} border-[1px] border-white`}
               onClick={handleGridClick}
             ></div>
           );
