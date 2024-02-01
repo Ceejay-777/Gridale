@@ -534,6 +534,30 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+.left-0 {
+  left: 0px;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
 .mx-8 {
   margin-left: 2rem;
   margin-right: 2rem;
@@ -564,21 +588,34 @@ video {
   height: 3rem;
 }
 
+.h-36 {
+  height: 9rem;
+}
+
 .w-12 {
   width: 3rem;
 }
 
-.gap-8 {
-  gap: 2rem;
+.w-36 {
+  width: 9rem;
 }
 
 .border-2 {
   border-width: 2px;
 }
 
+.border-\[1px\] {
+  border-width: 1px;
+}
+
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .bg-blue-600 {
@@ -690,4 +727,69 @@ video {
 
 .mainGrid-2x2 {
   grid-template-columns: repeat(2, 3rem);
+}
+
+.drop {
+  animation: drop 2s ease-out 0s infinite;
+}
+
+.right {
+  animation: right 2s ease-out 2s infinite;
+}
+
+.left {
+  animation: left 2s ease-out 6s infinite;
+}
+
+.climb {
+  animation: climb 2s ease-out 4s infinite;
+}
+
+.main {
+  animation: name duration timing-function delay iteration-count direction
+    fill-mode;
+}
+
+@keyframes drop {
+  0%,
+  100% {
+    top: 0px;
+  }
+
+  50% {
+    top: 45px;
+  }
+}
+
+@keyframes right {
+  0%,
+  100% {
+    left: 0px;
+  }
+
+  50% {
+    left: 45px;
+  }
+}
+
+@keyframes left {
+  0%,
+  100% {
+    right: 0px;
+  }
+
+  50% {
+    right: 45px;
+  }
+}
+
+@keyframes climb {
+  0%,
+  100% {
+    bottom: 0px;
+  }
+
+  50% {
+    bottom: 45px;
+  }
 }

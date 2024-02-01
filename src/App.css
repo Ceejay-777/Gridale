@@ -19,3 +19,68 @@
 .mainGrid-2x2 {
   grid-template-columns: repeat(2, 3rem);
 }
+
+.drop {
+  animation: drop 2s ease-out 0s infinite;
+}
+
+.right {
+  animation: right 2s ease-out 2s infinite;
+}
+
+.left {
+  animation: left 2s ease-out 6s infinite;
+}
+
+.climb {
+  animation: climb 2s ease-out 4s infinite;
+}
+
+.main {
+  animation: name duration timing-function delay iteration-count direction
+    fill-mode;
+}
+
+@keyframes drop {
+  0%,
+  100% {
+    top: 0px;
+  }
+
+  50% {
+    top: 45px;
+  }
+}
+
+@keyframes right {
+  0%,
+  100% {
+    left: 0px;
+  }
+
+  50% {
+    left: 45px;
+  }
+}
+
+@keyframes left {
+  0%,
+  100% {
+    right: 0px;
+  }
+
+  50% {
+    right: 45px;
+  }
+}
+
+@keyframes climb {
+  0%,
+  100% {
+    bottom: 0px;
+  }
+
+  50% {
+    bottom: 45px;
+  }
+}

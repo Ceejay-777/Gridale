@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Settings from "./Pages/Settings";
 import Gameplay from "./Pages/Gameplay";
 import Results from "./Pages/Results";
+import Loading from "./Loading";
 
 const MyRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const MyRoutes = () => {
         <Route path="settings" element={<Settings />} />
         <Route path="game" element={<Gameplay />} />
         <Route path="result" element={<Results />} />
+        <Route path="loading" element={<Loading />} />
       </Routes>
     </Router>
   );

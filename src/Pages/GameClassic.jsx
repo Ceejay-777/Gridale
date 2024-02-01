@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 
 const GameClassic = () => {
   const clicksRef = useRef(0);
+
   const generate_2x2_grid = () => {
     clicksRef.current = 0;
     setGridColorList(color_2x2_bg);
@@ -34,8 +35,6 @@ const GameClassic = () => {
   const [gridColorList, setGridColorList] = useState();
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
-  // const [randomColors, setRandomColors] = useState()
-  // const [primaryColor, setPrimaryColor] = useState()
   const totalTime = useRef(null);
   const countRef = useRef(0);
   const mainGridRef = useRef();
@@ -50,7 +49,6 @@ const GameClassic = () => {
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
-        console.log(clicksRef.current);
       }
     }
 
