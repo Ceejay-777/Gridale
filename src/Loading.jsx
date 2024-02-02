@@ -3,16 +3,16 @@ import "./loader.css";
 
 const Loading = () => {
   return (
-    <div class="loader">
-      <div class="square"></div>
-      <div class="square"></div>
-      <div class="square last"></div>
-      <div class="square clear"></div>
-      <div class="square"></div>
-      <div class="square last"></div>
-      <div class="square clear"></div>
-      <div class="square"></div>
-      <div class="square last"></div>
+    <div className="loader">
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
+      <div className="square"></div>
     </div>
   );
 };
