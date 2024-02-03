@@ -37,12 +37,23 @@ const GameClassic = () => {
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
   const [started, setStarted] = useState(false);
+  const [time, setTime] = useState(0);
   const totalTime = useRef(null);
   const countRef = useRef(0);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
 
   const [randomColors, primaryColor] = randomColorsList;
+
+  useEffect(() => {
+    if (time <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      set;
+    });
+  });
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
@@ -97,6 +108,7 @@ const GameClassic = () => {
   const startTime = () => {
     setStarted(true);
     totalTime.current = setInterval(() => {
+      setTime(time + 1);
       countRef.current += 1;
       console.log(countRef.current);
       if (countRef.current >= 30) {
@@ -113,6 +125,7 @@ const GameClassic = () => {
     <div>
       {started ? (
         <div>
+          <div>{time}</div>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
