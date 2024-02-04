@@ -96,14 +96,15 @@ const GameClassic = () => {
 
   const startTime = () => {
     setStarted(true);
-    // totalTime.current = setInterval(() => {
-    //   setTime(time + 1);
-    //   countRef.current += 1;
-    //   console.log(countRef.current);
-    //   if (countRef.current >= 30) {
-    //     handleStop();
-    //   }
-    // }, 1000);
+    totalTime.current = setTimeout(() => {
+      // setTime(time + 1);
+      // countRef.current += 1;
+      // console.log(countRef.current);
+      // if (countRef.current >= 30) {
+      //   handleStop();
+      // }
+      navigate("/result");
+    }, 5000);
   };
 
   const handleStop = () => {
@@ -114,7 +115,7 @@ const GameClassic = () => {
     <div>
       {started ? (
         <div>
-          <Timer seconds={220}></Timer>
+          <Timer seconds={5}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
