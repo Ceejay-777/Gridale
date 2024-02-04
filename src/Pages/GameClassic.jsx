@@ -104,7 +104,7 @@ const GameClassic = () => {
       //   handleStop();
       // }
       navigate("/result");
-    }, 5000);
+    }, 30000);
   };
 
   const handleStop = () => {
@@ -115,7 +115,7 @@ const GameClassic = () => {
     <div>
       {started ? (
         <div>
-          <Timer seconds={5}></Timer>
+          <Timer seconds={30}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
