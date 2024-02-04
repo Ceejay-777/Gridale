@@ -37,23 +37,12 @@ const GameClassic = () => {
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
   const [started, setStarted] = useState(false);
-  const [time, setTime] = useState(0);
   const totalTime = useRef(null);
   const countRef = useRef(0);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
 
   const [randomColors, primaryColor] = randomColorsList;
-
-  useEffect(() => {
-    if (time <= 0) {
-      return;
-    }
-
-    const timer = setInterval(() => {
-      set;
-    });
-  });
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
@@ -107,14 +96,14 @@ const GameClassic = () => {
 
   const startTime = () => {
     setStarted(true);
-    totalTime.current = setInterval(() => {
-      setTime(time + 1);
-      countRef.current += 1;
-      console.log(countRef.current);
-      if (countRef.current >= 30) {
-        handleStop();
-      }
-    }, 1000);
+    // totalTime.current = setInterval(() => {
+    //   setTime(time + 1);
+    //   countRef.current += 1;
+    //   console.log(countRef.current);
+    //   if (countRef.current >= 30) {
+    //     handleStop();
+    //   }
+    // }, 1000);
   };
 
   const handleStop = () => {
@@ -125,7 +114,7 @@ const GameClassic = () => {
     <div>
       {started ? (
         <div>
-          <div>{time}</div>
+          <Timer seconds={220}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
@@ -165,3 +154,29 @@ const GameClassic = () => {
 };
 
 export default GameClassic;
+
+const Timer = ({ seconds }) => {
+  const [time, setTime] = useState(seconds);
+
+  useEffect(() => {
+    if (time <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [time]);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
+  return <div>{formatTime(time)}</div>;
+};
