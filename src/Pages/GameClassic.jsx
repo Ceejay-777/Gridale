@@ -97,12 +97,6 @@ const GameClassic = () => {
   const startTime = () => {
     setStarted(true);
     totalTime.current = setTimeout(() => {
-      // setTime(time + 1);
-      // countRef.current += 1;
-      // console.log(countRef.current);
-      // if (countRef.current >= 30) {
-      //   handleStop();
-      // }
       navigate("/result");
     }, 30000);
   };
