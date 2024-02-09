@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useGridSettings } from "../../GridContext";
-import { generateRandomColors } from "../gridGenerate";
+import {
+  generateRandomColors,
+  color_2x2_bg,
+  color_3x3_bg,
+  color_4x4_bg,
+} from "../gridGenerate";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../Loading";
 
 const GameCustom = () => {
   const {
     gridColorList,
-    setGridColorList,
+    // setGridColorList,
     totalColorNo,
     // setTotalColorNo,
     gridColorNo,
@@ -18,6 +23,21 @@ const GameCustom = () => {
   const [randomColorsList, setRandomColorsList] = useState(
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
+  const totalTime = useRef(null);
+  const mainGridRef = useRef();
+  const gridsCountRef = useRef(0);
+  const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+
+  const [randomColors, primaryColor] = randomColorsList;
+
+  useEffect(() => {
+    // clicksRef.current = 0;
+    if (gridColorList == color_2x2_bg) {
+      setGridStyle("mainGrid-2x2");
+    } else if (gridColorList == color_3x3_bg) {
+      setGridStyle("mainGrid-3x3");
+    } else setGridStyle("mainGrid-4x4");
+  }, [gridColorList]);
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
@@ -47,6 +67,13 @@ const GameCustom = () => {
     }
   };
 
+  const startTime = () => {
+    setStarted(true);
+    totalTime.current = setTimeout(() => {
+      navigate("/result");
+    }, 30000);
+  };
+
   const nextGrid = () => {
     setRandomColorsList(
       generateRandomColors(gridColorList, totalColorNo, gridColorNo)
@@ -60,7 +87,7 @@ const GameCustom = () => {
           {/* <Timer seconds={30}></Timer> */}
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
-            {randomColorsList.map((color) => {
+            {randomColors.map((color) => {
               const Id = uuidv4();
               return (
                 <div
@@ -85,13 +112,13 @@ const GameCustom = () => {
         Settings
       </button>
 
-      {/* <button className="p-4 border-2 border-black mt-8" onClick={startTime}>
+      <button className="p-4 border-2 border-black mt-8" onClick={startTime}>
         Start
       </button>
 
       <button className="p-4 border-2 border-black mt-8" onClick={nextGrid}>
         Next
-      </button> */}
+      </button>
     </div>
   );
 };

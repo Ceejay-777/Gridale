@@ -38,7 +38,6 @@ const GameClassic = () => {
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
   const [started, setStarted] = useState(false);
   const totalTime = useRef(null);
-  const countRef = useRef(0);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
 
