@@ -18,13 +18,14 @@ const GameCustom = () => {
     // setTotalColorNo,
     gridColorNo,
     // setGridColorNo,
+    totalTime,
   } = useGridSettings();
 
   const [started, setStarted] = useState(false);
   const [randomColorsList, setRandomColorsList] = useState(
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
-  const totalTime = useRef(null);
+  // const totalTime = useRef(null);
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
@@ -73,7 +74,7 @@ const GameCustom = () => {
     setStarted(true);
     totalTime.current = setTimeout(() => {
       navigate("/result");
-    }, 30000);
+    }, totalTime * 1000);
   };
 
   const nextGrid = () => {
@@ -88,7 +89,7 @@ const GameCustom = () => {
       <h1>Custom</h1>
       {started ? (
         <div>
-          {/* <Timer seconds={30}></Timer> */}
+          <Timer seconds={totalTime}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
@@ -127,30 +128,30 @@ const GameCustom = () => {
   );
 };
 
-// const Timer = ({ seconds }) => {
-//   const [time, setTime] = useState(seconds);
+const Timer = ({ seconds }) => {
+  const [time, setTime] = useState(seconds);
 
-//   useEffect(() => {
-//     if (time <= 0) {
-//       return;
-//     }
+  useEffect(() => {
+    if (time <= 0) {
+      return;
+    }
 
-//     const timer = setInterval(() => {
-//       setTime((prevTime) => prevTime - 1);
-//     }, 1000);
+    const timer = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
 
-//     return () => clearInterval(timer);
-//   }, [time]);
+    return () => clearInterval(timer);
+  }, [time]);
 
-//   const formatTime = (timeInSeconds) => {
-//     const minutes = Math.floor(timeInSeconds / 60)
-//       .toString()
-//       .padStart(2, "0");
-//     const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
-//     return `${minutes}:${seconds}`;
-//   };
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
 
-//   return <div>{formatTime(time)}</div>;
-// };
+  return <div>{formatTime(time)}</div>;
+};
 
 export default GameCustom;
