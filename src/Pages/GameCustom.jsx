@@ -8,6 +8,7 @@ import {
 } from "../gridGenerate";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../Loading";
+import { useNavigate } from "react-router";
 
 const GameCustom = () => {
   const {
@@ -25,13 +26,13 @@ const GameCustom = () => {
   );
   const totalTime = useRef(null);
   const mainGridRef = useRef();
-  const gridsCountRef = useRef(0);
+  const clicksRef = useRef(0);
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+  const navigate = useNavigate();
 
   const [randomColors, primaryColor] = randomColorsList;
 
   useEffect(() => {
-    // clicksRef.current = 0;
     if (gridColorList == color_2x2_bg) {
       setGridStyle("mainGrid-2x2");
     } else if (gridColorList == color_3x3_bg) {
@@ -47,6 +48,7 @@ const GameCustom = () => {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
       }
+      console.log(clicksRef.current);
     }
 
     if (
@@ -75,6 +77,7 @@ const GameCustom = () => {
   };
 
   const nextGrid = () => {
+    clicksRef.current = 0;
     setRandomColorsList(
       generateRandomColors(gridColorList, totalColorNo, gridColorNo)
     );

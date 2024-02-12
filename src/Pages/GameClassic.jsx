@@ -77,7 +77,6 @@ const GameClassic = () => {
     if (gridsCountRef.current <= 5) {
       setRandomColorsList(generate_2x2_grid);
     } else if (gridsCountRef.current > 5 && gridsCountRef.current <= 8) {
-      console.log("Okay");
       setRandomColorsList(generate_3x3_grid);
     } else if (gridsCountRef.current > 8) {
       setRandomColorsList(generate_4x4_grid);
