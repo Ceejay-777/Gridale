@@ -85,6 +85,7 @@ const GameCustom = () => {
 
   return (
     <div>
+      <h1>Custom</h1>
       {started ? (
         <div>
           {/* <Timer seconds={30}></Timer> */}

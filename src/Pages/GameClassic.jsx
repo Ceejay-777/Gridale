@@ -105,6 +105,7 @@ const GameClassic = () => {
 
   return (
     <div>
+      <h1>Classic</h1>
       {started ? (
         <div>
           <Timer seconds={30}></Timer>

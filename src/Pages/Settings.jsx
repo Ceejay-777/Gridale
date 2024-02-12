@@ -16,16 +16,13 @@ const Settings = () => {
     setClassicMode,
     customMode,
     setCustomMode,
+    totalTime,
+    setTotalTime,
   } = useGridSettings();
 
   // useEffect(() => {
   //   console.log(gridColorList, gridColorNo, totalColorNo);
   // }, [gridColorList, gridColorNo, totalColorNo]);
-
-  const handleClassicMode = () => {
-    setCustomMode(false);
-    setClassicMode(true);
-  };
 
   return (
     <div className="mt-12">
@@ -65,9 +62,22 @@ const Settings = () => {
 
       <button
         className="border-2 text-lg font-semibold mx-8 p-4 border-black"
-        onClick={handleClassicMode}
+        onClick={() => {
+          setClassicMode(true);
+          setCustomMode(false);
+        }}
       >
         Classic
+      </button>
+
+      <button
+        className="border-2 text-lg font-semibold mx-8 p-4 border-black"
+        onClick={() => {
+          setClassicMode(false);
+          setCustomMode(true);
+        }}
+      >
+        Custom
       </button>
 
       <button
