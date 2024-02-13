@@ -1,18 +1,38 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import Theme from "../Theme";
 const Home = () => {
   const navigate = useNavigate();
   return (
     <div>
-      Home
-      <button
-        onClick={() => {
-          navigate("/game");
-        }}
-        className="p-4 border-2 border-black mt-8"
-      >
-        Game
-      </button>
+      <Theme />
+      <div className="text-8xl text-center mt-48">GRIDALE</div>
+      <div className="flex flex-col justify-center items-center">
+        <button
+          onClick={() => {
+            navigate("/game");
+          }}
+          className="px-[1.5rem] py-[1rem] border-2 rounded-lg border-black mt-8"
+        >
+          Play
+        </button>
+        <button
+          onClick={() => {
+            navigate("/game");
+          }}
+          className="px-[1.5rem] py-[1rem] border-2 border-black mt-8"
+        >
+          Settings
+        </button>
+        <button
+          onClick={() => {
+            navigate("/game");
+          }}
+          className="px-[1.5rem] py-[1rem] border-2 border-black mt-8"
+        >
+          About
+        </button>
+      </div>
     </div>
   );
 };

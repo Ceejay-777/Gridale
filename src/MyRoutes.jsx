@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import Settings from "./Pages/Settings";
 import Gameplay from "./Pages/Gameplay";
 import Results from "./Pages/Results";
-import Loading from "./Loading";
+import Loading from "./Loaders/Loading.jsx";
 
 const MyRoutes = () => {
   return (

@@ -7,7 +7,7 @@ import {
   color_4x4_bg,
 } from "../gridGenerate";
 import { v4 as uuidv4 } from "uuid";
-import Loading from "../Loading";
+import Loading from "../Loaders/Loading";
 import { useNavigate } from "react-router";
 
 const GameCustom = () => {

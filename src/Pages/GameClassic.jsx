@@ -9,7 +9,7 @@ import {
 } from "../gridGenerate";
 import { useGridSettings } from "../../GridContext";
 import { useNavigate } from "react-router";
-import Loading from "../Loading";
+import Loading from "../Loaders/Loading";
 
 const GameClassic = () => {
   const clicksRef = useRef(0);
