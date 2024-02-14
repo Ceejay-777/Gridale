@@ -7,7 +7,7 @@ import {
   color_4x4_bg,
 } from "../gridGenerate";
 import { v4 as uuidv4 } from "uuid";
-import Loading from "../Loaders/Loading";
+import Loading from "../Loaders/Loading.jsx";
 import { useNavigate } from "react-router";
 
 const GameCustom = () => {
@@ -30,6 +30,7 @@ const GameCustom = () => {
   const clicksRef = useRef(0);
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const navigate = useNavigate();
+  const timerRef = useRef(null);
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -72,7 +73,7 @@ const GameCustom = () => {
 
   const startTime = () => {
     setStarted(true);
-    totalTime.current = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       navigate("/result");
     }, totalTime * 1000);
   };

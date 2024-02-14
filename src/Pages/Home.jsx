@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import Theme from "../Theme";
+import GridaleLoader from "../Loaders/GridaleLoader";
 const Home = () => {
   const navigate = useNavigate();
   return (
     <div>
       <Theme />
-      <div className="text-8xl text-center mt-48">GRIDALE</div>
+      <GridaleLoader />
+      {/* <div className="text-8xl text-center mt-48">GRIDALE</div> */}
       <div className="flex flex-col justify-center items-center">
         <button
           onClick={() => {
