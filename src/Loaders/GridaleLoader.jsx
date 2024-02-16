@@ -4,7 +4,7 @@ import "./gridaleloader.css";
 const GridaleLoader = () => {
   return (
     <div>
-      <div className="my-24 text-center">
+      <div className="text-center my-16">
         <span className="let1 text-blue-700">G</span>
         <span className="let2 text-green-700">R</span>
         <span className="let3 text-yellow-400">I</span>

@@ -5,7 +5,9 @@ import { useGridSettings } from "../../GridContext";
 
 const Gameplay = () => {
   const { customMode, classicMode } = useGridSettings();
-  return <div>{classicMode ? <GameClassic /> : <GameCustom />}</div>;
+  return (
+    <div className="">{classicMode ? <GameClassic /> : <GameCustom />}</div>
+  );
 };
 
 export default Gameplay;
