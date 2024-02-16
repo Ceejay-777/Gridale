@@ -9,6 +9,7 @@ export const GridContext = ({ children }) => {
   const [classicMode, setClassicMode] = useState(true);
   const [customMode, setCustomMode] = useState(false);
   const [totalTime, setTotalTime] = useState(30);
+  const [dark, setDark] = useState(true);
 
   return (
     <gridSettings.Provider
@@ -25,6 +26,8 @@ export const GridContext = ({ children }) => {
         setCustomMode,
         totalTime,
         setTotalTime,
+        dark,
+        setDark,
       }}
     >
       {children}
