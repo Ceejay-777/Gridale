@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import Theme from "../Theme";
+import Theme from "../components/Theme";
 import GridaleLoader from "../Loaders/GridaleLoader";
 const Home = () => {
   const navigate = useNavigate();

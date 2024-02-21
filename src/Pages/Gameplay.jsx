@@ -1,7 +1,7 @@
 import React from "react";
 import GameClassic from "./GameClassic";
 import GameCustom from "./GameCustom";
-import { useGridSettings } from "../../GridContext";
+import { useGridSettings } from "../components/GridContext";
 
 const Gameplay = () => {
   const { customMode, classicMode } = useGridSettings();

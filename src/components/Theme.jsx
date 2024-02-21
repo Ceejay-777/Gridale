@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useGridSettings } from "../GridContext";
+import { useGridSettings } from "./GridContext";
 
 const Theme = () => {
   const { dark, setDark } = useGridSettings();

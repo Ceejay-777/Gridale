@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useGridSettings } from "../../GridContext";
+import { useGridSettings } from "../components/GridContext";
 import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
 import { useNavigate } from "react-router";
 

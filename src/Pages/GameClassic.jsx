@@ -7,7 +7,7 @@ import {
   color_4x4_bg,
   generateRandomColors,
 } from "../gridGenerate";
-import { useGridSettings } from "../../GridContext";
+// import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useGridSettings } from "../../GridContext";
+import { useGridSettings } from "../components/GridContext.jsx";
 import {
   generateRandomColors,
   color_2x2_bg,
