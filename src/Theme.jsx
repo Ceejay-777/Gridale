@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGridSettings } from "../GridContext";
 
 const Theme = () => {
   const { dark, setDark } = useGridSettings();
   const translation = dark ? "translate-x-6 bg-black" : "bg-white";
   const mainBg = dark ? "bg-white" : "bg-black";
+
+  // useEffect(() => setDark(dark), []);
 
   return (
     <div>

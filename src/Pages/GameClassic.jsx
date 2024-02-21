@@ -97,6 +97,8 @@ const GameClassic = () => {
     totalTime.current = setTimeout(() => {
       navigate("/result");
     }, 30000);
+
+    return clearTimeout(totalTime.current);
   };
 
   const handleStop = () => {
@@ -127,22 +129,28 @@ const GameClassic = () => {
         <Loading />
       )}
 
-      <button
-        onClick={() => {
-          navigate("/settings");
-        }}
-        className="p-4 border-2 border-black mt-8"
-      >
-        Settings
-      </button>
-
-      <button className="p-4 border-2 border-black mt-8" onClick={startTime}>
-        Start
-      </button>
-
-      <button className="p-4 border-2 border-black mt-8" onClick={nextGrid}>
-        Next
-      </button>
+      <div className="flex flex-col items-center">
+        <button
+          onClick={() => {
+            navigate("/settings");
+          }}
+          className="px-[1.5rem] py-[1rem] mt-8 bg-blue-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
+        >
+          Settings
+        </button>
+        <button
+          className="px-[1.5rem] py-[1rem] mt-8 bg-red-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
+          onClick={startTime}
+        >
+          Start
+        </button>
+        <button
+          className="px-[1.5rem] py-[1rem] mt-8 bg-yellow-400 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
+          onClick={nextGrid}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
