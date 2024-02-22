@@ -9,6 +9,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../Loaders/Loading.jsx";
 import { useNavigate } from "react-router";
+import Timer from "../components/Timer.jsx";
 
 const GameCustom = () => {
   const {
@@ -19,6 +20,7 @@ const GameCustom = () => {
     gridColorNo,
     // setGridColorNo,
     totalTime,
+    dark,
   } = useGridSettings();
 
   const [started, setStarted] = useState(false);
@@ -87,7 +89,7 @@ const GameCustom = () => {
 
   return (
     <div>
-      <h1>Custom</h1>
+      <h1 className={dark ? "text-white" : "text-black"}>Custom</h1>
       {started ? (
         <div>
           <Timer seconds={totalTime}></Timer>
@@ -135,30 +137,30 @@ const GameCustom = () => {
   );
 };
 
-const Timer = ({ seconds }) => {
-  const [time, setTime] = useState(seconds);
+// const Timer = ({ seconds }) => {
+//   const [time, setTime] = useState(seconds);
 
-  useEffect(() => {
-    if (time <= 0) {
-      return;
-    }
+//   useEffect(() => {
+//     if (time <= 0) {
+//       return;
+//     }
 
-    const timer = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-    }, 1000);
+//     const timer = setInterval(() => {
+//       setTime((prevTime) => prevTime - 1);
+//     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [time]);
+//     return () => clearInterval(timer);
+//   }, [time]);
 
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
+//   const formatTime = (timeInSeconds) => {
+//     const minutes = Math.floor(timeInSeconds / 60)
+//       .toString()
+//       .padStart(2, "0");
+//     const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
+//     return `${minutes}:${seconds}`;
+//   };
 
-  return <div>{formatTime(time)}</div>;
-};
+//   return <div>{formatTime(time)}</div>;
+// };
 
 export default GameCustom;

@@ -7,9 +7,10 @@ import {
   color_4x4_bg,
   generateRandomColors,
 } from "../gridGenerate";
-// import { useGridSettings } from "../components/GridContext";
+import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
+import Timer from "../components/Timer";
 
 const GameClassic = () => {
   const clicksRef = useRef(0);
@@ -40,6 +41,7 @@ const GameClassic = () => {
   const totalTime = useRef(null);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
+  const { dark } = useGridSettings();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -92,13 +94,21 @@ const GameClassic = () => {
     } else setGridStyle("mainGrid-4x4");
   }, [gridColorList]);
 
-  const startTime = () => {
+  const useStartTime = () => {
     setStarted(true);
+    console.log(totalTime.current);
+
+    if (totalTime.current) {
+      clearTimeout(totalTime.current);
+      totalTime.current = null;
+    }
+
     totalTime.current = setTimeout(() => {
+      console.log("Okay");
       navigate("/result");
     }, 30000);
 
-    return clearTimeout(totalTime.current);
+    console.log(totalTime.current);
   };
 
   const handleStop = () => {
@@ -107,7 +117,7 @@ const GameClassic = () => {
 
   return (
     <div>
-      <h1>Classic</h1>
+      <h1 className={dark ? "text-white" : "text-black"}>Classic</h1>
       {started ? (
         <div>
           <Timer seconds={30}></Timer>
@@ -140,7 +150,7 @@ const GameClassic = () => {
         </button>
         <button
           className="px-[1.5rem] py-[1rem] mt-8 bg-red-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
-          onClick={startTime}
+          onClick={useStartTime}
         >
           Start
         </button>
@@ -157,28 +167,28 @@ const GameClassic = () => {
 
 export default GameClassic;
 
-const Timer = ({ seconds }) => {
-  const [time, setTime] = useState(seconds);
+// const Timer = ({ seconds }) => {
+//   const [time, setTime] = useState(seconds);
 
-  useEffect(() => {
-    if (time <= 0) {
-      return;
-    }
+//   useEffect(() => {
+//     if (time <= 0) {
+//       return;
+//     }
 
-    const timer = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-    }, 1000);
+//     const timer = setInterval(() => {
+//       setTime((prevTime) => prevTime - 1);
+//     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [time]);
+//     return () => clearInterval(timer);
+//   }, [time]);
 
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
+//   const formatTime = (timeInSeconds) => {
+//     const minutes = Math.floor(timeInSeconds / 60)
+//       .toString()
+//       .padStart(2, "0");
+//     const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
+//     return `${minutes}:${seconds}`;
+//   };
 
-  return <div>{formatTime(time)}</div>;
-};
+//   return <div>{formatTime(time)}</div>;
+// };
