@@ -38,7 +38,8 @@ const GameClassic = () => {
   const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
   const [started, setStarted] = useState(false);
-  const totalTime = useRef(null);
+  const [totalTime, setTotalTime] = useState(10);
+  const totalTimeoutRef = useRef(null);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
   const { dark } = useGridSettings();
@@ -96,23 +97,25 @@ const GameClassic = () => {
 
   const useStartTime = () => {
     setStarted(true);
-    console.log(totalTime.current);
+    setTotalTime(30);
+    console.log("Before", totalTimeoutRef.current);
 
-    if (totalTime.current) {
-      clearTimeout(totalTime.current);
-      totalTime.current = null;
+    if (totalTimeoutRef.current) {
+      console.log("Okay 1");
+      clearTimeout(totalTimeoutRef.current);
+      totalTimeoutRef.current = null;
     }
 
-    totalTime.current = setTimeout(() => {
-      console.log("Okay");
+    totalTimeoutRef.current = setTimeout(() => {
+      console.log("Done", totalTimeoutRef.current);
       navigate("/result");
-    }, 30000);
+    }, totalTime * 1000);
 
-    console.log(totalTime.current);
+    console.log("After", totalTimeoutRef.current);
   };
 
   const handleStop = () => {
-    clearInterval(totalTime.current);
+    clearInterval(totalTimeoutRef.current);
   };
 
   return (
@@ -120,7 +123,7 @@ const GameClassic = () => {
       <h1 className={dark ? "text-white" : "text-black"}>Classic</h1>
       {started ? (
         <div>
-          <Timer seconds={30}></Timer>
+          <Timer seconds={timerTime}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {

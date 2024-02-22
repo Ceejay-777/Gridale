@@ -20,7 +20,7 @@ const Home = () => {
         </button>
         <button
           onClick={() => {
-            navigate("/game");
+            navigate("/settings");
           }}
           className="px-[1.5rem] py-[1rem] mt-8 w-4/5 bg-blue-700 rounded-xl text-lg font-bold hover:scale-110"
         >
