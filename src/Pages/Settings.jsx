@@ -33,7 +33,6 @@ const Settings = () => {
             setGridColorList(color_2x2_bg);
             setTotalColorNo(4);
             setGridColorNo(4);
-            console.log("Okay");
           }}
         >
           2 x 2

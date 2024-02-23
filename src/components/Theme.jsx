@@ -6,8 +6,6 @@ const Theme = () => {
   const translation = dark ? "translate-x-6 bg-black" : "bg-white";
   const mainBg = dark ? "bg-white" : "bg-black";
 
-  // useEffect(() => setDark(dark), []);
-
   return (
     <div>
       <div

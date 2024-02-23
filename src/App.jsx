@@ -4,7 +4,7 @@ import MyRoutes from "./components/MyRoutes.jsx";
 import { useGridSettings } from "./components/GridContext.jsx";
 
 const App = () => {
-  const { dark, setDark } = useGridSettings();
+  const { dark } = useGridSettings();
 
   return (
     <div className={`${dark ? "bg-black" : "bg-white"} min-h-screen`}>
