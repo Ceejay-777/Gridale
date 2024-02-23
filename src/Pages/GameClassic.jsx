@@ -123,7 +123,7 @@ const GameClassic = () => {
       <h1 className={dark ? "text-white" : "text-black"}>Classic</h1>
       {started ? (
         <div>
-          <Timer seconds={timerTime}></Timer>
+          <Timer seconds={totalTime}></Timer>
           <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
           <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
             {randomColors.map((color) => {
