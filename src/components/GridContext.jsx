@@ -16,17 +16,22 @@ export const GridContext = ({ children }) => {
   const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    const val = JSON.parse(localStorage.getItem("dark"));
+    const val = localStorage.getItem("dark");
+    console.log(typeof val);
     if (val) {
-      console.log("It exists", val);
-      setDark(val);
+      console.log("It exists as", typeof JSON.parse(val), JSON.parse(val));
+      setDark(JSON.parse(val));
     } else {
       console.log("It does not exist yet");
     }
   }, []);
 
   useEffect(() => {
-    console.log("I changed it", JSON.stringify(dark));
+    console.log(
+      "I changed it to",
+      typeof JSON.stringify(dark),
+      JSON.stringify(dark)
+    );
     localStorage.setItem("dark", JSON.stringify(dark));
   }, [dark]);
 
