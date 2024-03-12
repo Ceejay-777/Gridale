@@ -55,8 +55,6 @@ const GameClassic = () => {
       }
     }
 
-    console.log(mainGridRef.current)
-
     if (
       mainGridRef.current.classList.contains("grid-cols-2") &&
       clicksRef.current === 1
@@ -102,7 +100,8 @@ const GameClassic = () => {
     setStarted(true);
     setTotalTime(30);
 
-    totalTimeoutRef.current = setTimeout(() => {
+    totalTimeoutRef = setTimeout(() => {
+      console.log("Okay")
       navigate("/result");
     }, totalTime * 1000);
   };
