@@ -14,13 +14,10 @@ import Timer from "../components/Timer.jsx";
 const GameCustom = () => {
   const {
     gridColorList,
-    // setGridColorList,
     totalColorNo,
-    // setTotalColorNo,
     gridColorNo,
-    // setGridColorNo,
     totalTime,
-    dark,
+    theme,
   } = useGridSettings();
 
   const [started, setStarted] = useState(false);
