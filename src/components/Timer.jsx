@@ -3,9 +3,9 @@ import { useGridSettings } from "./GridContext";
 
 const Timer = ({ seconds }) => {
   const [time, setTime] = useState(seconds);
-  const { dark } = useGridSettings();
 
   useEffect(() => {
+    // console.log(time)
     if (time <= 0) {
       return;
     }
@@ -26,7 +26,7 @@ const Timer = ({ seconds }) => {
   };
 
   return (
-    <div className={dark ? "text-white" : "text-black"}>{formatTime(time)}</div>
+    <div className={"dark:text-white text-black"}>{formatTime(time)}</div>
   );
 };
 

@@ -25,10 +25,10 @@ const Settings = () => {
   // }, [gridColorList, gridColorNo, totalColorNo]);
 
   return (
-    <div className="mt-12">
+    <div className="dark:text-white">
       <div>
         <button
-          className="border-2 text-lg font-semibold mx-8 p-4 border-black"
+          className="border-2 text-lg font-semibold mx-8 p-4 border-black dark:border-white"
           onClick={() => {
             setGridColorList(color_2x2_bg);
             setTotalColorNo(4);
@@ -38,7 +38,7 @@ const Settings = () => {
           2 x 2
         </button>
         <button
-          className="border-2 text-lg font-semibold mx-8 p-4 border-black"
+          className="border-2 text-lg font-semibold mx-8 p-4 border-black dark:border-white"
           onClick={() => {
             setGridColorList(color_3x3_bg);
             setTotalColorNo(9);
@@ -48,7 +48,7 @@ const Settings = () => {
           3 x 3
         </button>
         <button
-          className="border-2 text-lg font-semibold mx-8 p-4 border-black"
+          className="border-2 text-lg font-semibold mx-8 p-4 border-black dark:border-white"
           onClick={() => {
             setGridColorList(color_4x4_bg);
             setTotalColorNo(16);
@@ -61,7 +61,7 @@ const Settings = () => {
 
       <div className="mt-12">
         <button
-          className="border-2 text-lg font-semibold mx-8 p-4 border-black"
+          className="border-2 text-lg font-semibold mx-8 p-4 border-black dark:border-white"
           onClick={() => {
             setClassicMode(true);
             setCustomMode(false);

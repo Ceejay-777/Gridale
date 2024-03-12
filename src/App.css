@@ -6,16 +6,6 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  font-family: "Space Mono", monospace;
 }
 
-.mainGrid-4x4 {
-  grid-template-columns: repeat(4, 3rem);
-}
-
-.mainGrid-3x3 {
-  grid-template-columns: repeat(3, 3rem);
-}
-
-.mainGrid-2x2 {
-  grid-template-columns: repeat(2, 3rem);
-}

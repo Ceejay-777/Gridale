@@ -35,7 +35,7 @@ const GameClassic = () => {
 
   const navigate = useNavigate();
   const [gridColorList, setGridColorList] = useState();
-  const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+  const [gridType, setGridType] = useState("grid-cols-2");
   const [randomColorsList, setRandomColorsList] = useState(generate_2x2_grid);
   const [started, setStarted] = useState(false);
   const [totalTime, setTotalTime] = useState(10);
@@ -55,18 +55,20 @@ const GameClassic = () => {
       }
     }
 
+    console.log(mainGridRef.current)
+
     if (
-      mainGridRef.current.classList.contains("mainGrid-2x2") &&
+      mainGridRef.current.classList.contains("grid-cols-2") &&
       clicksRef.current === 1
     ) {
       nextGrid();
     } else if (
-      mainGridRef.current.classList.contains("mainGrid-3x3") &&
+      mainGridRef.current.classList.contains("grid-cols-3") &&
       clicksRef.current === 3
     ) {
       nextGrid();
     } else if (
-      mainGridRef.current.classList.contains("mainGrid-4x4") &&
+      mainGridRef.current.classList.contains("grid-cols-4") &&
       clicksRef.current === 4
     ) {
       nextGrid();
@@ -88,29 +90,21 @@ const GameClassic = () => {
   useEffect(() => {
     clicksRef.current = 0;
     if (gridColorList == color_2x2_bg) {
-      setGridStyle("mainGrid-2x2");
+      setGridType("grid-cols-2");
     } else if (gridColorList == color_3x3_bg) {
-      setGridStyle("mainGrid-3x3");
-    } else setGridStyle("mainGrid-4x4");
+      setGridType("grid-cols-3");
+    } else setGridType("grid-cols-4");
   }, [gridColorList]);
 
-  const useStartTime = () => {
+  useEffect(() => clearTimeout(totalTimeoutRef.current))
+
+  const startTime = () => {
     setStarted(true);
     setTotalTime(30);
-    console.log("Before", totalTimeoutRef.current);
-
-    if (totalTimeoutRef.current) {
-      console.log("Okay 1");
-      clearTimeout(totalTimeoutRef.current);
-      totalTimeoutRef.current = null;
-    }
 
     totalTimeoutRef.current = setTimeout(() => {
-      console.log("Done", totalTimeoutRef.current);
       navigate("/result");
     }, totalTime * 1000);
-
-    console.log("After", totalTimeoutRef.current);
   };
 
   const handleStop = () => {
@@ -118,50 +112,52 @@ const GameClassic = () => {
   };
 
   return (
-    <div>
-      <h1 className={"text-white dark:text-black"}>Classic</h1>
-      {started ? (
-        <div>
-          <Timer seconds={totalTime}></Timer>
-          <div className={`w-12 h-12 mb-16 ${primaryColor}`}></div>
-          <div className={`grid ${gridStyle} mx-auto `} ref={mainGridRef}>
-            {randomColors.map((color) => {
-              const Id = uuidv4();
-              return (
-                <div
-                  key={Id}
-                  className={`w-12 h-12 ${color} border-[1px] border-white`}
-                  onClick={handleGridClick}
-                ></div>
-              );
-            })}
+    <div className="flex justify-center items-center flex-col min-h-screen">
+        <h1 className={"text-black dark:text-white"}>Classic</h1>
+      <div className="w-4/5">
+        {started ? (
+          <div>
+            <Timer seconds={totalTime}></Timer>
+            <div className={`w-12 h-12 mb-16 ${primaryColor} rounded-xl`}></div>
+            <div className={`grid ${gridType} mx-auto w-4/5 gap-[2px]`} ref={mainGridRef}>
+              {randomColors.map((color) => {
+                const Id = uuidv4();
+                return (
+                  <div
+                    key={Id}
+                    className={`aspect-square ${color} rounded-2xl border-[1px] border-slate-[800]`}
+                    onClick={handleGridClick}
+                  ></div>
+                );
+              })}
+            </div>
           </div>
+        ) : (
+          <Loading />
+        )}
+        <div className="flex flex-col items-center">
+          <button
+            className="px-[1.5rem] py-[1rem] mt-8 bg-red-600 rounded-xl w-[90%] text-lg font-bold hover:scale-110"
+            onClick={startTime}
+          >
+            Start
+          </button>
+          
+          <button
+            onClick={() => {
+              navigate("/settings");
+            }}
+            className="px-[1.5rem] py-[1rem] mt-8 bg-blue-600 rounded-xl w-[90%] text-lg font-bold hover:scale-110"
+          >
+            Settings
+          </button>
+          {/* <button
+            className="px-[1.5rem] py-[1rem] mt-8 bg-yellow-400 rounded-xl w-[90%] text-lg font-bold hover:scale-110"
+            onClick={nextGrid}
+          >
+            Next
+          </button> */}
         </div>
-      ) : (
-        <Loading />
-      )}
-
-      <div className="flex flex-col items-center">
-        <button
-          onClick={() => {
-            navigate("/settings");
-          }}
-          className="px-[1.5rem] py-[1rem] mt-8 bg-blue-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
-        >
-          Settings
-        </button>
-        <button
-          className="px-[1.5rem] py-[1rem] mt-8 bg-red-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
-          onClick={useStartTime}
-        >
-          Start
-        </button>
-        <button
-          className="px-[1.5rem] py-[1rem] mt-8 bg-yellow-400 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
-          onClick={nextGrid}
-        >
-          Next
-        </button>
       </div>
     </div>
   );

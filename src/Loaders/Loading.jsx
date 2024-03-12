@@ -3,7 +3,7 @@ import "./loader.css";
 
 const Loading = () => {
   return (
-    <div className="loader">
+    <div className="loader border-2">
       <div className="square"></div>
       <div className="square"></div>
       <div className="square"></div>
