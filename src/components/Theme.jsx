@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import { useGridSettings } from "./GridContext";
 
 const Theme = () => {
-  const { dark, setDark } = useGridSettings();
-  const translation = dark ? "translate-x-6 bg-black" : "bg-white";
-  const mainBg = dark ? "bg-white" : "bg-black";
+  const { theme, setTheme } = useGridSettings();
+  const translation = theme === "dark" ? "translate-x-6 bg-black" : "bg-white";
+  const mainBg = theme === "dark" ? "bg-white" : "bg-black";
 
   return (
     <div>
       <div
         className={`w-12 h-6 rounded-full flex align-middle p-1 ml-auto mr-6 mt-4 relative justify-between ${mainBg}`}
         onClick={() => {
-          setDark(!dark);
+          // document.body.classList.toggle("dark")
+          if (theme === "dark") {
+            setTheme("light")
+          } else setTheme("dark")
         }}
       >
         <svg

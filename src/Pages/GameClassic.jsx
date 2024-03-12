@@ -42,7 +42,6 @@ const GameClassic = () => {
   const totalTimeoutRef = useRef(null);
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
-  const { dark } = useGridSettings();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -120,7 +119,7 @@ const GameClassic = () => {
 
   return (
     <div>
-      <h1 className={dark ? "text-white" : "text-black"}>Classic</h1>
+      <h1 className={"text-white dark:text-black"}>Classic</h1>
       {started ? (
         <div>
           <Timer seconds={totalTime}></Timer>

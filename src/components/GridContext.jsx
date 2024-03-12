@@ -13,27 +13,21 @@ export const GridContext = ({ children }) => {
   const [classicMode, setClassicMode] = useLocalStorage("classicMode", true);
   const [customMode, setCustomMode] = useLocalStorage("customMode", false);
   const [totalTime, setTotalTime] = useLocalStorage("totalTime", 30);
-  const [dark, setDark] = useState(true);
+  const [theme, setTheme] = useLocalStorage("theme", "dark");
 
   useEffect(() => {
-    const val = localStorage.getItem("dark");
-    console.log(typeof val);
-    if (val) {
-      console.log("It exists as", typeof JSON.parse(val), JSON.parse(val));
-      setDark(JSON.parse(val));
-    } else {
-      console.log("It does not exist yet");
+    localStorage.setItem("theme", JSON.stringify(theme));
+
+    const bodyClasses = document.body.classList
+
+    if(bodyClasses.contains("dark")) {
+      bodyClasses.remove("dark")
+    } else if (bodyClasses.contains("light")) {
+      bodyClasses.remove("light");
     }
-  }, []);
-
-  useEffect(() => {
-    console.log(
-      "I changed it to",
-      typeof JSON.stringify(dark),
-      JSON.stringify(dark)
-    );
-    localStorage.setItem("dark", JSON.stringify(dark));
-  }, [dark]);
+    bodyClasses.add(theme);
+    
+  }, [theme]);
 
   return (
     <gridSettings.Provider
@@ -50,8 +44,8 @@ export const GridContext = ({ children }) => {
         setCustomMode,
         totalTime,
         setTotalTime,
-        dark,
-        setDark,
+        theme,
+        setTheme,
       }}
     >
       {children}

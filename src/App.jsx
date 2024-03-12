@@ -7,7 +7,7 @@ const App = () => {
   const { dark } = useGridSettings();
 
   return (
-    <div className={`${dark ? "bg-black" : "bg-white"} min-h-screen`}>
+    <div className={`bg-white dark:bg-black min-h-screen`}>
       <MyRoutes />
     </div>
   );
