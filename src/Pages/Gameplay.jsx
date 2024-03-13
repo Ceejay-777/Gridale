@@ -20,11 +20,12 @@ const Gameplay = () => {
     gridColorNo,
     setGridColorList,
     gameMode,
+    gridType,
+    setGridType
   } = useGridSettings();
   const clicksRef = useRef(0);
 
   const navigate = useNavigate();
-  const [gridType, setGridType] = useState("grid-cols-2");
   const [randomColorsList, setRandomColorsList] = useState(
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
@@ -54,7 +55,7 @@ const Gameplay = () => {
         clicksRef.current === 4)
     ) {
       nextGrid();
-    }
+    }}
 
     const nextClassicGrid = () => {
       gridsCountRef.current += 1;
@@ -159,8 +160,6 @@ const Gameplay = () => {
       </div>
     );
   };
-
-}
 
 export default Gameplay
 

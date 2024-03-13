@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useGridSettings } from "../components/GridContext";
 import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
-import { useNavigate } from "react-router";
+import { useNavigate} from "react-router";
+// import {useHistory} from "react-router-dom"
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -9,11 +10,17 @@ const Settings = () => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
 
+  const handleBodyClick = (event) => {
+    if (optionsOpen && (event.target.id === "mainBody") ) {
+      setOptionsOpen(false)
+    }
+  }
+
   return (
-    <div className="dark:text-white flex justify-center items-center min-h-screen p-4">
+    <div className="dark:text-white flex justify-center items-center min-h-screen p-4" onClick={handleBodyClick} id="mainBody">
       <div
         className="absolute top-4 left-4 p-2 rounded-full bg-blue-700 hover:scale-110"
-        onClick={() => navigate("/")}
+        onClick={() => navigate(-1)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +54,7 @@ const Settings = () => {
       <div
         className={`bg-white w-3/5 min-h-screen absolute z-20 right-0 transition-transform duration-200 dark:bg-black ${
           optionsOpen ? "translate-x-[0%]" : "translate-x-[100%]"
-        }`}
+        }` }
       >
         {optionType === "mode" && <ModeSelect setOptionType={setOptionType}/>}
         {optionType === "customSettings" && <CustomSettings />}
@@ -57,7 +64,7 @@ const Settings = () => {
 };
 
 const ModeSelect = ({setOptionType}) => {
-  const { setGameMode, setTotalTime } = useGridSettings();
+  const { setGameMode, setTotalTime} = useGridSettings();
   return (
     <div className="w-full min-h-screen flex justify-center items-center dark:text-black">
       <div className="flex flex-col justify-center w-4/5">
@@ -85,7 +92,7 @@ const ModeSelect = ({setOptionType}) => {
 };
 
 const CustomSettings = () => {
-  const { setGridColorList, setGridColorNo, setTotalColorNo, setTotalTime } =
+  const { setGridColorList, setGridColorNo, setTotalColorNo, setTotalTime, setGridType } =
     useGridSettings();
   return (
     <div className="w-full min-h-screen flex justify-center items-center dark:text-white flex-col gap-8 max-w-[350px] mx-auto">
@@ -98,6 +105,7 @@ const CustomSettings = () => {
               setGridColorList(color_2x2_bg);
               setTotalColorNo(4);
               setGridColorNo(4);
+              setGridType("grid-cols-2")
             }}
           >
             2 x 2
@@ -108,6 +116,7 @@ const CustomSettings = () => {
               setGridColorList(color_3x3_bg);
               setTotalColorNo(9);
               setGridColorNo(7);
+              setGridType("grid-cols-3");
             }}
           >
             3 x 3
@@ -118,6 +127,7 @@ const CustomSettings = () => {
               setGridColorList(color_4x4_bg);
               setTotalColorNo(16);
               setGridColorNo(13);
+              setGridType("grid-cols-4");
             }}
           >
             4 x 4
