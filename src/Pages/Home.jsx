@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router";
 import Theme from "../components/Theme";
 import GridaleLoader from "../Loaders/GridaleLoader";
+import Cee from "../assets/Cee.png"
 const Home = () => {
   const navigate = useNavigate();
   return (
     <div className="p-6">
       <Theme />
       <GridaleLoader />
-      {/* <div className="text-8xl text-center mt-48">GRIDALE</div> */}
       <div className="flex flex-col justify-center items-center">
         <button
           onClick={() => {
@@ -34,6 +34,14 @@ const Home = () => {
         >
           About
         </button>
+      </div>
+      <div className="flex gap-4 justify-center items-center mt-10">
+        <p className="text-xs dark:text-white text-center ">
+          Developed by CeeJay
+        </p>
+        <div className="w-6 h-6 inline-block rounded-sm">
+          <img src={Cee} alt="Ceejay" className="w-full" />
+        </div>
       </div>
     </div>
   );
