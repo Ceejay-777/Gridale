@@ -3,12 +3,8 @@ import GameClassic from "./GameClassic";
 import GameCustom from "./GameCustom";
 import { useGridSettings } from "../components/GridContext";
 
-const Gameplay = () => {
-  const { gameMode } = useGridSettings();
-  useEffect(() => console.log(gameMode), [])
-  return (
-    <div className="">{gameMode === "classic" ? <GameClassic /> : <GameCustom />}</div>
-  );
-};
+const Gameplay = () => 
+    <GameClassic />
+;
 
-export default Gameplay;
+// export default Gameplay;

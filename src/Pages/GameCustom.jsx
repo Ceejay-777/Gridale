@@ -24,12 +24,11 @@ const GameCustom = () => {
   const [randomColorsList, setRandomColorsList] = useState(
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
-  // const totalTime = useRef(null);
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
-  const [gridStyle, setGridStyle] = useState("mainGrid-4x4");
+  const [gridStyle, setGridStyle] = useState();
   const navigate = useNavigate();
-  const timerRef = useRef(null);
+  const timerRef = useRef();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -48,9 +47,7 @@ const GameCustom = () => {
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
-      }
-      console.log(clicksRef.current);
-    }
+      }}
 
     if (
       mainGridRef.current.classList.contains("mainGrid-2x2") &&

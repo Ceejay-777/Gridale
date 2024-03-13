@@ -5,7 +5,7 @@ const Timer = ({ seconds }) => {
   const [time, setTime] = useState(seconds);
 
   useEffect(() => {
-    console.log(time)
+    // console.log(time)
     if (time <= 0) {
       return;
     }

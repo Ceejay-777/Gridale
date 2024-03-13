@@ -11,7 +11,6 @@ const getSaved = (key, initialValue) => {
     return initialValue();
   }
 
-  console.log(initialValue);
   return initialValue;
 };
 
