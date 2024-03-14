@@ -4,7 +4,7 @@ import Theme from './Theme';
 
 const PauseOverlay = ({onCancle}) => {
   return (
-    <div className="absolute w-full h-full flex justify-center items-center">
+    <div className="absolute w-full h-full flex justify-center items-center z-40 bg-white dark:bg-black">
       <div className="dark:bg-white w-4/5 h-3/5 rounded-2xl flex items-center justify-center flex-col bg-black relative">
         <div className="ml-auto border-2 dark:border-black rounded-full border-white mr-4 absolute top-6 right-2">
           <Theme />
