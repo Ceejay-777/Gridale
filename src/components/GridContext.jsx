@@ -48,7 +48,7 @@ export const GridContext = ({ children }) => {
         gridType,
         setGridType,
         totalClicks,
-        setTotalClicks
+        setTotalClicks,
       }}
     >
       {children}
