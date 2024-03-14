@@ -14,8 +14,6 @@ import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
-import { useTimer } from "../components/useTimer.jsx";
-import { TimeContext } from "../components/TimeContext.jsx";
 
 const Gameplay = () => {
   const {
@@ -27,6 +25,10 @@ const Gameplay = () => {
     gameMode,
     gridType,
     setGridType,
+    currentTimerTime,
+    setCurrentTimerTime,
+    totalClicks,
+    setTotalClicks
   } = useGridSettings();
 
   const navigate = useNavigate();
@@ -90,6 +92,10 @@ const Gameplay = () => {
   const nextGrid = gameMode === "classic" ? nextClassicGrid : nextCustomGrid;
 
   useEffect(() => {
+    setCurrentTimerTime(totalTime)
+  }, [])
+
+  useEffect(() => {
     clicksRef.current = 0;
     if (gridColorList === color_2x2_bg) {
       setGridType("grid-cols-2");
@@ -102,33 +108,39 @@ const Gameplay = () => {
     if (started) {
       timerRef.current = setTimeout(() => {
         console.log("Okay");
-        // navigate("/result");
-      }, totalTime * 1000);
+        navigate("/result");
+      }, currentTimerTime * 1000);
     }
-    return () => clearTimeout(timerRef.current);
-  }, [started]);
 
-  const startTime = () => {
-    setStarted(true);
-  };
+    if (isPaused) {
+      clearTimeout(timerRef.current);
+    }
+
+    return () => clearTimeout(timerRef.current);
+  }, [started, isPaused]);
 
   const theTimer = useMemo(() => {
     return <Timer isPaused={isPaused} />;
   }, [isPaused]);
 
+  const handleRestart = () => {
+    console.log("Clicked restart")
+    window.location.reload()
+  }
+
   return (
     <div>
-      {isPaused && <PauseOverlay onCancle={() => setIsPaused(false)} />}
+      {isPaused && <PauseOverlay onCancle={() => setIsPaused(false)} onRestart={handleRestart} onSet={() => navigate("/settings")}/>}
       <div className="flex justify-center items-center flex-col min-h-screen">
         <div className="fixed top-6  w-full flex justify-center items-center">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
-          <h1 className={"text-black dark:text-white capitalize font-bold"}>
+          <h1 className={"text-black dark:text-white capitalize font-bold text-sm"}>
             {gameMode} Mode
           </h1>
           <div className="fixed right-6 flex w-fit gap-2 ">
-            <div
+           {started && <div
               className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110"
               onClick={() => setIsPaused(true)}
             >
@@ -146,7 +158,7 @@ const Gameplay = () => {
                   d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-            </div>
+            </div>}
             <div
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110"
               onClick={() => navigate("/")}
@@ -201,7 +213,7 @@ const Gameplay = () => {
               <MainButton
                 background="bg-red-600"
                 addStyles="w-full mt-0"
-                onClick={startTime}
+                onClick={() => setStarted(true)}
               >
                 Start
               </MainButton>

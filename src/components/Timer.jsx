@@ -20,12 +20,12 @@ const Timer = ({ isPaused }) => {
     }
 
     return () => clearInterval(timerRef.current);
-  }, [time]);
+  }, [time, isPaused]);
 
   useEffect(() => {
     if (isPaused) {
       console.log("Paused");
-      setCurrentTimerTime(time - 1);
+      setCurrentTimerTime(time);
     }
   }, [isPaused]);
 
