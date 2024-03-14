@@ -15,6 +15,7 @@ export const GridContext = ({ children }) => {
   const [theme, setTheme] = useLocalStorage("theme", "dark");
   const [gridType, setGridType] = useLocalStorage("gridType", "grid-cols-4")
   const [totalClicks, setTotalClicks] = useState(0)
+  const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(theme));
@@ -49,6 +50,8 @@ export const GridContext = ({ children }) => {
         setGridType,
         totalClicks,
         setTotalClicks,
+        currentTimerTime,
+        setCurrentTimerTime,
       }}
     >
       {children}

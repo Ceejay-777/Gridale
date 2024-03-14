@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -10,7 +10,7 @@ import {
 import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
-// import Timer from "../components/Timer";
+import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
@@ -38,7 +38,7 @@ const Gameplay = () => {
   const timerRef = useRef();
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
-  const { Timer, isPaused, setIsPaused } = useTimer();
+  const [isPaused, setIsPaused] = useState(false);
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -112,9 +112,9 @@ const Gameplay = () => {
     setStarted(true);
   };
 
-  const handlePause = () => {
-    clearInterval(totalTimeoutRef.current);
-  };
+  const theTimer = useMemo(() => {
+    return <Timer isPaused={isPaused} />;
+  }, [isPaused]);
 
   return (
     <div>
@@ -172,9 +172,7 @@ const Gameplay = () => {
           {started ? (
             <div>
               <div className="flex justify-between items-center mb-16 mx-auto">
-                <TimeContext>
-                  <Timer isPaused={isPaused} />
-                </TimeContext>
+                {theTimer}
                 <div
                   className={`w-14 h-14 ${primaryColor} rounded-xl border-[1px] border-slate-500`}
                 ></div>
