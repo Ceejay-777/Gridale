@@ -8,7 +8,9 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div className="p-6">
-      <Theme />
+      <div className="ml-auto  w-fit">
+        <Theme />
+      </div>
       <GridaleLoader />
       <div className="flex flex-col justify-center items-center">
         <MainButton

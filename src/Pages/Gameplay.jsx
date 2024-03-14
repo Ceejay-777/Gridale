@@ -28,7 +28,9 @@ const Gameplay = () => {
     currentTimerTime,
     setCurrentTimerTime,
     totalClicks,
-    setTotalClicks
+    setTotalClicks,
+    totalCorrectClicks,
+    setTotalCorrectClicks,
   } = useGridSettings();
 
   const navigate = useNavigate();
@@ -41,16 +43,21 @@ const Gameplay = () => {
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
+  const totalClicksRef = useRef(0)
+  const totalCorrectClicksRef = useRef(0)
 
   const [randomColors, primaryColor] = randomColorsList;
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
+    totalClicksRef.current += 1
+    console.log(totalClicksRef.current)
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
+        totalCorrectClicksRef.current += 1
       }
     }
 
@@ -93,6 +100,13 @@ const Gameplay = () => {
 
   useEffect(() => {
     setCurrentTimerTime(totalTime)
+    return (
+      () => {
+        setTotalClicks(totalClicksRef.current)
+        setTotalCorrectClicks(totalCorrectClicksRef.current)
+        console.log(totalClicksRef.current, totalCorrectClicksRef.current)
+      }
+    )
   }, [])
 
   useEffect(() => {

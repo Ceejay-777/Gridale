@@ -152,7 +152,7 @@ const CustomSettings = () => {
           <MainButton
             background="bg-blue-600"
             addStyles={"mt-0"}
-            onClick={() => setTotalTime(10)}
+            onClick={() => setTotalTime(30)}
           >
             30 secs
           </MainButton>

@@ -7,7 +7,6 @@ const Timer = ({ isPaused }) => {
   const timerRef = useRef();
 
   useEffect(() => {
-    console.log(time, currentTimerTime);
     if (time <= 0) {
       return;
     }

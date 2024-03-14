@@ -12,9 +12,10 @@ export const GridContext = ({ children }) => {
   const [totalColorNo, setTotalColorNo] = useLocalStorage("totalColorNo", 16);
   const [gameMode, setGameMode] = useLocalStorage("Game mode", "classic");
   const [totalTime, setTotalTime] = useLocalStorage("totalTime", 30);
-  const [theme, setTheme] = useLocalStorage("theme", "dark");
+  const [theme, setTheme] = useLocalStorage("theme", "light");
   const [gridType, setGridType] = useLocalStorage("gridType", "grid-cols-4")
   const [totalClicks, setTotalClicks] = useState(0)
+  const [totalCorrectClicks, setTotalCorrectClicks] = useState(0)
   const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
 
   useEffect(() => {
@@ -52,6 +53,8 @@ export const GridContext = ({ children }) => {
         setTotalClicks,
         currentTimerTime,
         setCurrentTimerTime,
+        totalCorrectClicks,
+        setTotalCorrectClicks,
       }}
     >
       {children}
