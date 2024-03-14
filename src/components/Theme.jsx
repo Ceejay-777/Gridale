@@ -9,9 +9,8 @@ const Theme = () => {
   return (
     <div>
       <div
-        className={`w-12 h-6 rounded-full flex align-middle p-1 ml-auto mr-6 mt-4 relative justify-between ${mainBg}`}
+        className={`w-12 h-6 rounded-full flex align-middle p-1 relative justify-between ${mainBg}`}
         onClick={() => {
-          // document.body.classList.toggle("dark")
           if (theme === "dark") {
             setTheme("light")
           } else setTheme("dark")

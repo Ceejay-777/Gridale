@@ -26,8 +26,9 @@ const Timer = ({ seconds }) => {
   };
 
   return (
-    <div className={"dark:text-white text-black"}>{formatTime(time)}</div>
+    <div className={"dark:text-white text-black  w-fit text-xl"}>{formatTime(time)}</div>
   );
 };
 
 export default Timer;
+ 

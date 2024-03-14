@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import Theme from "../components/Theme";
 import GridaleLoader from "../Loaders/GridaleLoader";
 import Cee from "../assets/Cee.png"
+import MainButton from "../components/MainButton";
 const Home = () => {
   const navigate = useNavigate();
   return (
@@ -10,36 +11,33 @@ const Home = () => {
       <Theme />
       <GridaleLoader />
       <div className="flex flex-col justify-center items-center">
-        <button
-          onClick={() => {
-            navigate("/game");
-          }}
-          className="px-[1.5rem] py-[1rem] rounded-xl mt-8 w-4/5 bg-yellow-400  text-lg font-bold hover:scale-110"
+        <MainButton
+          background="bg-yellow-400"
+          onClick={() => {navigate("/game")}}
         >
           Play
-        </button>
-        <button
-          onClick={() => {
-            navigate("/settings");
-          }}
-          className="px-[1.5rem] py-[1rem] mt-8 w-4/5 bg-blue-700 rounded-xl text-lg font-bold hover:scale-110"
+        </MainButton>
+
+        <MainButton
+          background="bg-blue-700"
+          onClick={() => navigate("/settings")}
         >
           Settings
-        </button>
-        <button
-          onClick={() => {
-            navigate("/game");
-          }}
-          className="px-[1.5rem] py-[1rem] mt-8 bg-red-600 rounded-xl w-4/5 text-lg font-bold hover:scale-110"
+        </MainButton>
+
+        <MainButton
+          background="bg-red-700"
+          onClick={() => navigate("/about")}
         >
           About
-        </button>
+        </MainButton>
+        
       </div>
       <div className="flex gap-4 justify-center items-center mt-10">
         <p className="text-xs dark:text-white text-center ">
           Developed by CeeJay
         </p>
-        <div className="w-6 h-6 inline-block rounded-sm">
+        <div className="w-6 h-6 inline-block rounded-sm dark:border-2 dark:border-white">
           <img src={Cee} alt="Ceejay" className="w-full" />
         </div>
       </div>

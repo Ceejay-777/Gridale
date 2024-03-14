@@ -6,6 +6,7 @@ import Results from "../Pages/Results.jsx";
 import Loading from "../Loaders/Loading.jsx";
 import GameCustom from "../Pages/GameCustom.jsx"
 import Gameplay from "../Pages/Gameplay.jsx";
+import About from "../Pages/About.jsx";
 
 
 const MyRoutes = () => {
@@ -17,6 +18,7 @@ const MyRoutes = () => {
         <Route path="game" element={<Gameplay />} />
         <Route path="result" element={<Results />} />
         {/* <Route path="loading" element={<Loading />} /> */}
+        <Route path="about" element={<About />} />
       </Routes>
     </Router>
   );
