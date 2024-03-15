@@ -13,7 +13,7 @@ const Results = () => {
   const {totalClicks, totalCorrectClicks, totalTime} = useGridSettings()
   const accuracy = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100
   const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
-  const rank = (((speed > 3 ? 100 : (speed/3) * 100) * 0.8) + (accuracy * 0.2)) 
+  const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (accuracy * 0.2)) 
 
   let ranking
   let badge
