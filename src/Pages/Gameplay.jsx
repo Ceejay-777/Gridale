@@ -27,9 +27,7 @@ const Gameplay = () => {
     setGridType,
     currentTimerTime,
     setCurrentTimerTime,
-    totalClicks,
     setTotalClicks,
-    totalCorrectClicks,
     setTotalCorrectClicks,
   } = useGridSettings();
 
@@ -51,7 +49,6 @@ const Gameplay = () => {
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
     totalClicksRef.current += 1
-    console.log(totalClicksRef.current)
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
@@ -78,13 +75,10 @@ const Gameplay = () => {
     clicksRef.current = 0;
 
     if (gridsCountRef.current <= 5) {
-      setGridColorList(color_2x2_bg);
       setRandomColorsList(generateRandomColors(color_2x2_bg, 4, 4));
-    } else if (gridsCountRef.current > 5 && gridsCountRef.current <= 8) {
-      setGridColorList(color_3x3_bg);
+    } else if (gridsCountRef.current <= 9) {
       setRandomColorsList(generateRandomColors(color_3x3_bg, 9, 7));
     } else if (gridsCountRef.current > 8) {
-      setGridColorList(color_4x4_bg);
       setRandomColorsList(generateRandomColors(color_4x4_bg, 16, 13));
     }
   };
@@ -104,19 +98,17 @@ const Gameplay = () => {
       () => {
         setTotalClicks(totalClicksRef.current)
         setTotalCorrectClicks(totalCorrectClicksRef.current)
-        console.log(totalClicksRef.current, totalCorrectClicksRef.current)
       }
     )
   }, [])
 
   useEffect(() => {
-    clicksRef.current = 0;
-    if (gridColorList === color_2x2_bg) {
+    if (randomColorsList[0].length === 4) {
       setGridType("grid-cols-2");
-    } else if (gridColorList === color_3x3_bg) {
+    } else if (randomColorsList[0].length === 9) {
       setGridType("grid-cols-3");
-    } else if (gridColorList === color_4x4_bg) setGridType("grid-cols-4");
-  }, [gridColorList]);
+    } else if (randomColorsList[0].length === 16) setGridType("grid-cols-4");
+  }, [randomColorsList]);
 
   useEffect(() => {
     if (started) {
@@ -137,42 +129,70 @@ const Gameplay = () => {
     return <Timer isPaused={isPaused} />;
   }, [isPaused]);
 
-  const handleRestart = () => {
-    console.log("Clicked restart")
-    window.location.reload()
-  }
+  const mainGrid = useMemo(() => {
+    return (
+      <div
+        className={`grid ${gridType} mx-auto w-4/5 gap-[2px]`}
+        ref={mainGridRef}
+      >
+        {randomColors.map((color) => {
+          const Id = uuidv4();
+          return (
+            <div
+              key={Id}
+              className={`aspect-square ${color} rounded-2xl border-[1px] border-slate-500`}
+              onClick={handleGridClick}
+            ></div>
+          );
+        })}
+      </div>
+    );
+  }, [randomColors, gridType])
+
 
   return (
     <div>
-      {isPaused && <PauseOverlay onCancle={() => setIsPaused(false)} onRestart={handleRestart} onSet={() => navigate("/settings")}/>}
+      {isPaused && (
+        <PauseOverlay
+          onCancle={() => setIsPaused(false)}
+          onRestart={() => window.location.reload()}
+          onSet={() => navigate("/settings")}
+        />
+      )}
       <div className="flex justify-center items-center flex-col min-h-screen">
         <div className="fixed top-6  w-full flex justify-center items-center">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
-          <h1 className={"text-black dark:text-white capitalize font-bold text-sm"}>
+          <h1
+            className={
+              "text-black dark:text-white capitalize font-bold text-sm"
+            }
+          >
             {gameMode} Mode
           </h1>
           <div className="fixed right-6 flex w-fit gap-2 ">
-           {started && <div
-              className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110"
-              onClick={() => setIsPaused(true)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="w-full h-full text-black"
+            {started && (
+              <div
+                className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110"
+                onClick={() => setIsPaused(true)}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </div>}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="w-full h-full text-black"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </div>
+            )}
             <div
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110"
               onClick={() => navigate("/")}
@@ -203,25 +223,12 @@ const Gameplay = () => {
                   className={`w-14 h-14 ${primaryColor} rounded-xl border-[1px] border-slate-500`}
                 ></div>
               </div>
-              <div
-                className={`grid ${gridType} mx-auto w-4/5 gap-[2px]`}
-                ref={mainGridRef}
-              >
-                {randomColors.map((color) => {
-                  const Id = uuidv4();
-                  return (
-                    <div
-                      key={Id}
-                      className={`aspect-square ${color} rounded-2xl border-[1px] border-slate-500`}
-                      onClick={handleGridClick}
-                    ></div>
-                  );
-                })}
-              </div>
+              {mainGrid}
             </div>
           ) : (
             <Loading />
           )}
+
           {started || (
             <div className="flex flex-col items-center">
               <MainButton

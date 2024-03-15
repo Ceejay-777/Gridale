@@ -11,7 +11,7 @@ const App = () => {
   const { dark } = useGridSettings();
 
   return (
-    <div className={`bg-white dark:bg-black min-h-screen`}>
+    <div className={`bg-slate-200 dark:bg-black min-h-screen`}>
       <MyRoutes />
       {/* <Timer /> */}
       {/* <GridaleLogo /> */}

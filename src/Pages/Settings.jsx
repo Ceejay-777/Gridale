@@ -68,7 +68,7 @@ const Settings = () => {
 };
 
 const ModeSelect = ({setOptionType}) => {
-  const { setGameMode, setTotalTime, setGridColorList, setGridColorNo, setTotalColorNo} = useGridSettings();
+  const { setGameMode, setTotalTime, setGridColorList, setGridColorNo, setTotalColorNo, setGridType} = useGridSettings();
   return (
     <div className="w-full min-h-screen flex justify-center items-center text-white dark:text-black">
       <div className="flex flex-col justify-center w-4/5">
@@ -77,9 +77,10 @@ const ModeSelect = ({setOptionType}) => {
           onClick={() => {
             setGameMode("classic");
             setTotalTime(30)
-            setGridColorList(color_4x4_bg)
-            setGridColorNo(13)
-            setTotalColorNo(16)
+            setGridColorList(color_2x2_bg)
+            setGridColorNo(4)
+            setTotalColorNo(4)
+            setGridType("grid-cols-2")
           }}
         >
           Classic
