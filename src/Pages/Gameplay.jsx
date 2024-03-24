@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
+import { Howl } from "howler";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -14,6 +15,7 @@ import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
+// import {sound} from "../assets/Sounds/interfaceWav.wav"
 
 const Gameplay = () => {
   const {
@@ -41,20 +43,34 @@ const Gameplay = () => {
   const mainGridRef = useRef();
   const gridsCountRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
-  const totalClicksRef = useRef(0)
-  const totalCorrectClicksRef = useRef(0)
+  const totalClicksRef = useRef(0);
+  const totalCorrectClicksRef = useRef(0);
+  const interfaceSoundRef = useRef()
 
   const [randomColors, primaryColor] = randomColorsList;
 
+  useEffect(() => {
+   interfaceSoundRef.current = new Howl({
+      src: ["/../../public/Sounds/interfaceWav.wav"],
+      preload: true,
+      onloaderror: (id, error) => {
+        console.error("Error loading sound:", error, id);
+      },
+      volume: 0.5,
+    });
+  }, []);
+
   const handleGridClick = (event) => {
+    interfaceSoundRef.current.play();
+
     const thisClasslist = event.currentTarget.classList;
-    totalClicksRef.current += 1
+    totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
-        totalCorrectClicksRef.current += 1
+        totalCorrectClicksRef.current += 1;
       }
     }
 
@@ -93,14 +109,12 @@ const Gameplay = () => {
   const nextGrid = gameMode === "classic" ? nextClassicGrid : nextCustomGrid;
 
   useEffect(() => {
-    setCurrentTimerTime(totalTime)
-    return (
-      () => {
-        setTotalClicks(totalClicksRef.current)
-        setTotalCorrectClicks(totalCorrectClicksRef.current)
-      }
-    )
-  }, [])
+    setCurrentTimerTime(totalTime);
+    return () => {
+      setTotalClicks(totalClicksRef.current);
+      setTotalCorrectClicks(totalCorrectClicksRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (randomColorsList[0].length === 4) {
@@ -114,7 +128,7 @@ const Gameplay = () => {
     if (started) {
       timerRef.current = setTimeout(() => {
         console.log("Okay");
-        navigate("/result");
+        // navigate("/result");
       }, currentTimerTime * 1000);
     }
 
@@ -147,8 +161,7 @@ const Gameplay = () => {
         })}
       </div>
     );
-  }, [randomColors, gridType])
-
+  }, [randomColors, gridType]);
 
   return (
     <div>
