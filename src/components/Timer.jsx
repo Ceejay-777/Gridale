@@ -2,13 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import { useGridSettings } from "./GridContext";
 
 const Timer = ({ isPaused }) => {
-  const { currentTimerTime, setCurrentTimerTime } = useGridSettings();
+  const { currentTimerTime, setCurrentTimerTime, timeUpSoundRef } =
+    useGridSettings();
   const [time, setTime] = useState(currentTimerTime);
   const timerRef = useRef();
 
   useEffect(() => {
     if (time <= 0) {
       return;
+    }
+
+    if (time < 6 && !timeUpSoundRef.current.playing()) {
+      timeUpSoundRef.current.play();
     }
 
     if (!isPaused) {
@@ -18,7 +23,10 @@ const Timer = ({ isPaused }) => {
       }, 1000);
     }
 
-    return () => clearInterval(timerRef.current);
+    return () => {
+      clearInterval(timerRef.current);
+      timeUpSoundRef.current.stop();
+    };
   }, [time, isPaused]);
 
   useEffect(() => {
@@ -44,4 +52,3 @@ const Timer = ({ isPaused }) => {
 };
 
 export default Timer;
- 

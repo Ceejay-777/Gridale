@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { color_2x2_bg } from "../gridGenerate";
 import useLocalStorage from "./useLS";
 const gridSettings = createContext();
@@ -17,18 +23,55 @@ export const GridContext = ({ children }) => {
   const [totalClicks, setTotalClicks] = useState(0);
   const [totalCorrectClicks, setTotalCorrectClicks] = useState(0);
   const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
-  const [bgSoundPlaying, setBgSoundPlaying] = useLocalStorage(
-    "bgSound",
-    "false"
-  );
+  const [bgSoundPlaying, setBgSoundPlaying] = useState("false");
   const bgSoundRef = useRef(
     new Howl({
       src: ["/public/Sounds/backgroundSound.mp3"],
       preload: true,
-      // onload: (error) => console.log("Loading Sound"),
+      loop: true,
       onplay: (id) => console.log("Playing Sound", id),
       onmute: (id) => console.log("Muted:", id),
       onplayerror: (id, error) => console.error("Play error", error),
+      onloaderror: (id, error) => {
+        console.error("Error loading sound:", error, id);
+      },
+      volume: 0.5,
+    })
+  );
+  const gridCorrectClickSoundRef = useRef(
+    new Howl({
+      src: ["/public/Sounds/interfaceWav.wav"],
+      preload: true,
+      onloaderror: (id, error) => {
+        console.error("Error loading sound:", error, id);
+      },
+      volume: 0.5,
+    })
+  );
+  const gridWrongClickSoundRef = useRef(
+    new Howl({
+      src: ["/public/Sounds/wrong.mp3"],
+      preload: true,
+      onloaderror: (id, error) => {
+        console.error("Error loading sound:", error, id);
+      },
+      volume: 0.5,
+    })
+  );
+  const nextGridSoundRef = useRef(
+    new Howl({
+      src: ["/public/Sounds/nextGrid.mp3"],
+      preload: true,
+      onloaderror: (id, error) => {
+        console.error("Error loading sound:", error, id);
+      },
+      volume: 0.5,
+    })
+  );
+  const timeUpSoundRef = useRef(
+    new Howl({
+      src: ["/public/Sounds/timeUp.mp3"],
+      preload: true,
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
       },
@@ -48,6 +91,10 @@ export const GridContext = ({ children }) => {
     }
     bodyClasses.add(theme);
   }, [theme]);
+
+  // useEffect(() => {
+  //   return (() => Howler.stop())
+  // }, [])
 
   return (
     <gridSettings.Provider
@@ -75,6 +122,10 @@ export const GridContext = ({ children }) => {
         bgSoundPlaying,
         setBgSoundPlaying,
         bgSoundRef,
+        gridCorrectClickSoundRef,
+        gridWrongClickSoundRef,
+        nextGridSoundRef,
+        timeUpSoundRef,
       }}
     >
       {children}

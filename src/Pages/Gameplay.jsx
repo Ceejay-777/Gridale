@@ -31,6 +31,9 @@ const Gameplay = () => {
     setCurrentTimerTime,
     setTotalClicks,
     setTotalCorrectClicks,
+    gridCorrectClickSoundRef,
+    gridWrongClickSoundRef,
+    nextGridSoundRef,
   } = useGridSettings();
 
   const navigate = useNavigate();
@@ -45,33 +48,24 @@ const Gameplay = () => {
   const [isPaused, setIsPaused] = useState(false);
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
-  const interfaceSoundRef = useRef()
 
   const [randomColors, primaryColor] = randomColorsList;
 
-  useEffect(() => {
-   interfaceSoundRef.current = new Howl({
-      src: ["/../../public/Sounds/interfaceWav.wav"],
-      preload: true,
-      onloaderror: (id, error) => {
-        console.error("Error loading sound:", error, id);
-      },
-      volume: 0.5,
-    });
-  }, []);
-
   const handleGridClick = (event) => {
-    interfaceSoundRef.current.play();
+    
 
     const thisClasslist = event.currentTarget.classList;
     totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
+      gridCorrectClickSoundRef.current.play();
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
         totalCorrectClicksRef.current += 1;
       }
+    } else {
+      gridWrongClickSoundRef.current.play()
     }
 
     if (
@@ -82,6 +76,7 @@ const Gameplay = () => {
       (mainGridRef.current.classList.contains("grid-cols-4") &&
         clicksRef.current === 4)
     ) {
+      nextGridSoundRef.current.play()
       nextGrid();
     }
   };
@@ -128,7 +123,7 @@ const Gameplay = () => {
     if (started) {
       timerRef.current = setTimeout(() => {
         console.log("Okay");
-        // navigate("/result");
+        navigate("/result");
       }, currentTimerTime * 1000);
     }
 
