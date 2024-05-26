@@ -11,16 +11,18 @@ import About from "../Pages/About.jsx";
 
 const MyRoutes = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="game" element={<Gameplay />} />
-        <Route path="result" element={<Results />} />
-        {/* <Route path="loading" element={<Loading />} /> */}
-        <Route path="about" element={<About />} />
-      </Routes>
-    </Router>
+    <div className="max-w-[768px] mx-auto">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="game" element={<Gameplay />} />
+          <Route path="result" element={<Results />} />
+          {/* <Route path="loading" element={<Loading />} /> */}
+          <Route path="about" element={<About />} />
+        </Routes>
+      </Router>
+    </div>
   );
 };
 

@@ -26,10 +26,11 @@ export const GridContext = ({ children }) => {
   const [bgSoundPlaying, setBgSoundPlaying] = useState("false");
   const bgSoundRef = useRef(
     new Howl({
-      src: ["/public/Sounds/backgroundSound.mp3"],
+      src: ["/Sounds/backgroundSound.mp3"],
       preload: true,
       loop: true,
       onplay: (id) => console.log("Playing Sound", id),
+      onpause: (id) => console.log("Paused Sound", id),
       onmute: (id) => console.log("Muted:", id),
       onplayerror: (id, error) => console.error("Play error", error),
       onloaderror: (id, error) => {
@@ -40,7 +41,7 @@ export const GridContext = ({ children }) => {
   );
   const gridCorrectClickSoundRef = useRef(
     new Howl({
-      src: ["/public/Sounds/interfaceWav.wav"],
+      src: ["/Sounds/interfaceWav.wav"],
       preload: true,
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
@@ -50,7 +51,7 @@ export const GridContext = ({ children }) => {
   );
   const gridWrongClickSoundRef = useRef(
     new Howl({
-      src: ["/public/Sounds/wrong.mp3"],
+      src: ["/Sounds/wrong.mp3"],
       preload: true,
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
@@ -60,7 +61,7 @@ export const GridContext = ({ children }) => {
   );
   const nextGridSoundRef = useRef(
     new Howl({
-      src: ["/public/Sounds/nextGrid.mp3"],
+      src: ["/Sounds/nextGrid.mp3"],
       preload: true,
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
@@ -70,7 +71,7 @@ export const GridContext = ({ children }) => {
   );
   const timeUpSoundRef = useRef(
     new Howl({
-      src: ["/public/Sounds/timeUp.mp3"],
+      src: ["/Sounds/timeUp.mp3"],
       preload: true,
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
