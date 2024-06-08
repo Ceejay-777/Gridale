@@ -721,10 +721,6 @@ video {
   max-width: 350px;
 }
 
-.max-w-\[\] {
-  max-width: ;
-}
-
 .max-w-\[768px\] {
   max-width: 768px;
 }
@@ -851,6 +847,10 @@ video {
 }
 
 .border-\[1px\] {
+  border-width: 1px;
+}
+
+.border {
   border-width: 1px;
 }
 

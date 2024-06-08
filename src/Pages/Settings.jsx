@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useGridSettings } from "../components/GridContext";
 import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
-import { useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 import MainButton from "../components/MainButton";
-// import {useHistory} from "react-router-dom"
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -12,16 +11,15 @@ const Settings = () => {
   const [optionType, setOptionType] = useState();
 
   const handleBodyClick = (event) => {
-    if (optionsOpen && (event.target.id === "mainBody") ) {
-      setOptionsOpen(false)
+    if (optionsOpen) {
+      setOptionsOpen(false);
     }
-  }
+  };
 
   return (
     <div
       className="dark:text-white flex justify-center items-center min-h-screen p-4 relative overflow-x-hidden"
       onClick={handleBodyClick}
-      id="mainBody"
     >
       <div
         className="absolute top-4 left-4 p-2 rounded-full bg-blue-700 hover:scale-110"
@@ -58,7 +56,10 @@ const Settings = () => {
         </MainButton>
       </div>
       <div
-        className={`bg-white w-3/5 h-full absolute right-0 top-0 transition-transform duration-200 dark:bg-black ${optionsOpen ? "translate-x-[0%]" : "translate-x-[100%]"} overflow-y-scroll`}
+        className={`bg-white w-3/5 h-full absolute right-0 top-0 transition-transform duration-200 dark:bg-black ${
+          optionsOpen ? "translate-x-[0%]" : "translate-x-[100%]"
+        } overflow-y-scroll`}
+        onClick={(event) => event.stopPropagation()}
       >
         {optionType === "mode" && <ModeSelect setOptionType={setOptionType} />}
         {optionType === "customSettings" && <CustomSettings />}
@@ -67,20 +68,31 @@ const Settings = () => {
   );
 };
 
-const ModeSelect = ({setOptionType}) => {
-  const { setGameMode, setTotalTime, setGridColorList, setGridColorNo, setTotalColorNo, setGridType} = useGridSettings();
+const ModeSelect = ({ setOptionType }) => {
+  const {
+    setGameMode,
+    setTotalTime,
+    setGridColorList,
+    setGridColorNo,
+    setTotalColorNo,
+    setGridType,
+  } = useGridSettings();
+
   return (
-    <div className="w-full min-h-screen flex justify-center items-center text-white dark:text-black">
+    <div
+      className="w-full min-h-screen flex justify-center items-center text-white dark:text-black"
+    >
+      {" "}
       <div className="flex flex-col justify-center w-4/5">
         <MainButton
           background="bg-green-600"
           onClick={() => {
             setGameMode("classic");
-            setTotalTime(30)
-            setGridColorList(color_2x2_bg)
-            setGridColorNo(4)
-            setTotalColorNo(4)
-            setGridType("grid-cols-2")
+            setTotalTime(30);
+            setGridColorList(color_2x2_bg);
+            setGridColorNo(4);
+            setTotalColorNo(4);
+            setGridType("grid-cols-2");
           }}
         >
           Classic
@@ -100,8 +112,14 @@ const ModeSelect = ({setOptionType}) => {
 };
 
 const CustomSettings = () => {
-  const { setGridColorList, setGridColorNo, setTotalColorNo, setTotalTime, setGridType } =
-    useGridSettings();
+  const {
+    setGridColorList,
+    setGridColorNo,
+    setTotalColorNo,
+    setTotalTime,
+    setGridType,
+  } = useGridSettings();
+
   return (
     <div className="w-full min-h-screen flex justify-center items-center dark:text-white flex-col gap-8 max-w-[350px] mx-auto">
       <div className="w-full">

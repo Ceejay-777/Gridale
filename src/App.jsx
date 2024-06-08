@@ -11,11 +11,11 @@ const App = () => {
   const backgroundSoundRef = useRef(null);
   const {bgSoundPlaying, setBgSoundPlaying, bgSoundRef} = useGridSettings()
 
-  useEffect(() => {
-    if (bgSoundPlaying === "false") {
-      bgSoundRef.current.play();
-    } else bgSoundRef.current.pause();
-  }, [bgSoundPlaying]);
+  // useEffect(() => {
+  //   if (bgSoundPlaying === "false") {
+  //     bgSoundRef.current.play();
+  //   } else bgSoundRef.current.pause();
+  // }, [bgSoundPlaying]);
 
   return (
     <div className={`bg-slate-200 dark:bg-black min-h-screen`}>
