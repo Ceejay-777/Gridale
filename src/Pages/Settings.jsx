@@ -10,7 +10,7 @@ const Settings = () => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
 
-  const handleBodyClick = (event) => {
+  const handleBodyClick = () => {
     if (optionsOpen) {
       setOptionsOpen(false);
     }
