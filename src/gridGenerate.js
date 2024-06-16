@@ -38,10 +38,6 @@ export const color_4x4_bg = [
   "bg-orange-300",
 ];
 
-// let color_bg = color_4x4_bg;
-// let totalColorNo = 16;
-// let gridColorNo = 13;
-
 export const shuffle = (list) => {
   for (let i = list.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

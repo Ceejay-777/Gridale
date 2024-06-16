@@ -26,7 +26,7 @@ const Results = () => {
     ranking = "Apprentice"
     badge = apprentice
   } else if(rank <= 60) {
-    ranking = "Journeyman"
+    ranking = "Journeyman" 
     badge = journeyman
   } else if(rank <= 80) {
     ranking = "Senior"
