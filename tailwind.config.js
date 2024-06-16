@@ -12,6 +12,11 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      bangers: ["Bangers", "system-ui"],
+      press: ["'Press Start 2P'", "system-ui"],
+      stencil: ["'Allerta Stencil'", "sans-serif"],
+    },
   },
   plugins: [],
 };

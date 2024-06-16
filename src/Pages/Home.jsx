@@ -10,32 +10,35 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-6">
-      <div className="ml-auto flex gap-2 w-fit items-center">
+    <div className="p-6 min-h-screen 2 lg:p-12 flex flex-col justify-between items-center">
+      <div className="ml-auto flex gap-2 md:gap-6 w-fit items-center">
         <Sound />
         <Theme />
       </div>
-      <GridaleLoader />
-      <div className="flex flex-col justify-center items-center">
-        <MainButton
-          background="bg-yellow-400"
-          onClick={() => {
-            navigate("/game");
-          }}
-        >
-          Play
-        </MainButton>
-
-        <MainButton
-          background="bg-blue-700"
-          onClick={() => navigate("/settings")}
-        >
-          Settings
-        </MainButton>
-
-        <MainButton background="bg-red-700" onClick={() => navigate("/about")}>
-          About
-        </MainButton>
+      <div className="md:flex justify-around items-center gap-12 my-12 max-w-[1200px] mx-auto lg:my-20 w-full">
+        <GridaleLoader />
+        <div className="flex flex-col justify-center items-center flex-grow max-w-[400px] gap-8 mx-auto md:mx-0">
+          <MainButton
+            background="bg-yellow-400"
+            onClick={() => {
+              navigate("/game");
+            }}
+          >
+            Play
+          </MainButton>
+          <MainButton
+            background="bg-blue-700"
+            onClick={() => navigate("/settings")}
+          >
+            Settings
+          </MainButton>
+          <MainButton
+            background="bg-red-700"
+            onClick={() => navigate("/about")}
+          >
+            About
+          </MainButton>
+        </div>
       </div>
       <div className="flex gap-4 justify-center items-center mt-10">
         <p className="text-xs dark:text-white text-center ">

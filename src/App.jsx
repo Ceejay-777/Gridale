@@ -18,7 +18,7 @@ const App = () => {
   // }, [bgSoundPlaying]);
 
   return (
-    <div className={`bg-slate-200 dark:bg-black min-h-screen`}>
+    <div className={`bg-slate-200 dark:bg-black min-h-screen transition-all duration-200 flex items-center`}>
       <MyRoutes />
       {/* <Test /> */}
       {/* <Timer /> */}

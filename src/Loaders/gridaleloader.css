@@ -3,7 +3,6 @@ span {
   display: inline-block;
   opacity: 0;
   transform: rotateX(-90deg);
-  font-size: 4rem;
   /* border: 2px solid black; */
 }
 

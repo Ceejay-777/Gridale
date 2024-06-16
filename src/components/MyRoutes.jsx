@@ -11,14 +11,13 @@ import About from "../Pages/About.jsx";
 
 const MyRoutes = () => {
   return (
-    <div className="max-w-[768px] mx-auto">
+    <div className="w-full min-h-screen">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="settings" element={<Settings />} />
           <Route path="game" element={<Gameplay />} />
           <Route path="result" element={<Results />} />
-          {/* <Route path="loading" element={<Loading />} /> */}
           <Route path="about" element={<About />} />
         </Routes>
       </Router>

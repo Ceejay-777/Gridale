@@ -122,7 +122,7 @@ const Gameplay = () => {
   useEffect(() => {
     if (started) {
       timerRef.current = setTimeout(() => {
-        navigate("/result");
+        // navigate("/result");
       }, currentTimerTime * 1000);
     }
 

@@ -9,7 +9,7 @@ const Theme = () => {
   return (
     <div>
       <div
-        className={`w-12 h-6 rounded-full flex align-middle p-1 relative justify-between ${mainBg}`}
+        className={`w-12 h-6 rounded-full flex items-center p-1 relative justify-between ${mainBg} md:w-16 md:h-9 md:p-2`}
         onClick={() => {
           if (theme === "dark") {
             setTheme("light")
@@ -30,7 +30,7 @@ const Theme = () => {
         </svg>
 
         <div
-          className={`w-4 h-4 rounded-full absolute ${translation} transition-transform`}
+          className={`w-4 h-4 rounded-full absolute ${translation} transition-transform md:w-6 md:h-6`}
         ></div>
 
         <svg

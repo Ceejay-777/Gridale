@@ -12,7 +12,7 @@ const Sound = () => {
 
   return (
     <div
-      className="w-8 h-8 bg-orange-500 rounded-full p-1"
+      className="w-8 h-8 bg-orange-500 rounded-full p-1 md:w-12 md:h-12 md:p-2 hover:scale-110"
       onClick={handleSound}
     >
       {bgSoundPlaying === "false" ? (
