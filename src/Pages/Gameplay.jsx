@@ -100,6 +100,28 @@ const Gameplay = () => {
     );
   };
 
+  const startComp = (
+    <div className="flex flex-col items-center gap-8">
+      <Loading />
+      <MainButton
+        background="bg-red-600"
+        addStyles="w-full mt-0"
+        onClick={() => setStarted(true)}
+      >
+        Start
+      </MainButton>
+      <MainButton
+        background="bg-blue-600"
+        addStyles="w-full"
+        onClick={() => {
+          navigate("/settings");
+        }}
+      >
+        Settings
+      </MainButton>
+    </div>
+  );
+
   const nextGrid = gameMode === "classic" ? nextClassicGrid : nextCustomGrid;
 
   useEffect(() => {
@@ -139,15 +161,15 @@ const Gameplay = () => {
   const mainGrid = useMemo(() => {
     return (
       <div
-        className={`grid ${gridType} mx-auto w-4/5 gap-[2px]`}
+        className={`grid ${gridType} mx-auto gap-1`}
         ref={mainGridRef}
       >
         {randomColors.map((color) => {
-          const Id = uuidv4();
+          const id = uuidv4();
           return (
             <div
-              key={Id}
-              className={`aspect-square ${color} rounded-2xl border-[1px] border-slate-500`}
+              key={id}
+              className={`aspect-square ${color} rounded-2xl border border-slate-500`}
               onClick={handleGridClick}
             ></div>
           );
@@ -157,22 +179,22 @@ const Gameplay = () => {
   }, [randomColors, gridType]);
 
   return (
-    <div>
+    <div className="border-2">
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
-          onRestart={() => window.location.reload()}
+          onRestart={() => window.location.reload()} // Work on this
           onSet={() => navigate("/settings")}
         />
       )}
       <div className="flex justify-center items-center flex-col min-h-screen">
-        <div className="fixed top-6  w-full flex justify-center items-center">
+        <div className="fixed top-6 w-full flex justify-center items-center">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
           <h1
             className={
-              "text-black dark:text-white capitalize font-bold text-sm"
+              "text-black dark:text-white capitalize font-bold text-sm md:text-xl"
             }
           >
             {gameMode} Mode
@@ -180,7 +202,7 @@ const Gameplay = () => {
           <div className="fixed right-6 flex w-fit gap-2 ">
             {started && (
               <div
-                className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110"
+                className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110 md:w-14 md:h-14"
                 onClick={() => setIsPaused(true)}
               >
                 <svg
@@ -200,7 +222,7 @@ const Gameplay = () => {
               </div>
             )}
             <div
-              className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110"
+              className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110 md:w-14 md:h-14"
               onClick={() => navigate("/")}
             >
               <svg
@@ -220,20 +242,21 @@ const Gameplay = () => {
             </div>
           </div>
         </div>
-        <div className="w-4/5">
+
+        <div className="w-4/5 max-w-[500px] md:mt-12">
           {started && (
             <div>
               <div className="flex justify-between items-center mb-16 mx-auto">
                 {theTimer}
                 <div
-                  className={`w-14 h-14 ${primaryColor} rounded-xl border-[1px] border-slate-500`}
+                  className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
                 ></div>
               </div>
               {mainGrid}
             </div>
           )}
 
-          {started || <Start />}
+          {started || startComp}
         </div>
       </div>
     </div>

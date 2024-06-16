@@ -45,7 +45,7 @@ const Timer = ({ isPaused }) => {
   };
 
   return (
-    <div className={"dark:text-white text-black w-fit text-xl "}>
+    <div className={"dark:text-white text-black w-fit text-xl md:text-2xl"}>
       {formatTime(time)}
     </div>
   );

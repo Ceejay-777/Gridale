@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <div
-      className={`bg-slate-200 dark:bg-black min-h-screen transition-all duration-200 flex items-centerr`}
+      className={`bg-slate-200 dark:bg-black min-h-screen transition-all duration-200 flex items-center`}
     >
       <MyRoutes />
       {/* <Test /> */}
