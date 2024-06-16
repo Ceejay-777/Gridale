@@ -996,6 +996,58 @@ video {
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
 }
 
+.bg-\[\] {
+  background-color: ;
+}
+
+.bg-\[url\] {
+  background-color: url;
+}
+
+.bg-\[url\(\)\] {
+  background-image: url();
+}
+
+.bg-\[url\(\"\"\)\] {
+  background-image: url("");
+}
+
+.bg-\[url\(\"\/\"\)\] {
+  background-image: url("/");
+}
+
+.bg-\[url\(\"\.\.\/\"\)\] {
+  background-image: url("../");
+}
+
+.bg-\[url\(\"\.\/\"\)\] {
+  background-image: url("./");
+}
+
+.bg-\[url\(\"\.\/assets\/\"\)\] {
+  background-image: url("./assets/");
+}
+
+.bg-\[url\(\"\.\/assets\/grida\"\)\] {
+  background-image: url("./assets/grida");
+}
+
+.bg-\[url\(\"\.\/assets\/gridaleBg\.jpg\"\)\] {
+  background-image: url("./assets/gridaleBg.jpg");
+}
+
+.bg-contain {
+  background-size: contain;
+}
+
+.bg-cover {
+  background-size: cover;
+}
+
+.bg-no-repeat {
+  background-repeat: no-repeat;
+}
+
 .p-1 {
   padding: 0.25rem;
 }

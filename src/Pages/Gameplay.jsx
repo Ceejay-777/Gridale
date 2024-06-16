@@ -15,6 +15,7 @@ import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
+import Start from "./Start";
 // import {sound} from "../assets/Sounds/interfaceWav.wav"
 
 const Gameplay = () => {
@@ -52,8 +53,6 @@ const Gameplay = () => {
   const [randomColors, primaryColor] = randomColorsList;
 
   const handleGridClick = (event) => {
-    
-
     const thisClasslist = event.currentTarget.classList;
     totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
@@ -65,7 +64,7 @@ const Gameplay = () => {
         totalCorrectClicksRef.current += 1;
       }
     } else {
-      gridWrongClickSoundRef.current.play()
+      gridWrongClickSoundRef.current.play();
     }
 
     if (
@@ -76,7 +75,7 @@ const Gameplay = () => {
       (mainGridRef.current.classList.contains("grid-cols-4") &&
         clicksRef.current === 4)
     ) {
-      nextGridSoundRef.current.play()
+      nextGridSoundRef.current.play();
       nextGrid();
     }
   };
@@ -222,7 +221,7 @@ const Gameplay = () => {
           </div>
         </div>
         <div className="w-4/5">
-          {started ? (
+          {started && (
             <div>
               <div className="flex justify-between items-center mb-16 mx-auto">
                 {theTimer}
@@ -232,31 +231,9 @@ const Gameplay = () => {
               </div>
               {mainGrid}
             </div>
-          ) : (
-            <Loading />
           )}
 
-          {started || (
-            <div className="flex flex-col items-center">
-              <MainButton
-                background="bg-red-600"
-                addStyles="w-full mt-0"
-                onClick={() => setStarted(true)}
-              >
-                Start
-              </MainButton>
-
-              <MainButton
-                background="bg-blue-600"
-                addStyles="w-full"
-                onClick={() => {
-                  navigate("/settings");
-                }}
-              >
-                Settings
-              </MainButton>
-            </div>
-          )}
+          {started || <Start />}
         </div>
       </div>
     </div>
