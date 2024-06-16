@@ -10,7 +10,8 @@ const Theme = () => {
     <div>
       <div
         className={`w-12 h-6 rounded-full flex items-center p-1 relative justify-between ${mainBg} md:w-16 md:h-9 md:p-2`}
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation()
           if (theme === "dark") {
             setTheme("light")
           } else setTheme("dark")

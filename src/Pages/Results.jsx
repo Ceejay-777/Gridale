@@ -41,7 +41,7 @@ const Results = () => {
   return (
     <div className="flex justify-center items-center min-h-screen flex-col">
       <div
-        className="h-10 w-10 p-2 bg-orange-500 rounded-full hover:scale-110 fixed top-4 right-4"
+        className="h-10 w-10 p-2 bg-orange-500 rounded-full hover:scale-110 fixed top-4 right-4 md:w-14 md:h-14"
         onClick={() => navigate("/")}
       >
         <svg
@@ -59,7 +59,8 @@ const Results = () => {
           />
         </svg>
       </div>
-      <div className="w-4/5 ">{badge}</div>
+
+      <div className="w-3/5 max-w-[600px]">{badge}</div>
       <div className="w-full p-2 flex flex-col items-center gap-2">
         <p className="dark:text-white ">
           {`Accuracy: ${accuracy ? accuracy.toFixed(2) + "%" : "0%"}`}
@@ -72,12 +73,14 @@ const Results = () => {
         <p className="dark:text-white">
           {`Rank: ${rank ? " Grid " + ranking : "No rank"}`}
         </p>
-        <MainButton
-          background={"bg-yellow-400"}
-          onClick={() => navigate("/game")}
-        >
-          Play Again
-        </MainButton>
+        <div className="w-4/5 mt-6 justify-center flex ">
+          <MainButton
+            background={"bg-yellow-400"}
+            onClick={() => navigate("/game")}
+          >
+            Play Again
+          </MainButton>
+        </div>
       </div>
     </div>
   );
