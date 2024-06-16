@@ -179,7 +179,7 @@ const Gameplay = () => {
   }, [randomColors, gridType]);
 
   return (
-    <div className="border-2">
+    <div className="">
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
