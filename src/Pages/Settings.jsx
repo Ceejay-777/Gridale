@@ -3,6 +3,7 @@ import { useGridSettings } from "../components/GridContext";
 import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
 import { useNavigate } from "react-router";
 import MainButton from "../components/MainButton";
+import BackButton from "../components/BackButton";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -21,26 +22,8 @@ const Settings = () => {
       className="dark:text-white flex justify-center items-center min-h-screen p-4 relative overflow-x-hidden"
       onClick={handleBodyClick}
     >
-      <div
-        className="absolute top-4 left-4 p-2 rounded-full bg-blue-700 hover:scale-110"
-        onClick={() => navigate(-1)}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="2.0"
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-          />
-        </svg>
-      </div>
-      <div className="w-4/5 flex flex-col text-white dark:text-black">
+      <BackButton />
+      <div className="w-4/5 flex flex-col gap-8 text-white dark:text-black">
         <MainButton
           background=" bg-red-600"
           addStyles="w-full"

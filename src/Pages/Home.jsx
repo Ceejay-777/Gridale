@@ -36,11 +36,11 @@ const Home = () => {
             background="bg-red-700"
             onClick={() => navigate("/about")}
           >
-            About
+            How to play
           </MainButton>
         </div>
       </div>
-      <div className="flex gap-4 justify-center items-center mt-10">
+      <div className="flex gap-4 justify-center items-center mt-4">
         <p className="text-xs dark:text-white text-center ">
           Developed by CeeJay
         </p>

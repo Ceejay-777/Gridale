@@ -60,7 +60,7 @@ const Results = () => {
         </svg>
       </div>
 
-      <div className="w-3/5 max-w-[600px]">{badge}</div>
+      <div className="w-3/5 max-w-[400px]">{badge}</div>
       <div className="w-full p-2 flex flex-col items-center gap-2">
         <p className="dark:text-white ">
           {`Accuracy: ${accuracy ? accuracy.toFixed(2) + "%" : "0%"}`}

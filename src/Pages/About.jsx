@@ -1,9 +1,10 @@
 import React from 'react'
+import BackButton from '../components/BackButton'
 
 const About = () => {
   return (
     <div>
-      About me
+      <BackButton />
     </div>
   )
 }
