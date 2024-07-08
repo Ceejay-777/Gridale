@@ -143,7 +143,7 @@ const Gameplay = () => {
   useEffect(() => {
     if (started) {
       timerRef.current = setTimeout(() => {
-        navigate("/result");
+        // navigate("/result");
       }, currentTimerTime * 1000);
     }
 
@@ -160,20 +160,27 @@ const Gameplay = () => {
 
   const mainGrid = useMemo(() => {
     return (
-      <div
-        className={`grid ${gridType} mx-auto gap-1`}
-        ref={mainGridRef}
-      >
-        {randomColors.map((color) => {
-          const id = uuidv4();
-          return (
-            <div
-              key={id}
-              className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-              onClick={handleGridClick}
-            ></div>
-          );
-        })}
+      <div className=" border border-white py-8 overflow-y-hidden">
+        <div className="flex gap-1 animate-scrollUp">
+          <div
+            className={`grid ${gridType} mx-auto gap-1 w-full`}
+            ref={mainGridRef}
+          >
+            {randomColors.map((color) => {
+              const id = uuidv4();
+              return (
+                <div
+                  key={id}
+                  className={`aspect-square ${color} rounded-2xl border border-slate-500`}
+                  onClick={handleGridClick}
+                ></div>
+              );
+            })}
+          </div>
+          <div
+            className={`${primaryColor}  rounded-lg border-[1px] border-slate-500 w-1/12`}
+          ></div>
+        </div>
       </div>
     );
   }, [randomColors, gridType]);
@@ -248,9 +255,9 @@ const Gameplay = () => {
             <div>
               <div className="flex justify-between items-center mb-16 mx-auto">
                 {theTimer}
-                <div
+                {/* <div
                   className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
-                ></div>
+                ></div> */}
               </div>
               {mainGrid}
             </div>

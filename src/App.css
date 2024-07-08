@@ -9,3 +9,11 @@
   font-family: "Space Mono", monospace;
 }
 
+@keyframes scrollUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(-100%);
+    }
+}

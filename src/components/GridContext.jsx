@@ -76,7 +76,7 @@ export const GridContext = ({ children }) => {
       onloaderror: (id, error) => {
         console.error("Error loading sound:", error, id);
       },
-      volume: 0.5,
+      volume: 0,
     })
   );
 
