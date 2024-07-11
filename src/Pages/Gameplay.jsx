@@ -259,7 +259,12 @@ const Gameplay = () => {
                   className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
                 ></div> */}
               </div>
-              {mainGrid}
+              {/* {mainGrid} */}
+              <div className=" border border-white py-8 overflow-y-hidden">
+                <MainGrid gridDetails={[color_2x2_bg, 4, 4]} />
+                <MainGrid gridDetails={[color_3x3_bg, 9, 7]} />
+                <MainGrid gridDetails={[color_4x4_bg, 16, 13]} />
+              </div>
             </div>
           )}
 
@@ -268,6 +273,71 @@ const Gameplay = () => {
       </div>
     </div>
   );
+};
+
+const MainGrid = ({ gridDetails }) => {
+  const [gridColorList, totalColorNo, gridColorNo] = gridDetails;
+  const mainGridRef = useRef();
+  const clicksRef = useRef(0);
+  const { gridCorrectClickSoundRef } = useGridSettings();
+  let gridType;
+
+  const [randomColorsList, setRandomColorsList] = useState(
+    generateRandomColors(gridColorList, totalColorNo, gridColorNo)
+  );
+
+  const [randomColors, primaryColor] = randomColorsList;
+
+  switch (gridColorList) {
+    case color_2x2_bg:
+      gridType = "grid-cols-2";
+      break;
+    case color_3x3_bg:
+      gridType = "grid-cols-3";
+      break;
+    default:
+      gridType = "grid-cols-4";
+  }
+
+  const handleGridClick = (event) => {
+    const thisClasslist = event.currentTarget.classList;
+    if (thisClasslist.contains(primaryColor)) {
+      event.currentTarget.style.opacity = "0.5";
+      gridCorrectClickSoundRef.current.play();
+      if (!thisClasslist.contains("clicked")) {
+        thisClasslist.add("clicked");
+        clicksRef.current += 1;
+        // totalCorrectClicksRef.current += 1;
+      }
+    } else {
+      // gridWrongClickSoundRef.current.play();
+    }
+  };
+
+  return useMemo(() => {
+    return (
+      <div className="flex gap-1 animate-scrollUp mb-4">
+        <div
+          className={`grid ${gridType} mx-auto gap-1 w-full`}
+          ref={mainGridRef}
+        >
+          {randomColors.map((color) => {
+            const id = uuidv4();
+            return (
+              <div
+                key={id}
+                className={`aspect-square ${color} rounded-2xl border border-slate-500`}
+                onClick={handleGridClick}
+              ></div>
+            );
+          })}
+        </div>
+        <div
+          className={`${primaryColor}  rounded-lg border-[1px] border-slate-500 w-1/12`}
+        ></div>
+      </div>
+    );
+  }, [randomColors]);
 };
 
 export default Gameplay;
