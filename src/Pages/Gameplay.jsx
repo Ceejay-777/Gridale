@@ -15,7 +15,6 @@ import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
-import Start from "./Start";
 // import {sound} from "../assets/Sounds/interfaceWav.wav"
 
 const Gameplay = () => {
@@ -42,6 +41,7 @@ const Gameplay = () => {
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
   const [started, setStarted] = useState(false);
+  const [animationSpeed, setAnimationSpeed] = useState();
   const clicksRef = useRef(0);
   const timerRef = useRef();
   const mainGridRef = useRef();
@@ -49,6 +49,7 @@ const Gameplay = () => {
   const [isPaused, setIsPaused] = useState(false);
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
+  const allGridsRef = useRef();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -101,7 +102,7 @@ const Gameplay = () => {
   };
 
   const startComp = (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-8 border-2 w-full">
       <Loading />
       <MainButton
         background="bg-red-600"
@@ -145,6 +146,8 @@ const Gameplay = () => {
       timerRef.current = setTimeout(() => {
         // navigate("/result");
       }, currentTimerTime * 1000);
+      console.log(allGridsRef.current.clientHeight);
+      setAnimationSpeed(`(allGridsRef.current.clientHeight / totalTime)`);
     }
 
     if (isPaused) {
@@ -155,13 +158,17 @@ const Gameplay = () => {
   }, [started, isPaused]);
 
   const theTimer = useMemo(() => {
-    return <Timer isPaused={isPaused} />;
+    return (
+      <div className="border-2 border-white">
+        <Timer isPaused={isPaused} />
+      </div>
+    );
   }, [isPaused]);
 
   const mainGrid = useMemo(() => {
     return (
       <div className=" border border-white py-8 overflow-y-hidden">
-        <div className="flex gap-1 animate-scrollUp">
+        <div className={`flex gap-1`}>
           <div
             className={`grid ${gridType} mx-auto gap-1 w-full`}
             ref={mainGridRef}
@@ -194,8 +201,8 @@ const Gameplay = () => {
           onSet={() => navigate("/settings")}
         />
       )}
-      <div className="flex justify-center items-center flex-col min-h-screen">
-        <div className="fixed top-6 w-full flex justify-center items-center">
+      <div className="flex items-center flex-col justify-between max-h-screen h-screen border-2 border-white pt-6 overflow-y-hidden">
+        <div className="w-full flex justify-center items-center mb-8">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
@@ -250,20 +257,39 @@ const Gameplay = () => {
           </div>
         </div>
 
-        <div className="w-4/5 max-w-[500px] md:mt-12">
+        <div className="w-4/5 max-w-[500px] md:mt-12 flex-grow flex items-center">
           {started && (
-            <div>
-              <div className="flex justify-between items-center mb-16 mx-auto">
-                {theTimer}
-                {/* <div
+            <div className="w-full">
+              {/* <div className="flex justify-between items-center mb-16 mx-auto">
+                <div
                   className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
-                ></div> */}
-              </div>
+                  ></div>
+              </div> */}
               {/* {mainGrid} */}
-              <div className=" border border-white py-8 overflow-y-hidden">
-                <MainGrid gridDetails={[color_2x2_bg, 4, 4]} />
-                <MainGrid gridDetails={[color_3x3_bg, 9, 7]} />
-                <MainGrid gridDetails={[color_4x4_bg, 16, 13]} />
+              <div className=" border border-white py-8">
+                {theTimer}
+                <div
+                  ref={allGridsRef}
+                  className={`animate-scrollUp duration-[${
+                    totalTime * 1000
+                  }ms] border-2`}
+                >
+                  <MainGrid
+                    gridDetails={[color_2x2_bg, 4, 4]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_3x3_bg, 9, 7]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -275,7 +301,7 @@ const Gameplay = () => {
   );
 };
 
-const MainGrid = ({ gridDetails }) => {
+const MainGrid = ({ gridDetails, totalClicksRef, totalCorrectClicksRef }) => {
   const [gridColorList, totalColorNo, gridColorNo] = gridDetails;
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
@@ -301,22 +327,25 @@ const MainGrid = ({ gridDetails }) => {
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;
+    totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
       gridCorrectClickSoundRef.current.play();
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
         clicksRef.current += 1;
-        // totalCorrectClicksRef.current += 1;
+        totalCorrectClicksRef.current += 1;
       }
     } else {
       // gridWrongClickSoundRef.current.play();
     }
+
+    console.log(totalClicksRef, totalCorrectClicksRef);
   };
 
   return useMemo(() => {
     return (
-      <div className="flex gap-1 animate-scrollUp mb-4">
+      <div className="flex gap-1 mb-4">
         <div
           className={`grid ${gridType} mx-auto gap-1 w-full`}
           ref={mainGridRef}

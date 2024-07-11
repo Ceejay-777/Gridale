@@ -19,7 +19,7 @@ export default {
         },
       },
       animation: {
-        "scrollUp" : "scrollUp 5s linear infinite"
+        "scrollUp" : "scrollUp 30s linear"
       }
     },
     fontFamily: {

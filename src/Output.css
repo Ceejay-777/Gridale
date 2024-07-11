@@ -633,6 +633,14 @@ video {
   margin-top: 2rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -683,6 +691,10 @@ video {
 
 .max-h-\[500px\] {
   max-height: 500px;
+}
+
+.max-h-screen {
+  max-height: 100vh;
 }
 
 .min-h-screen {
@@ -826,7 +838,7 @@ video {
 }
 
 .animate-scrollUp {
-  animation: scrollUp 5s linear infinite;
+  animation: scrollUp 30s linear;
 }
 
 .grid-cols-2 {
@@ -915,6 +927,10 @@ video {
 
 .border {
   border-width: 1px;
+}
+
+.border-2 {
+  border-width: 2px;
 }
 
 .border-\[1px\] {
@@ -1081,6 +1097,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pt-6 {
+  padding-top: 1.5rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1192,6 +1212,10 @@ video {
   margin: 0px;
   box-sizing: border-box;
   font-family: "Space Mono", monospace;
+}
+
+.animate-scrollUp {
+  /* animation-play-state: paused; */
 }
 
 @keyframes scrollUp {

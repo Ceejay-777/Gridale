@@ -15,8 +15,7 @@ const Results = () => {
   const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
   const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (accuracy * 0.2)) 
 
-  let ranking
-  let badge
+  let ranking, badge
 
   if (rank) {
     if (rank <= 20) {

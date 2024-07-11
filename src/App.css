@@ -9,6 +9,10 @@
   font-family: "Space Mono", monospace;
 }
 
+.animate-scrollUp {
+    /* animation-play-state: paused; */
+}
+
 @keyframes scrollUp {
     from {
         transform: translateY(100%);
