@@ -923,16 +923,6 @@ video {
   border-width: 1px;
 }
 
-.border-green-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(34 197 94 / var(--tw-border-opacity));
-}
-
-.border-red-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(220 38 38 / var(--tw-border-opacity));
-}
-
 .border-slate-500 {
   --tw-border-opacity: 1;
   border-color: rgb(100 116 139 / var(--tw-border-opacity));
@@ -1215,7 +1205,7 @@ video {
 }
 
 .scrollUp {
-  animation: scrollUp 10s linear;
+  animation: scrollUp 30s linear;
 }
 
 @keyframes scrollUp {
@@ -1224,7 +1214,7 @@ video {
   }
 
   to {
-    transform: translateY(calc(-945px));
+    transform: translateY(calc(-100% + 555px));
   }
 }
 

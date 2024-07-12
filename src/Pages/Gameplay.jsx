@@ -145,7 +145,7 @@ const Gameplay = () => {
   useEffect(() => {
     if (started) {
       timerRef.current = setTimeout(() => {
-        // navigate("/result");
+        navigate("/result");
       }, currentTimerTime * 1000);
       // console.log(allGridsRef.current.clientHeight);
       setAnimationSpeed(`(allGridsRef.current.clientHeight / totalTime)`);
@@ -267,6 +267,71 @@ const Gameplay = () => {
                 ref={allGridsParentRef}
               >
                 <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
+                  <MainGrid
+                    gridDetails={[color_2x2_bg, 4, 4]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_3x3_bg, 9, 7]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_2x2_bg, 4, 4]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_3x3_bg, 9, 7]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_2x2_bg, 4, 4]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_3x3_bg, 9, 7]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_2x2_bg, 4, 4]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_3x3_bg, 9, 7]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
+                  <MainGrid
+                    gridDetails={[color_4x4_bg, 16, 13]}
+                    totalClicksRef={totalClicksRef}
+                    totalCorrectClicksRef={totalCorrectClicksRef}
+                  />
                   <MainGrid
                     gridDetails={[color_2x2_bg, 4, 4]}
                     totalClicksRef={totalClicksRef}
