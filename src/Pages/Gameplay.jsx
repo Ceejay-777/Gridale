@@ -50,6 +50,7 @@ const Gameplay = () => {
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
   const allGridsRef = useRef();
+  const allGridsParentRef = useRef();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -146,7 +147,7 @@ const Gameplay = () => {
       timerRef.current = setTimeout(() => {
         // navigate("/result");
       }, currentTimerTime * 1000);
-      console.log(allGridsRef.current.clientHeight);
+      // console.log(allGridsRef.current.clientHeight);
       setAnimationSpeed(`(allGridsRef.current.clientHeight / totalTime)`);
     }
 
@@ -159,7 +160,7 @@ const Gameplay = () => {
 
   const theTimer = useMemo(() => {
     return (
-      <div className="border-2 border-white">
+      <div className="mb-6">
         <Timer isPaused={isPaused} />
       </div>
     );
@@ -167,7 +168,7 @@ const Gameplay = () => {
 
   const mainGrid = useMemo(() => {
     return (
-      <div className=" border border-white py-8 overflow-y-hidden">
+      <div className=" border border-white py-8">
         <div className={`flex gap-1`}>
           <div
             className={`grid ${gridType} mx-auto gap-1 w-full`}
@@ -193,7 +194,7 @@ const Gameplay = () => {
   }, [randomColors, gridType]);
 
   return (
-    <div className="">
+    <>
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
@@ -201,8 +202,8 @@ const Gameplay = () => {
           onSet={() => navigate("/settings")}
         />
       )}
-      <div className="flex items-center flex-col justify-between max-h-screen h-screen border-2 border-white pt-6 overflow-y-hidden">
-        <div className="w-full flex justify-center items-center mb-8">
+      <div className="flex items-center flex-col justify-between max-h-screen h-screen pt-6">
+        <div className="w-full flex justify-center items-center mb-12">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
@@ -257,23 +258,15 @@ const Gameplay = () => {
           </div>
         </div>
 
-        <div className="w-4/5 max-w-[500px] md:mt-12 flex-grow flex items-center">
+        <div className="w-4/5 max-w-[500px] md:mt-12 flex items-center flex-[1]">
           {started && (
-            <div className="w-full">
-              {/* <div className="flex justify-between items-center mb-16 mx-auto">
-                <div
-                  className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
-                  ></div>
-              </div> */}
-              {/* {mainGrid} */}
-              <div className=" border border-white py-8">
-                {theTimer}
-                <div
-                  ref={allGridsRef}
-                  className={`animate-scrollUp duration-[${
-                    totalTime * 1000
-                  }ms] border-2`}
-                >
+            <div className=" w-full h-full flex flex-col">
+              {theTimer}
+              <div
+                className="overflow-y-hidden flex-[1] relative"
+                ref={allGridsParentRef}
+              >
+                <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
                   <MainGrid
                     gridDetails={[color_2x2_bg, 4, 4]}
                     totalClicksRef={totalClicksRef}
@@ -297,7 +290,7 @@ const Gameplay = () => {
           {started || startComp}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

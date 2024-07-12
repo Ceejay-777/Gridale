@@ -14,12 +14,12 @@ export default {
     extend: {
       keyframes: {
         scrollUp: {
-          "0%": { transform: "translateY(100%)" },
-          "100%": { transform: "translateY(-100%)" },
+          "0%": { transform: "translateY(24px)" },
+          "100%": { transform: `translateY(100%)` },
         },
       },
       animation: {
-        "scrollUp" : "scrollUp 30s linear"
+        "scrollUp" : "scrollUp 10s linear"
       }
     },
     fontFamily: {
