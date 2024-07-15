@@ -7,6 +7,7 @@ import {
   color_3x3_bg,
   color_4x4_bg,
   generateRandomColors,
+  shuffle,
 } from "../gridGenerate";
 import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
@@ -41,7 +42,6 @@ const Gameplay = () => {
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
   const [started, setStarted] = useState(false);
-  const [animationSpeed, setAnimationSpeed] = useState();
   const clicksRef = useRef(0);
   const timerRef = useRef();
   const mainGridRef = useRef();
@@ -50,6 +50,7 @@ const Gameplay = () => {
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
   const allGridsRef = useRef();
+  const [animationSpeed, setAnimationSpeed] = useState();
   const allGridsParentRef = useRef();
 
   const [randomColors, primaryColor] = randomColorsList;
@@ -135,20 +136,11 @@ const Gameplay = () => {
   }, []);
 
   useEffect(() => {
-    if (randomColorsList[0].length === 4) {
-      setGridType("grid-cols-2");
-    } else if (randomColorsList[0].length === 9) {
-      setGridType("grid-cols-3");
-    } else if (randomColorsList[0].length === 16) setGridType("grid-cols-4");
-  }, [randomColorsList]);
-
-  useEffect(() => {
     if (started) {
       timerRef.current = setTimeout(() => {
-        navigate("/result");
+        // navigate("/result");
       }, currentTimerTime * 1000);
       // console.log(allGridsRef.current.clientHeight);
-      setAnimationSpeed(`(allGridsRef.current.clientHeight / totalTime)`);
     }
 
     if (isPaused) {
@@ -160,8 +152,14 @@ const Gameplay = () => {
 
   const theTimer = useMemo(() => {
     return (
-      <div className="mb-6">
+      <div className="mb-6 border flex justify-between relative">
         <Timer isPaused={isPaused} />
+        <button
+          className="bg-red-500 rounded-lg p-1 hover:scale-105"
+          onClick={() => addGrid(color_4x4_bg)}
+        >
+          Add grids
+        </button>
       </div>
     );
   }, [isPaused]);
@@ -193,6 +191,52 @@ const Gameplay = () => {
     );
   }, [randomColors, gridType]);
 
+  const [gridsList, setGridsList] = useState([
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+    color_2x2_bg,
+    color_3x3_bg,
+    color_4x4_bg,
+  ]);
+
+  useEffect(() => {
+    if (started) {
+      console.log(allGridsRef.current.clientHeight)
+      setAnimationSpeed(allGridsRef.current.clientHeight / 30);
+    }
+  }, [started]);
+
+  useEffect(() => {
+    const adjustAnimationDuration = () => {
+      const container = allGridsRef.current;
+      if (container && animationSpeed) {
+        const totalHeight = container.scrollHeight;
+        const duration = totalHeight / animationSpeed; // Adjust the duration based on height
+        console.log(duration);
+        container.style.animationDuration = `${duration}s`;
+      }
+    };
+
+    adjustAnimationDuration();
+  }, [gridsList]);
+
+  const addGrid = () => {
+    setGridsList((prevList) => [...prevList, color_2x2_bg]);
+  };
+
   return (
     <>
       {isPaused && (
@@ -207,6 +251,7 @@ const Gameplay = () => {
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
+
           <h1
             className={
               "text-black dark:text-white capitalize font-bold text-sm md:text-xl"
@@ -260,93 +305,23 @@ const Gameplay = () => {
 
         <div className="w-4/5 max-w-[500px] md:mt-12 flex items-center flex-[1]">
           {started && (
-            <div className=" w-full h-full flex flex-col">
+            <div className="w-full h-full flex flex-col">
               {theTimer}
               <div
-                className="overflow-y-hidden flex-[1] relative"
+                className="flex-[1] relative overflow-y-hidden"
                 ref={allGridsParentRef}
               >
                 <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
-                  <MainGrid
-                    gridDetails={[color_2x2_bg, 4, 4]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_3x3_bg, 9, 7]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_2x2_bg, 4, 4]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_3x3_bg, 9, 7]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_2x2_bg, 4, 4]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_3x3_bg, 9, 7]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_2x2_bg, 4, 4]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_3x3_bg, 9, 7]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_2x2_bg, 4, 4]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_3x3_bg, 9, 7]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
-                  <MainGrid
-                    gridDetails={[color_4x4_bg, 16, 13]}
-                    totalClicksRef={totalClicksRef}
-                    totalCorrectClicksRef={totalCorrectClicksRef}
-                  />
+                  {gridsList.map((grid, id) => {
+                    return (
+                      <MainGrid
+                        gridColorList={grid}
+                        totalClicksRef={totalClicksRef}
+                        totalCorrectClicksRef={totalCorrectClicksRef}
+                        key={id}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -359,29 +334,34 @@ const Gameplay = () => {
   );
 };
 
-const MainGrid = ({ gridDetails, totalClicksRef, totalCorrectClicksRef }) => {
-  const [gridColorList, totalColorNo, gridColorNo] = gridDetails;
+const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
   const { gridCorrectClickSoundRef } = useGridSettings();
-  let gridType;
+  let gridType, totalColorNo, gridColorNo;
+
+  switch (gridColorList) {
+    case color_2x2_bg:
+      gridType = "grid-cols-2";
+      totalColorNo = 4;
+      gridColorNo = 4;
+      break;
+    case color_3x3_bg:
+      gridType = "grid-cols-3";
+      totalColorNo = 9;
+      gridColorNo = 7;
+      break;
+    default:
+      gridType = "grid-cols-4";
+      totalColorNo = 16;
+      gridColorNo = 13;
+  }
 
   const [randomColorsList, setRandomColorsList] = useState(
     generateRandomColors(gridColorList, totalColorNo, gridColorNo)
   );
 
   const [randomColors, primaryColor] = randomColorsList;
-
-  switch (gridColorList) {
-    case color_2x2_bg:
-      gridType = "grid-cols-2";
-      break;
-    case color_3x3_bg:
-      gridType = "grid-cols-3";
-      break;
-    default:
-      gridType = "grid-cols-4";
-  }
 
   const handleGridClick = (event) => {
     const thisClasslist = event.currentTarget.classList;

@@ -1,3 +1,11 @@
+export const shuffle = (list) => {
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  return list
+};
+
 export const color_2x2_bg = [
   "bg-red-600",
   "bg-yellow-400",
@@ -38,12 +46,6 @@ export const color_4x4_bg = [
   "bg-orange-300",
 ];
 
-export const shuffle = (list) => {
-  for (let i = list.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [list[i], list[j]] = [list[j], list[i]];
-  }
-};
 
 export const getRandomIndex = (totalColorNo, gridColorNo) => {
   const possibleInts = Array.from({ length: totalColorNo }, (_, i) => i);
