@@ -45,13 +45,13 @@ const Gameplay = () => {
   const clicksRef = useRef(0);
   const timerRef = useRef();
   const mainGridRef = useRef();
-  const gridsCountRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
+  const gridsCountRef = useRef(0);
   const allGridsRef = useRef();
-  const [animationSpeed, setAnimationSpeed] = useState();
   const allGridsParentRef = useRef();
+  const [animationSpeed, setAnimationSpeed] = useState();
 
   const [randomColors, primaryColor] = randomColorsList;
 
@@ -104,7 +104,7 @@ const Gameplay = () => {
   };
 
   const startComp = (
-    <div className="flex flex-col items-center gap-8 border-2 w-full">
+    <div className="flex flex-col items-center gap-8 w-full">
       <Loading />
       <MainButton
         background="bg-red-600"
@@ -140,7 +140,6 @@ const Gameplay = () => {
       timerRef.current = setTimeout(() => {
         // navigate("/result");
       }, currentTimerTime * 1000);
-      // console.log(allGridsRef.current.clientHeight);
     }
 
     if (isPaused) {
@@ -154,12 +153,26 @@ const Gameplay = () => {
     return (
       <div className="mb-6 border flex justify-between relative">
         <Timer isPaused={isPaused} />
-        <button
-          className="bg-red-500 rounded-lg p-1 hover:scale-105"
-          onClick={() => addGrid(color_4x4_bg)}
-        >
-          Add grids
-        </button>
+        <div className="flex gap-2">
+          <button
+            className="bg-red-500 w-8 h-8 rounded-lg p-1 hover:scale-105"
+            onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed *= 1.5))}
+          >
+            +
+          </button>
+          <button
+            className="bg-red-500 rounded-lg p-1 w-8 h-8 hover:scale-105"
+            onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed /= 1.5))}
+          >
+            -
+          </button>
+          <button
+            className="bg-red-500 rounded-lg p-1 hover:scale-105"
+            onClick={() => addGrid(color_4x4_bg)}
+          >
+            Add grids
+          </button>
+        </div>
       </div>
     );
   }, [isPaused]);
@@ -214,8 +227,7 @@ const Gameplay = () => {
 
   useEffect(() => {
     if (started) {
-      console.log(allGridsRef.current.clientHeight)
-      setAnimationSpeed(allGridsRef.current.clientHeight / 30);
+      setAnimationSpeed(allGridsRef.current.clientHeight / 30)
     }
   }, [started]);
 
@@ -225,13 +237,13 @@ const Gameplay = () => {
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
         const duration = totalHeight / animationSpeed; // Adjust the duration based on height
-        console.log(duration);
+        console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
     };
 
     adjustAnimationDuration();
-  }, [gridsList]);
+  }, [gridsList, animationSpeed]);
 
   const addGrid = () => {
     setGridsList((prevList) => [...prevList, color_2x2_bg]);
