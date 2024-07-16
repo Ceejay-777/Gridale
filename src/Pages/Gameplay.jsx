@@ -151,9 +151,9 @@ const Gameplay = () => {
 
   const theTimer = useMemo(() => {
     return (
-      <div className="mb-6 border flex justify-between relative">
+      <div className="mb-6 flex justify-between relative">
         <Timer isPaused={isPaused} />
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <button
             className="bg-red-500 w-8 h-8 rounded-lg p-1 hover:scale-105"
             onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed *= 1.5))}
@@ -172,7 +172,7 @@ const Gameplay = () => {
           >
             Add grids
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }, [isPaused]);
@@ -206,28 +206,44 @@ const Gameplay = () => {
 
   const [gridsList, setGridsList] = useState([
     color_2x2_bg,
-    color_3x3_bg,
-    color_4x4_bg,
+    color_2x2_bg,
+    color_2x2_bg,
+    color_2x2_bg,
+    color_2x2_bg,
+    color_2x2_bg,
     color_2x2_bg,
     color_3x3_bg,
-    color_4x4_bg,
-    color_2x2_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
+    color_3x3_bg,
     color_3x3_bg,
     color_4x4_bg,
-    color_2x2_bg,
-    color_3x3_bg,
     color_4x4_bg,
-    color_2x2_bg,
-    color_3x3_bg,
     color_4x4_bg,
-    color_2x2_bg,
-    color_3x3_bg,
+    color_4x4_bg,
+    color_4x4_bg,
+    color_4x4_bg,
+    color_4x4_bg,
+    color_4x4_bg,
+    color_4x4_bg,
     color_4x4_bg,
   ]);
 
   useEffect(() => {
     if (started) {
-      setAnimationSpeed(allGridsRef.current.clientHeight / 30)
+      document.documentElement.style.setProperty(
+        "--parentEleheight",
+        `${allGridsParentRef.current.clientHeight}px`
+      );
+      console.log(allGridsParentRef.current.clientHeight);
+      setAnimationSpeed(allGridsRef.current.clientHeight / 60);
     }
   }, [started]);
 
@@ -236,7 +252,7 @@ const Gameplay = () => {
       const container = allGridsRef.current;
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
-        const duration = totalHeight / animationSpeed; // Adjust the duration based on height
+        const duration = totalHeight / animationSpeed; 
         console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
@@ -324,7 +340,7 @@ const Gameplay = () => {
                 ref={allGridsParentRef}
               >
                 <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
-                  {gridsList.map((grid, id) => {
+                  {shuffle(gridsList).map((grid, id) => {
                     return (
                       <MainGrid
                         gridColorList={grid}

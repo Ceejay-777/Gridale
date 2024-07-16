@@ -1235,12 +1235,17 @@ video {
   font-family: "Space Mono", monospace;
 }
 
-.animate-scrollUp {
-  /* animation-play-state: paused; */
+:root {
+  --parentEleheight: 555px;
+  --duration: 60s;
 }
 
+/* .animate-scrollUp {
+    animation-play-state: paused;
+} */
+
 .scrollUp {
-  animation: scrollUp 30s linear;
+  animation: scrollUp var(--duration) linear;
 }
 
 @keyframes scrollUp {
@@ -1249,7 +1254,7 @@ video {
   }
 
   to {
-    transform: translateY(calc(-100% + 555px));
+    transform: translateY(calc(-100% + var(--parentEleheight)));
   }
 }
 

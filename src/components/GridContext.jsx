@@ -17,7 +17,7 @@ export const GridContext = ({ children }) => {
   const [gridColorNo, setGridColorNo] = useLocalStorage("gridColorNo", 4);
   const [totalColorNo, setTotalColorNo] = useLocalStorage("totalColorNo", 4);
   const [gameMode, setGameMode] = useLocalStorage("Game mode", "classic");
-  const [totalTime, setTotalTime] = useLocalStorage("totalTime", 30);
+  const [totalTime, setTotalTime] = useLocalStorage("totalTime", 60);
   const [theme, setTheme] = useLocalStorage("theme", "dark");
   const [gridType, setGridType] = useLocalStorage("gridType", "grid-cols-2");
   const [totalClicks, setTotalClicks] = useState(0);
