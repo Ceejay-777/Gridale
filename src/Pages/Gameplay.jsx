@@ -381,7 +381,7 @@ const Gameplay = () => {
 const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
-  const { gridCorrectClickSoundRef } = useGridSettings();
+  const { gridCorrectClickSoundRef, gridWrongClickSoundRef } = useGridSettings();
   let gridType, totalColorNo, gridColorNo;
 
   switch (gridColorList) {
@@ -408,18 +408,22 @@ const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
   const [randomColors, primaryColor] = randomColorsList;
 
   const handleGridClick = (event) => {
+    event.stopPropagation()
+    console.log(event.currentTarget)
     const thisClasslist = event.currentTarget.classList;
     totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
       event.currentTarget.style.opacity = "0.5";
-      gridCorrectClickSoundRef.current.play();
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
+        gridCorrectClickSoundRef.current.play();
         clicksRef.current += 1;
         totalCorrectClicksRef.current += 1;
+      } else {
+        gridWrongClickSoundRef.current.play();
       }
     } else {
-      // gridWrongClickSoundRef.current.play();
+      gridWrongClickSoundRef.current.play();
     }
 
     console.log(totalClicksRef, totalCorrectClicksRef);
@@ -438,7 +442,7 @@ const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
               <div
                 key={id}
                 className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-                onClick={handleGridClick}
+                onMouseDown={handleGridClick}
               ></div>
             );
           })}
