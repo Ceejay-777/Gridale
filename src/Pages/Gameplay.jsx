@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import { Howl } from "howler";
 import { v4 as uuidv4 } from "uuid";
-
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -16,6 +14,7 @@ import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
+import MainGrid from "../components/MainGrid";
 // import {sound} from "../assets/Sounds/interfaceWav.wav"
 
 const Gameplay = () => {
@@ -48,40 +47,13 @@ const Gameplay = () => {
   const [isPaused, setIsPaused] = useState(false);
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
+  const totalPossibleClicksRef = useRef(0);
   const gridsCountRef = useRef(0);
   const allGridsRef = useRef();
   const allGridsParentRef = useRef();
   const [animationSpeed, setAnimationSpeed] = useState();
 
   const [randomColors, primaryColor] = randomColorsList;
-
-  const handleGridClick = (event) => {
-    const thisClasslist = event.currentTarget.classList;
-    totalClicksRef.current += 1;
-    if (thisClasslist.contains(primaryColor)) {
-      event.currentTarget.style.opacity = "0.5";
-      gridCorrectClickSoundRef.current.play();
-      if (!thisClasslist.contains("clicked")) {
-        thisClasslist.add("clicked");
-        clicksRef.current += 1;
-        totalCorrectClicksRef.current += 1;
-      }
-    } else {
-      gridWrongClickSoundRef.current.play();
-    }
-
-    if (
-      (mainGridRef.current.classList.contains("grid-cols-2") &&
-        clicksRef.current === 1) ||
-      (mainGridRef.current.classList.contains("grid-cols-3") &&
-        clicksRef.current === 3) ||
-      (mainGridRef.current.classList.contains("grid-cols-4") &&
-        clicksRef.current === 4)
-    ) {
-      nextGridSoundRef.current.play();
-      nextGrid();
-    }
-  };
 
   const nextClassicGrid = () => {
     gridsCountRef.current += 1;
@@ -138,14 +110,16 @@ const Gameplay = () => {
   useEffect(() => {
     if (started) {
       timerRef.current = setTimeout(() => {
-        // navigate("/result");
+        navigate("/result");
       }, currentTimerTime * 1000);
+      
+      if (isPaused) {
+        allGridsRef.current.style.animationPlayState = "paused";
+        clearTimeout(timerRef.current);
+      } else {
+        allGridsRef.current.style.animationPlayState = "running";
+      }
     }
-
-    if (isPaused) {
-      clearTimeout(timerRef.current);
-    }
-
     return () => clearTimeout(timerRef.current);
   }, [started, isPaused]);
 
@@ -191,7 +165,7 @@ const Gameplay = () => {
                 <div
                   key={id}
                   className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-                  onClick={handleGridClick}
+                  // onClick={handleGridClick}
                 ></div>
               );
             })}
@@ -258,7 +232,6 @@ const Gameplay = () => {
         "--parentEleheight",
         `${allGridsParentRef.current.clientHeight}px`
       );
-      console.log(allGridsParentRef.current.clientHeight);
       setAnimationSpeed(allGridsRef.current.clientHeight / 60);
     }
   }, [started]);
@@ -268,7 +241,7 @@ const Gameplay = () => {
       const container = allGridsRef.current;
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
-        const duration = totalHeight / animationSpeed; 
+        const duration = totalHeight / animationSpeed;
         console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
@@ -286,7 +259,7 @@ const Gameplay = () => {
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
-          onRestart={() => window.location.reload()} // Work on this
+          onRestart={() => setStarted(false)} // Work on this
           onSet={() => navigate("/settings")}
         />
       )}
@@ -348,7 +321,7 @@ const Gameplay = () => {
         </div>
 
         <div className="w-4/5 max-w-[500px] md:mt-12 flex items-center flex-[1]">
-          {started && (
+          {started ?  (
             <div className="w-full h-full flex flex-col">
               {theTimer}
               <div
@@ -369,90 +342,11 @@ const Gameplay = () => {
                 </div>
               </div>
             </div>
-          )}
-
-          {started || startComp}
+          ) : startComp}
         </div>
       </div>
     </>
   );
-};
-
-const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
-  const mainGridRef = useRef();
-  const clicksRef = useRef(0);
-  const { gridCorrectClickSoundRef, gridWrongClickSoundRef } = useGridSettings();
-  let gridType, totalColorNo, gridColorNo;
-
-  switch (gridColorList) {
-    case color_2x2_bg:
-      gridType = "grid-cols-2";
-      totalColorNo = 4;
-      gridColorNo = 4;
-      break;
-    case color_3x3_bg:
-      gridType = "grid-cols-3";
-      totalColorNo = 9;
-      gridColorNo = 7;
-      break;
-    default:
-      gridType = "grid-cols-4";
-      totalColorNo = 16;
-      gridColorNo = 13;
-  }
-
-  const [randomColorsList, setRandomColorsList] = useState(
-    generateRandomColors(gridColorList, totalColorNo, gridColorNo)
-  );
-
-  const [randomColors, primaryColor] = randomColorsList;
-
-  const handleGridClick = (event) => {
-    event.stopPropagation()
-    console.log(event.currentTarget)
-    const thisClasslist = event.currentTarget.classList;
-    totalClicksRef.current += 1;
-    if (thisClasslist.contains(primaryColor)) {
-      event.currentTarget.style.opacity = "0.5";
-      if (!thisClasslist.contains("clicked")) {
-        thisClasslist.add("clicked");
-        gridCorrectClickSoundRef.current.play();
-        clicksRef.current += 1;
-        totalCorrectClicksRef.current += 1;
-      } else {
-        gridWrongClickSoundRef.current.play();
-      }
-    } else {
-      gridWrongClickSoundRef.current.play();
-    }
-
-    console.log(totalClicksRef, totalCorrectClicksRef);
-  };
-
-  return useMemo(() => {
-    return (
-      <div className="flex gap-1 mb-4">
-        <div
-          className={`grid ${gridType} mx-auto gap-1 w-full`}
-          ref={mainGridRef}
-        >
-          {randomColors.map((color) => {
-            const id = uuidv4();
-            return (
-              <div
-                key={id}
-                className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-                onMouseDown={handleGridClick}
-              ></div>
-            );
-          })}
-        </div>
-        <div
-          className={`${primaryColor}  rounded-lg border-[1px] border-slate-500 w-1/12`}
-        ></div>
-      </div>
-    );
-  }, [randomColors]);
 };
 
 export default Gameplay;

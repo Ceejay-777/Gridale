@@ -59,33 +59,15 @@ export const getRandomColors = (colorsList, randomIndex, gridColorNo) => {
   for (let i = 0; i < gridColorNo; i++) {
     randomColors.push(colorsList[randomIndex[i]]);
   }
-  // console.log(randomColors);
   return randomColors;
 };
 
-// const randomColors = generateRandomColors(
-//   color_bg,
-//   generateRandomIndex(totalColorNo, gridColorNo),
-//   gridColorNo
-// );
-
-// export const primaryColor =
-//   randomColors[Math.floor(Math.random() * gridColorNo)];
-
-// for (let i = 0; i < totalColorNo - gridColorNo; i++) {
-//   randomColors.push(primaryColor);
-// }
-
-// shuffle(randomColors);
-
 export const generateRandomColors = (colorsList, totalColorNo, gridColorNo) => {
-  // const randomIndex = getRandomIndex(totalColorNo, gridColorNo);
   let randomColors = getRandomColors(
     colorsList,
     getRandomIndex(totalColorNo, gridColorNo),
     gridColorNo
   );
-  // console.log(randomColors);
   let primaryColor = randomColors[Math.floor(Math.random() * gridColorNo)];
 
   for (let i = 0; i < totalColorNo - gridColorNo; i++) {
@@ -96,8 +78,23 @@ export const generateRandomColors = (colorsList, totalColorNo, gridColorNo) => {
   return [randomColors, primaryColor];
 };
 
-// export const result = generateRandomColors(color_bg, totalColorNo, gridColorNo);
+export const generateGridslist = (a, b, c) => {
+  let gridslist = []
+  let totalPossibleClicks = 0
+  for (let x=1;  x <= a; x++) {
+    gridslist.push(color_2x2_bg)
+    totalPossibleClicks += 1
+  }
+  for (let x=1;  x <= b; x++) {
+    gridslist.push(color_3x3_bg)
+    totalPossibleClicks += 3
+  }
+  for (let x=1;  x <= c; x++) {
+    gridslist.push(color_4x4_bg)
+    totalPossibleClicks += 4
+  }
 
-// console.log(result);
+  return [gridslist, totalPossibleClicks]
+}
 
-// getRandomIndex(totalColorNo, gridColorNo);
+

@@ -1240,17 +1240,13 @@ video {
   --duration: 60s;
 }
 
-/* .animate-scrollUp {
-    animation-play-state: paused;
-} */
-
 .scrollUp {
   animation: scrollUp var(--duration) linear;
 }
 
 @keyframes scrollUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(calc(var(--parentEleheight) / 2));
   }
 
   to {

@@ -22,6 +22,7 @@ export const GridContext = ({ children }) => {
   const [gridType, setGridType] = useLocalStorage("gridType", "grid-cols-2");
   const [totalClicks, setTotalClicks] = useState(0);
   const [totalCorrectClicks, setTotalCorrectClicks] = useState(0);
+  const [totalPossibleClicks, setTotalPossibleClicks] = useState(0);
   const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
   const [bgSoundPlaying, setBgSoundPlaying] = useState("false");
   const bgSoundRef = useRef(
@@ -120,6 +121,8 @@ export const GridContext = ({ children }) => {
         setCurrentTimerTime,
         totalCorrectClicks,
         setTotalCorrectClicks,
+        totalPossibleClicks,
+        setTotalPossibleClicks,
         bgSoundPlaying,
         setBgSoundPlaying,
         bgSoundRef,
