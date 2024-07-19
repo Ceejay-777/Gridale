@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { useGridSettings } from "../components/GridContext";
-import { color_2x2_bg, color_3x3_bg, color_4x4_bg } from "../gridGenerate";
 import { useNavigate } from "react-router";
 import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 
 const Settings = () => {
-  const navigate = useNavigate();
-
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
 
@@ -23,71 +20,77 @@ const Settings = () => {
       onClick={handleBodyClick}
     >
       <BackButton />
-      <div className="w-4/5 flex flex-col gap-8 text-white dark:text-black">
+      <div className="w-4/5 flex flex-col gap-8 text-white items-center dark:text-black">
         <MainButton
           background=" bg-red-600"
           addStyles="w-full"
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation()
             setOptionsOpen(true);
             setOptionType("mode");
           }}
         >
           Mode
         </MainButton>
-        <MainButton background="bg-yellow-400" addStyles="w-full">
+        <MainButton
+          background="bg-yellow-400"
+          addStyles="w-full"
+          onClick={(event) => {
+            event.stopPropagation()
+            setOptionsOpen(true);
+            setOptionType("soundSettings");
+          }}
+        >
           Sound
         </MainButton>
       </div>
       <div
-        className={`bg-white w-3/5 h-full absolute right-0 top-0 transition-transform duration-200 dark:bg-black ${
+        className={`bg-white w-3/5 h-full absolute right-0 top-0 transition-transform duration-200 dark:bg-black max-w-[600px] ${
           optionsOpen ? "translate-x-[0%]" : "translate-x-[100%]"
         } overflow-y-scroll`}
         onClick={(event) => event.stopPropagation()}
       >
         {optionType === "mode" && <ModeSelect setOptionType={setOptionType} />}
         {optionType === "customSettings" && <CustomSettings />}
+        {optionType === "soundSettings" && <SoundSettings />}
       </div>
     </div>
   );
 };
 
 const ModeSelect = ({ setOptionType }) => {
-  const {
-    setGameMode,
-    setTotalTime,
-    setGridColorList,
-    setGridColorNo,
-    setTotalColorNo,
-    setGridType,
-  } = useGridSettings();
+  const { setGameMode, setTotalTime } = useGridSettings();
 
   return (
-    <div
-      className="w-full min-h-screen flex justify-center items-center text-white dark:text-black"
-    >
-      {" "}
-      <div className="flex flex-col justify-center w-4/5">
+    <div className="w-full min-h-screen flex justify-center items-center text-white dark:text-black">
+      <div className="flex flex-col justify-between items-center gap-6 w-4/5">
         <MainButton
           background="bg-green-600"
+          addStyles={"mb-8"}
           onClick={() => {
             setGameMode("classic");
-            setTotalTime(30);
-            setGridColorList(color_2x2_bg);
-            setGridColorNo(4);
-            setTotalColorNo(4);
-            setGridType("grid-cols-2");
+            setTotalTime(60);
           }}
         >
           Classic
         </MainButton>
         <MainButton
           background="bg-blue-700"
+          addStyles={"mb-8"}
           onClick={() => {
             setGameMode("custom");
             setOptionType("customSettings");
           }}
         >
           Custom
+        </MainButton>
+        <MainButton
+          background="bg-orange-600"
+          onClick={() => {
+            setGameMode("survival");
+          }}
+        >
+          Survival
         </MainButton>
       </div>
     </div>
@@ -104,73 +107,74 @@ const CustomSettings = () => {
   } = useGridSettings();
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center dark:text-white flex-col gap-8 max-w-[350px] mx-auto">
-      <div className="w-full">
-        <h3 className="text-center mb-4">Grid Type</h3>
-        <div className="flex flex-col items-center">
-          <MainButton
-            background=" bg-orange-600"
-            addStyles={"mt-0"}
-            ad
-            onClick={() => {
-              setGridColorList(color_2x2_bg);
-              setTotalColorNo(4);
-              setGridColorNo(4);
-              setGridType("grid-cols-2");
-            }}
-          >
-            2 x 2
-          </MainButton>
-          <MainButton
-            background="bg-green-600"
-            onClick={() => {
-              setGridColorList(color_3x3_bg);
-              setTotalColorNo(9);
-              setGridColorNo(7);
-              setGridType("grid-cols-3");
-            }}
-          >
-            3 x 3
-          </MainButton>
-          <MainButton
-            background="bg-yellow-400"
-            onClick={() => {
-              setGridColorList(color_4x4_bg);
-              setTotalColorNo(16);
-              setGridColorNo(13);
-              setGridType("grid-cols-4");
-            }}
-          >
-            4 x 4
-          </MainButton>
+      <div className="w-full min-h-screen flex justify-center items-center dark:text-white flex-col gap-8 max-w-[350px] mx-auto">
+        <div className="w-full">
+          <h3 className="text-center mb-4">Grid Type</h3>
+          <div className="w-4/5 mx-auto flex flex-col items-center gap-6">
+            <MainButton
+              background=" bg-orange-600"
+              onClick={() => {
+                setGridColorList("grid2");
+              }}
+            >
+              2 x 2
+            </MainButton>
+            <MainButton
+              background="bg-green-600"
+              onClick={() => {
+                setGridColorList("grid3");
+              }}
+            >
+              3 x 3
+            </MainButton>
+            <MainButton
+              background="bg-yellow-400"
+              onClick={() => {
+                setGridColorList("grid4");
+              }}
+            >
+              4 x 4
+            </MainButton>
+          </div>
         </div>
-      </div>
 
-      <div className="w-full">
-        <h3 className="text-center text-black dark:text-white mb-4">
-          Total time
-        </h3>
-        <div className="w-full flex flex-col items-center">
-          <MainButton
-            background="bg-blue-600"
-            addStyles={"mt-0"}
-            onClick={() => setTotalTime(30)}
-          >
-            30 secs
-          </MainButton>
-          <MainButton
-            background="bg-orange-600"
-            onClick={() => setTotalTime(45)}
-          >
-            45 secs
-          </MainButton>
-          <MainButton background="bg-red-600" onClick={() => setTotalTime(60)}>
-            60 secs
-          </MainButton>
+        <div className="w-full">
+          <h3 className="text-center text-black dark:text-white mb-4">
+            Total time
+          </h3>
+          <div className="w-4/5 mx-auto flex flex-col items-center gap-6">
+            <MainButton
+              background="bg-blue-600"
+              onClick={() => setTotalTime(30)}
+            >
+              30 secs
+            </MainButton>
+            <MainButton
+              background="bg-orange-600"
+              onClick={() => setTotalTime(45)}
+            >
+              45 secs
+            </MainButton>
+            <MainButton
+              background="bg-red-600"
+              onClick={() => setTotalTime(60)}
+            >
+              60 secs
+            </MainButton>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
+
+const SoundSettings = () => {
+  return (
+      <div className="w-4/5 flex flex-col gap-8 text-white items-center dark:text-black">
+        <div>
+          <div className="border-2 w-8 h-8 dark:border-white border-black"></div>
+        </div>
+      </div>
+  )
+}
 
 export default Settings;

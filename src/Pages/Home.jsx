@@ -36,7 +36,7 @@ const Home = () => {
             background="bg-red-700"
             onClick={() => navigate("/about")}
           >
-            How to play
+            About
           </MainButton>
         </div>
       </div>

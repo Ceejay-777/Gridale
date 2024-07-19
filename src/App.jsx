@@ -4,7 +4,6 @@ import { useGridSettings } from "./components/GridContext.jsx";
 import Timer from "./components/Timer.jsx";
 import GridaleLogo from "./Loaders/GridaleLogo.jsx";
 import PauseOverlay from "./components/PauseOverlay.jsx";
-import Test from "./Pages/Test.jsx";
 
 const App = () => {
   const backgroundSoundRef = useRef(null);

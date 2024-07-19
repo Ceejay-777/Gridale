@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
 import {
   color_2x2_bg,
   color_3x3_bg,
   color_4x4_bg,
+  generateGridslist,
   generateRandomColors,
   shuffle,
 } from "../gridGenerate";
@@ -15,65 +15,32 @@ import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
 import MainGrid from "../components/MainGrid";
-// import {sound} from "../assets/Sounds/interfaceWav.wav"
 
 const Gameplay = () => {
   const {
     totalTime,
-    gridColorList,
-    totalColorNo,
-    gridColorNo,
-    setGridColorList,
     gameMode,
-    gridType,
-    setGridType,
+    gridColorList,
     currentTimerTime,
     setCurrentTimerTime,
     setTotalClicks,
     setTotalCorrectClicks,
-    gridCorrectClickSoundRef,
-    gridWrongClickSoundRef,
-    nextGridSoundRef,
+    setTotalPossibleClicks,
   } = useGridSettings();
-
+  
   const navigate = useNavigate();
-  const [randomColorsList, setRandomColorsList] = useState(
-    generateRandomColors(gridColorList, totalColorNo, gridColorNo)
-  );
+  // const [gridListInfo, totalPossibleClicksInfo] = generateGridslist(12, 16, 16) 
+  let gridListInfo, totalPossibleClicksInfo;
   const [started, setStarted] = useState(false);
-  const clicksRef = useRef(0);
   const timerRef = useRef();
-  const mainGridRef = useRef();
   const [isPaused, setIsPaused] = useState(false);
+  const [gridsList, setGridsList] = useState();
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
   const totalPossibleClicksRef = useRef(0);
-  const gridsCountRef = useRef(0);
   const allGridsRef = useRef();
   const allGridsParentRef = useRef();
   const [animationSpeed, setAnimationSpeed] = useState();
-
-  const [randomColors, primaryColor] = randomColorsList;
-
-  const nextClassicGrid = () => {
-    gridsCountRef.current += 1;
-    clicksRef.current = 0;
-
-    if (gridsCountRef.current <= 5) {
-      setRandomColorsList(generateRandomColors(color_2x2_bg, 4, 4));
-    } else if (gridsCountRef.current <= 9) {
-      setRandomColorsList(generateRandomColors(color_3x3_bg, 9, 7));
-    } else if (gridsCountRef.current > 8) {
-      setRandomColorsList(generateRandomColors(color_4x4_bg, 16, 13));
-    }
-  };
-
-  const nextCustomGrid = () => {
-    clicksRef.current = 0;
-    setRandomColorsList(
-      generateRandomColors(gridColorList, totalColorNo, gridColorNo)
-    );
-  };
 
   const startComp = (
     <div className="flex flex-col items-center gap-8 w-full">
@@ -97,13 +64,68 @@ const Gameplay = () => {
     </div>
   );
 
-  const nextGrid = gameMode === "classic" ? nextClassicGrid : nextCustomGrid;
+  useEffect(() => {
+    switch (gameMode) {
+      case "classic":
+        [gridListInfo, totalPossibleClicksInfo] = generateGridslist(13, 16, 16)
+        break;
+      case "custom":
+        console.log(gameMode)
+        switch (gridColorList) {
+          case "grid2":
+            console.log(gridColorList)
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(23, 0, 0)
+                 break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(33, 0, 0)
+                 break;
+               case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(45, 0, 0)
+                 break;
+            }
+            break
+          case "grid3":
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 23, 0)
+                 break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 33, 0)
+                 break;
+               case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 45, 0)
+                 break;
+            }
+            break
+          case "grid4":
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 23)
+                 break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 33)
+                 break;
+               case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 45)
+                 break;
+            }
+            break;
+        }
+    }
+    console.log(gridListInfo, totalPossibleClicksInfo)
+    setGridsList(gridListInfo)
+    totalPossibleClicksRef.current = totalPossibleClicksInfo
+
+  }, [gridListInfo, totalPossibleClicksInfo])
 
   useEffect(() => {
     setCurrentTimerTime(totalTime);
     return () => {
       setTotalClicks(totalClicksRef.current);
       setTotalCorrectClicks(totalCorrectClicksRef.current);
+      setTotalPossibleClicks(totalPossibleClicksRef.current)
     };
   }, []);
 
@@ -112,6 +134,12 @@ const Gameplay = () => {
       timerRef.current = setTimeout(() => {
         navigate("/result");
       }, currentTimerTime * 1000);
+
+      document.documentElement.style.setProperty(
+        "--parentEleheight",
+        `${allGridsParentRef.current.clientHeight}px`
+      );
+      setAnimationSpeed(allGridsRef.current.clientHeight / totalTime);
       
       if (isPaused) {
         allGridsRef.current.style.animationPlayState = "paused";
@@ -151,90 +179,6 @@ const Gameplay = () => {
     );
   }, [isPaused]);
 
-  const mainGrid = useMemo(() => {
-    return (
-      <div className=" border border-white py-8">
-        <div className={`flex gap-1`}>
-          <div
-            className={`grid ${gridType} mx-auto gap-1 w-full`}
-            ref={mainGridRef}
-          >
-            {randomColors.map((color) => {
-              const id = uuidv4();
-              return (
-                <div
-                  key={id}
-                  className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-                  // onClick={handleGridClick}
-                ></div>
-              );
-            })}
-          </div>
-          <div
-            className={`${primaryColor}  rounded-lg border-[1px] border-slate-500 w-1/12`}
-          ></div>
-        </div>
-      </div>
-    );
-  }, [randomColors, gridType]);
-
-  const [gridsList, setGridsList] = useState([
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_2x2_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_3x3_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-    color_4x4_bg,
-  ]);
-
-  useEffect(() => {
-    if (started) {
-      document.documentElement.style.setProperty(
-        "--parentEleheight",
-        `${allGridsParentRef.current.clientHeight}px`
-      );
-      setAnimationSpeed(allGridsRef.current.clientHeight / 60);
-    }
-  }, [started]);
 
   useEffect(() => {
     const adjustAnimationDuration = () => {

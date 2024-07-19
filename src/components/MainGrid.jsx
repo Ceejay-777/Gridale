@@ -62,7 +62,10 @@ const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
 
   return useMemo(() => {
     return (
-      <div className="flex gap-1 mb-4">
+      <div className="flex gap-1 mb-2">
+        <div
+          className={`${primaryColor}  border-[1px] border-slate-500 w-[5%] rounded-lg`}
+        ></div>
         <div
           className={`grid ${gridType} mx-auto gap-1 w-full`}
           ref={mainGridRef}
@@ -79,11 +82,10 @@ const MainGrid = ({ gridColorList, totalClicksRef, totalCorrectClicksRef }) => {
           })}
         </div>
         <div
-          className={`${primaryColor}  rounded-lg border-[1px] border-slate-500 w-1/12`}
+          className={`${primaryColor} border-[1px] border-slate-500 w-[5%] rounded-lg`}
         ></div>
       </div>
     );
   }, [randomColors]);
 };
-
 export default MainGrid

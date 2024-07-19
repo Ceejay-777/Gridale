@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Pages/Home.jsx";
 import Settings from "../Pages/Settings.jsx";
 import Results from "../Pages/Results.jsx";
-import Loading from "../Loaders/Loading.jsx";
-import GameCustom from "../Pages/GameCustom.jsx";
 import About from "../Pages/About.jsx";
 import Gameplay from "../Pages/Gameplay.jsx";
 

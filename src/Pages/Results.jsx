@@ -10,32 +10,36 @@ import { senior } from "../assets/Badges/senior.jsx";
 
 const Results = () => {
   const navigate = useNavigate();
-  const {totalClicks, totalCorrectClicks, totalTime} = useGridSettings()
-  const accuracy = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100
-  const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
-  const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (accuracy * 0.2)) 
+  const { totalClicks, totalCorrectClicks, totalTime, totalPossibleClicks } =
+    useGridSettings();
+  const aura = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100;
+  console.log(totalPossibleClicks);
+  // const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
+  const composure =
+    (parseFloat(totalCorrectClicks) / parseFloat(totalPossibleClicks)) * 100;
+  // const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (aura * 0.2))
+  const rank = ((composure * 70) + (aura * 30)) / 100;
 
-  let ranking, badge
+  let ranking, badge;
 
   if (rank) {
     if (rank <= 20) {
-    ranking = "Junior"
-    badge = junior
-  } else if(rank <= 40) {
-    ranking = "Apprentice"
-    badge = apprentice
-  } else if(rank <= 60) {
-    ranking = "Journeyman" 
-    badge = journeyman
-  } else if(rank <= 80) {
-    ranking = "Senior"
-    badge = senior
-  } else {
-    ranking = "Master"
-    badge = master
-  } 
-  } else badge = junior
-  
+      ranking = "Junior";
+      badge = junior;
+    } else if (rank <= 40) {
+      ranking = "Apprentice";
+      badge = apprentice;
+    } else if (rank <= 60) {
+      ranking = "Journeyman";
+      badge = journeyman;
+    } else if (rank <= 80) {
+      ranking = "Senior";
+      badge = senior;
+    } else {
+      ranking = "Master";
+      badge = master;
+    }
+  } else badge = junior;
 
   return (
     <div className="flex justify-center items-center min-h-screen flex-col">
@@ -61,16 +65,14 @@ const Results = () => {
 
       <div className="w-3/5 max-w-[400px]">{badge}</div>
       <div className="w-full p-2 flex flex-col items-center gap-2">
+        <p className="dark:text-white">
+          {`Composure: ${composure ? composure.toFixed(2) + "%" : "0%"}`}
+        </p>
         <p className="dark:text-white ">
-          {`Accuracy: ${accuracy ? accuracy.toFixed(2) + "%" : "0%"}`}
+          {`Aura: ${aura ? aura.toFixed(2) + "%" : "0%"}`}
         </p>
         <p className="dark:text-white">
-          {`Speed: ${
-            speed ? speed.toFixed(2) + " clicks/sec" : "0 clicks/sec"
-          }`}
-        </p>
-        <p className="dark:text-white">
-          {`Rank: ${rank ? " Grid " + ranking : "No rank"}`}
+          {`Rank: ${rank ? " Grid " + ranking : "Nothing for you eje!"}`}
         </p>
         <div className="w-4/5 mt-6 justify-center flex ">
           <MainButton
