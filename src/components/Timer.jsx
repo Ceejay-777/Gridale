@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useGridSettings } from "./GridContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentTime, decrementCurrent } from "../slices/gameSettingsSlice";
 
 const Timer = ({ isPaused }) => {
   const { currentTimerTime, setCurrentTimerTime, timeUpSoundRef } =
     useGridSettings();
-  const [time, setTime] = useState(currentTimerTime);
+
+  const { currentTime } = useSelector((state) => state.gameSettings);
+  const [time, setTime] = useState(currentTime);
   const timerRef = useRef();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (time <= 0) {
@@ -19,7 +25,7 @@ const Timer = ({ isPaused }) => {
     if (!isPaused) {
       timerRef.current = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
-        setCurrentTimerTime((prevTime) => prevTime - 1);
+        dispatch(decrementCurrent);
       }, 1000);
     }
 
@@ -32,7 +38,7 @@ const Timer = ({ isPaused }) => {
   useEffect(() => {
     if (isPaused) {
       console.log("Paused");
-      setCurrentTimerTime(time);
+      dispatch(setCurrentTime(time));
     }
   }, [isPaused]);
 

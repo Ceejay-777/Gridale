@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -6,7 +7,7 @@ import {
   generateGridslist,
   generateRandomColors,
   shuffle,
-} from "../gridGenerate";
+} from "../modules/gridGenerate";
 import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
@@ -15,22 +16,15 @@ import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
 import MainGrid from "../components/MainGrid";
+import { setTotalClicks, setTotalCorrectClicks, setTotalPossibleClicks } from "../slices/gridSlice";
+import { setCurrentTime } from "../slices/gameSettingsSlice";
 
 const Gameplay = () => {
-  const {
-    totalTime,
-    gameMode,
-    gridColorList,
-    currentTimerTime,
-    setCurrentTimerTime,
-    setTotalClicks,
-    setTotalCorrectClicks,
-    setTotalPossibleClicks,
-  } = useGridSettings();
-  
+  const {gridType} = useSelector((state) => state.grid)
+  const {totalTime, gameMode, currentTime} = useSelector((state) => state.gameSettings)
+
   const navigate = useNavigate();
-  // const [gridListInfo, totalPossibleClicksInfo] = generateGridslist(12, 16, 16) 
-  let gridListInfo, totalPossibleClicksInfo;
+  const dispatch = useDispatch()
   const [started, setStarted] = useState(false);
   const timerRef = useRef();
   const [isPaused, setIsPaused] = useState(false);
@@ -42,6 +36,8 @@ const Gameplay = () => {
   const allGridsParentRef = useRef();
   const [animationSpeed, setAnimationSpeed] = useState();
 
+  let gridListInfo, totalPossibleClicksInfo;
+  
   const startComp = (
     <div className="flex flex-col items-center gap-8 w-full">
       <Loading />
@@ -67,65 +63,97 @@ const Gameplay = () => {
   useEffect(() => {
     switch (gameMode) {
       case "classic":
-        [gridListInfo, totalPossibleClicksInfo] = generateGridslist(13, 16, 16)
+        [gridListInfo, totalPossibleClicksInfo] = generateGridslist(13, 16, 16);
         break;
       case "custom":
-        console.log(gameMode)
-        switch (gridColorList) {
+        switch (gridType) {
           case "grid2":
-            console.log(gridColorList)
             switch (totalTime) {
               case 30:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(23, 0, 0)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  23,
+                  0,
+                  0
+                );
+                break;
               case 45:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(33, 0, 0)
-                 break;
-               case 60:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(45, 0, 0)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  33,
+                  0,
+                  0
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  45,
+                  0,
+                  0
+                );
+                break;
             }
-            break
+            break;
           case "grid3":
             switch (totalTime) {
               case 30:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 23, 0)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  23,
+                  0
+                );
+                break;
               case 45:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 33, 0)
-                 break;
-               case 60:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 45, 0)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  33,
+                  0
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  45,
+                  0
+                );
+                break;
             }
-            break
+            break;
           case "grid4":
             switch (totalTime) {
               case 30:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 23)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  23
+                );
+                break;
               case 45:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 33)
-                 break;
-               case 60:
-                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(0, 0, 45)
-                 break;
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  33
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  45
+                );
+                break;
             }
             break;
         }
     }
-    console.log(gridListInfo, totalPossibleClicksInfo)
-    setGridsList(gridListInfo)
-    totalPossibleClicksRef.current = totalPossibleClicksInfo
-
-  }, [gridListInfo, totalPossibleClicksInfo])
+    setGridsList(gridListInfo);
+    totalPossibleClicksRef.current = totalPossibleClicksInfo;
+  }, [gridListInfo, totalPossibleClicksInfo]);
 
   useEffect(() => {
-    setCurrentTimerTime(totalTime);
+    dispatch(setCurrentTime(totalTime));
     return () => {
-      setTotalClicks(totalClicksRef.current);
-      setTotalCorrectClicks(totalCorrectClicksRef.current);
-      setTotalPossibleClicks(totalPossibleClicksRef.current)
+      dispatch(setTotalClicks(totalClicksRef.current));
+      dispatch(setTotalCorrectClicks(totalCorrectClicksRef.current));
+      dispatch(setTotalPossibleClicks(totalPossibleClicksRef.current));
     };
   }, []);
 
@@ -133,14 +161,14 @@ const Gameplay = () => {
     if (started) {
       timerRef.current = setTimeout(() => {
         navigate("/result");
-      }, currentTimerTime * 1000);
+      }, currentTime * 1000);
 
       document.documentElement.style.setProperty(
         "--parentEleheight",
         `${allGridsParentRef.current.clientHeight}px`
       );
       setAnimationSpeed(allGridsRef.current.clientHeight / totalTime);
-      
+
       if (isPaused) {
         allGridsRef.current.style.animationPlayState = "paused";
         clearTimeout(timerRef.current);
@@ -178,7 +206,6 @@ const Gameplay = () => {
       </div>
     );
   }, [isPaused]);
-
 
   useEffect(() => {
     const adjustAnimationDuration = () => {
@@ -265,7 +292,7 @@ const Gameplay = () => {
         </div>
 
         <div className="w-4/5 max-w-[500px] md:mt-12 flex items-center flex-[1]">
-          {started ?  (
+          {started ? (
             <div className="w-full h-full flex flex-col">
               {theTimer}
               <div
@@ -276,7 +303,7 @@ const Gameplay = () => {
                   {shuffle(gridsList).map((grid, id) => {
                     return (
                       <MainGrid
-                        gridColorList={grid}
+                        gridType={grid}
                         totalClicksRef={totalClicksRef}
                         totalCorrectClicksRef={totalCorrectClicksRef}
                         key={id}
@@ -286,7 +313,9 @@ const Gameplay = () => {
                 </div>
               </div>
             </div>
-          ) : startComp}
+          ) : (
+            startComp
+          )}
         </div>
       </div>
     </>

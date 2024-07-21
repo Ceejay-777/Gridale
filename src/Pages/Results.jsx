@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import MainButton from "../components/MainButton";
 import { useNavigate } from "react-router";
-import { useGridSettings } from "../components/GridContext";
 import { apprentice } from "../assets/Badges/apprentice.jsx";
 import { junior } from "../assets/Badges/junior.jsx";
 import { journeyman } from "../assets/Badges/journeyman.jsx";
@@ -10,10 +10,8 @@ import { senior } from "../assets/Badges/senior.jsx";
 
 const Results = () => {
   const navigate = useNavigate();
-  const { totalClicks, totalCorrectClicks, totalTime, totalPossibleClicks } =
-    useGridSettings();
+  const {totalClicks, totalCorrectClicks, totalPossibleClicks} = useSelector((state) => state.grid)
   const aura = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100;
-  console.log(totalPossibleClicks);
   // const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
   const composure =
     (parseFloat(totalCorrectClicks) / parseFloat(totalPossibleClicks)) * 100;

@@ -5,24 +5,22 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { color_2x2_bg } from "../gridGenerate";
-import useLocalStorage from "./useLS";
+import { color_2x2_bg } from "../modules/gridGenerate";
+import useSessionStorage from "../modules/useSessionStorage";
 import { Howl } from "howler";
 const gridSettings = createContext();
 
 export const GridContext = ({ children }) => {
-  const [gridColorList, setGridColorList] = useLocalStorage(
-    "gridColorList",
-    "grid2"
-  );
-  const [gridColorNo, setGridColorNo] = useLocalStorage("gridColorNo", 4);
-  const [totalColorNo, setTotalColorNo] = useLocalStorage("totalColorNo", 4);
-  const [gameMode, setGameMode] = useLocalStorage("Game mode", "classic");
-  const [totalTime, setTotalTime] = useLocalStorage("totalTime", 60);
-  const [theme, setTheme] = useLocalStorage("theme", "dark");
-  const [totalClicks, setTotalClicks] = useState(0);
-  const [totalCorrectClicks, setTotalCorrectClicks] = useState(0);
-  const [totalPossibleClicks, setTotalPossibleClicks] = useState(124);
+  // const [gridColorList, setGridColorList] = useSessionStorage(
+  //   "gridColorList",
+  //   "grid2"
+  // );
+  const [gameMode, setGameMode] = useSessionStorage("gameMode", "classic");
+  const [totalTime, setTotalTime] = useSessionStorage("totalTime", 60);
+  const [theme, setTheme] = useSessionStorage("theme", "dark");
+  // const [totalClicks, setTotalClicks] = useState(0);
+  // const [totalCorrectClicks, setTotalCorrectClicks] = useState(0);
+  // const [totalPossibleClicks, setTotalPossibleClicks] = useState(0);
   const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
   const [bgSoundPlaying, setBgSoundPlaying] = useState("false");
   const bgSoundRef = useRef(
@@ -81,19 +79,6 @@ export const GridContext = ({ children }) => {
     })
   );
 
-  useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(theme));
-
-    const bodyClasses = document.body.classList;
-
-    if (bodyClasses.contains("dark")) {
-      bodyClasses.remove("dark");
-    } else if (bodyClasses.contains("light")) {
-      bodyClasses.remove("light");
-    }
-    bodyClasses.add(theme);
-  }, [theme]);
-
   // useEffect(() => {
   //   return (() => Howler.stop())
   // }, [])
@@ -101,26 +86,22 @@ export const GridContext = ({ children }) => {
   return (
     <gridSettings.Provider
       value={{
-        gridColorList,
-        setGridColorList,
-        gridColorNo,
-        setGridColorNo,
-        totalColorNo,
-        setTotalColorNo,
+        // gridColorList,
+        // setGridColorList,
         gameMode,
         setGameMode,
         totalTime,
         setTotalTime,
         theme,
         setTheme,
-        totalClicks,
-        setTotalClicks,
+        // totalClicks,
+        // setTotalClicks,
         currentTimerTime,
         setCurrentTimerTime,
-        totalCorrectClicks,
-        setTotalCorrectClicks,
-        totalPossibleClicks,
-        setTotalPossibleClicks,
+        // totalCorrectClicks,
+        // setTotalCorrectClicks,
+        // totalPossibleClicks,
+        // setTotalPossibleClicks,
         bgSoundPlaying,
         setBgSoundPlaying,
         bgSoundRef,

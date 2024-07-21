@@ -82,15 +82,15 @@ export const generateGridslist = (a, b, c) => {
   let gridslist = []
   let totalPossibleClicks = 0
   for (let x=1;  x <= a; x++) {
-    gridslist.push(color_2x2_bg)
+    gridslist.push("grid2")
     totalPossibleClicks += 1
   }
   for (let x=1;  x <= b; x++) {
-    gridslist.push(color_3x3_bg)
+    gridslist.push("grid3")
     totalPossibleClicks += 3
   }
   for (let x=1;  x <= c; x++) {
-    gridslist.push(color_4x4_bg)
+    gridslist.push("grid4")
     totalPossibleClicks += 4
   }
 
