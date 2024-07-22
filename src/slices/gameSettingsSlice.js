@@ -31,7 +31,7 @@ const gameSettingsSlice = createSlice({
       state.currentTime = action.payload;
     },
     decrementCurrent: (state) => {
-        state.currentTime -= 1
+        state.currentTime -= 0.1
     }
   },
 });

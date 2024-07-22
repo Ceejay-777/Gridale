@@ -159,6 +159,7 @@ const Gameplay = () => {
 
   useEffect(() => {
     if (started) {
+      console.log(currentTime)
       timerRef.current = setTimeout(() => {
         navigate("/result");
       }, currentTime * 1000);
@@ -300,16 +301,17 @@ const Gameplay = () => {
                 ref={allGridsParentRef}
               >
                 <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
-                  {shuffle(gridsList).map((grid, id) => {
+                  {shuffle(gridsList).map((gridType, id) => {
                     return (
                       <MainGrid
-                        gridType={grid}
+                        gridType={gridType}
                         totalClicksRef={totalClicksRef}
                         totalCorrectClicksRef={totalCorrectClicksRef}
                         key={id}
                       />
                     );
                   })}
+                <p className="text-center text-white">All done</p>
                 </div>
               </div>
             </div>

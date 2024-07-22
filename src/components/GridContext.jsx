@@ -15,13 +15,13 @@ export const GridContext = ({ children }) => {
   //   "gridColorList",
   //   "grid2"
   // );
-  const [gameMode, setGameMode] = useSessionStorage("gameMode", "classic");
-  const [totalTime, setTotalTime] = useSessionStorage("totalTime", 60);
-  const [theme, setTheme] = useSessionStorage("theme", "dark");
+  // const [gameMode, setGameMode] = useSessionStorage("gameMode", "classic");
+  // const [totalTime, setTotalTime] = useSessionStorage("totalTime", 60);
+  // const [theme, setTheme] = useSessionStorage("theme", "dark");
   // const [totalClicks, setTotalClicks] = useState(0);
   // const [totalCorrectClicks, setTotalCorrectClicks] = useState(0);
   // const [totalPossibleClicks, setTotalPossibleClicks] = useState(0);
-  const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
+  // const [currentTimerTime, setCurrentTimerTime] = useState(totalTime);
   const [bgSoundPlaying, setBgSoundPlaying] = useState("false");
   const bgSoundRef = useRef(
     new Howl({
@@ -88,16 +88,16 @@ export const GridContext = ({ children }) => {
       value={{
         // gridColorList,
         // setGridColorList,
-        gameMode,
-        setGameMode,
-        totalTime,
-        setTotalTime,
-        theme,
-        setTheme,
+        // gameMode,
+        // setGameMode,
+        // totalTime,
+        // setTotalTime,
+        // theme,
+        // setTheme,
         // totalClicks,
         // setTotalClicks,
-        currentTimerTime,
-        setCurrentTimerTime,
+        // currentTimerTime,
+        // setCurrentTimerTime,
         // totalCorrectClicks,
         // setTotalCorrectClicks,
         // totalPossibleClicks,

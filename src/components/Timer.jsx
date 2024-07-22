@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTime, decrementCurrent } from "../slices/gameSettingsSlice";
 
 const Timer = ({ isPaused }) => {
-  const { currentTimerTime, setCurrentTimerTime, timeUpSoundRef } =
+  const { timeUpSoundRef } =
     useGridSettings();
 
   const { currentTime } = useSelector((state) => state.gameSettings);
@@ -24,9 +24,9 @@ const Timer = ({ isPaused }) => {
 
     if (!isPaused) {
       timerRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-        dispatch(decrementCurrent);
-      }, 1000);
+        setTime((prevTime) => prevTime - 0.1);
+        dispatch(decrementCurrent());
+      }, 100);
     }
 
     return () => {

@@ -1,5 +1,4 @@
 import React, { useMemo, useRef, useState } from "react";
-import { useGridSettings } from "./GridContext";
 import {
   color_2x2_bg,
   color_3x3_bg,
@@ -8,12 +7,11 @@ import {
   shuffle,
 } from "../modules/gridGenerate";
 import { v4 as uuidv4 } from "uuid";
+import { correctClickSound, wrongClickSound } from "../modules/soundManager";
 
 const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
-  const { gridCorrectClickSoundRef, gridWrongClickSoundRef } =
-    useGridSettings();
   let gridLayout, totalColorNo, gridColorNo, grid;
 
   switch (gridType) {
@@ -50,17 +48,15 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
       event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
-        gridCorrectClickSoundRef.current.play();
+        correctClickSound.play()
         clicksRef.current += 1;
         totalCorrectClicksRef.current += 1;
       } else {
-        gridWrongClickSoundRef.current.play();
+        wrongClickSound.play();
       }
     } else {
-      gridWrongClickSoundRef.current.play();
+      wrongClickSound.play();
     }
-
-    console.log(totalClicksRef, totalCorrectClicksRef);
   };
 
   return useMemo(() => {
