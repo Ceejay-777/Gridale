@@ -98,3 +98,10 @@ export const muteAllSounds = () => {
 export const unmuteAllSounds = () => {
   sounds.forEach((sound) => sound.mute(false));
 };
+
+export const playSound = (sound, bool) => {
+  console.log(bool)
+  if (bool) {
+    sound.play()
+  }
+}

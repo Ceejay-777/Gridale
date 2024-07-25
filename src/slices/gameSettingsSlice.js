@@ -9,7 +9,7 @@ const initialState = {
   gameMode: getSessionStorage("gameMode", "classic"),
   theme: getSessionStorage("theme", "dark"),
   totalTime: getSessionStorage("totalTime", 60),
-  bgSoundPlaying: getSessionStorage("bgSoundPlaying", bgSound.playing()),
+  bgSoundPlaying: getSessionStorage("bgSoundPlaying", false),
   soundsPlaying: getSessionStorage("soundsPlaying", true),
   currentTime: 60,
 };
@@ -49,4 +49,5 @@ const gameSettingsSlice = createSlice({
 
 export const { setGameMode, setTheme, setTotalTime, setCurrentTime, decrementCurrent, setBgSoundPlaying, setSoundsPlaying } =
   gameSettingsSlice.actions;
+export const allgameSettings = (state) => state.gameSettings
 export default gameSettingsSlice.reducer;

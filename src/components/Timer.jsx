@@ -1,12 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useGridSettings } from "./GridContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTime, decrementCurrent } from "../slices/gameSettingsSlice";
 
 const Timer = ({ isPaused }) => {
-  const { timeUpSoundRef } =
-    useGridSettings();
-
   const { currentTime } = useSelector((state) => state.gameSettings);
   const [time, setTime] = useState(currentTime);
   const timerRef = useRef();

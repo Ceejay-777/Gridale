@@ -2,13 +2,9 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   color_2x2_bg,
-  color_3x3_bg,
-  color_4x4_bg,
   generateGridslist,
-  generateRandomColors,
   shuffle,
 } from "../modules/gridGenerate";
-import { useGridSettings } from "../components/GridContext";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
 import Timer from "../components/Timer";
@@ -21,14 +17,12 @@ import {
   setTotalCorrectClicks,
   setTotalPossibleClicks,
 } from "../slices/gridSlice";
-import { setCurrentTime } from "../slices/gameSettingsSlice";
-import { buttonClickSound, nextGridSound } from "../modules/soundManager";
+import { allgameSettings, setCurrentTime } from "../slices/gameSettingsSlice";
+import { buttonClickSound, nextGridSound, playSound } from "../modules/soundManager";
 
 const Gameplay = () => {
   const { gridType } = useSelector((state) => state.grid);
-  const { totalTime, gameMode, currentTime } = useSelector(
-    (state) => state.gameSettings
-  );
+  const { totalTime, gameMode, currentTime, soundsPlaying } = useSelector(allgameSettings);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -261,7 +255,7 @@ const Gameplay = () => {
                 className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110 md:w-14 md:h-14"
                 onClick={() => {
                   setIsPaused(true);
-                  buttonClickSound.play();
+                  playSound(buttonClickSound, soundsPlaying)
                 }}
               >
                 <svg

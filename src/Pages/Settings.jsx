@@ -3,17 +3,24 @@ import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setGridType } from "../slices/gridSlice";
-import { setTotalTime, setGameMode, setBgSoundPlaying, setSoundsPlaying } from "../slices/gameSettingsSlice";
+import {
+  setTotalTime,
+  setGameMode,
+  setBgSoundPlaying,
+  setSoundsPlaying,
+  allgameSettings,
+} from "../slices/gameSettingsSlice";
 import {
   bgSound,
   buttonClickSound,
-  muteAllSounds,
-  unmuteAllSounds,
+  nextGridSound,
+  playSound,
 } from "../modules/soundManager";
 
 const Settings = () => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
+  const {soundsPlaying} = useSelector(allgameSettings)
 
   return (
     <div
@@ -57,7 +64,10 @@ const Settings = () => {
       >
         <div
           className=" absolute top-4 left-4 p-2 rounded-full bg-red-600 hover:scale-105 w-fit"
-          onClick={() => setOptionsOpen(false)}
+          onClick={() => {
+            playSound(nextGridSound, soundsPlaying)
+            setOptionsOpen(false);
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -192,10 +202,10 @@ const CustomSettings = () => {
 };
 
 const SoundSettings = () => {
-  const [soundOn, setSoundOn] = useState(true);
-
-  const { bgSoundPlaying, soundsPlaying } = useSelector((state) => state.gameSettings);
-  const dispatch = useDispatch()
+  const { bgSoundPlaying, soundsPlaying } = useSelector(
+    (state) => state.gameSettings
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className="w-4/5 h-full flex flex-col gap-8 text-black items-center dark:text-white justify-center mx-auto">
@@ -203,9 +213,14 @@ const SoundSettings = () => {
         <div
           className="flex items-center gap-4"
           onClick={() => {
+            playSound(buttonClickSound, soundsPlaying);
             if (bgSoundPlaying) {
+              bgSound.pause();
               dispatch(setBgSoundPlaying(false));
-            } else dispatch(setBgSoundPlaying(true));
+            } else {
+              bgSound.play();
+              dispatch(setBgSoundPlaying(true));
+            }
           }}
         >
           <div className="dark:border-white border-black w-9 h-9 border-2">
@@ -230,30 +245,36 @@ const SoundSettings = () => {
           </div>
           <p>Music</p>
         </div>
-        <div className="flex items-center justify-between gap-4" onClick={() => {
-          buttonClickSound.play()
-          if (soundsPlaying) {
-            muteAllSounds()
-          } else unmuteAllSounds()
-          dispatch(setSoundsPlaying(!soundsPlaying))
-        }}>
+        <div
+          className="flex items-center justify-between gap-4"
+          onClick={() => {
+            buttonClickSound.play();
+            if (soundsPlaying) {
+              dispatch(setSoundsPlaying(false));
+            } else {
+              dispatch(setSoundsPlaying(true));
+            }
+          }}
+        >
           <div className="w-9 h-9 dark:border-white border-black border-2">
-           {soundsPlaying && <div className="p-1 bg-blue-900">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="4"
-                stroke="currentColor"
-                className="w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m4.5 12.75 6 6 9-13.5"
-                />
-              </svg>
-            </div>}
+            {soundsPlaying && (
+              <div className="p-1 bg-blue-900">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="4"
+                  stroke="currentColor"
+                  className="w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
+                </svg>
+              </div>
+            )}
           </div>
           <p>Sounds</p>
         </div>

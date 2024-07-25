@@ -1,34 +1,35 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setBgSoundPlaying } from "../slices/gameSettingsSlice";
-import { bgSound } from "../modules/soundManager";
+import { bgSound, buttonClickSound, playSound } from "../modules/soundManager";
 
 const Sound = () => {
-  const { bgSoundPlaying } = useSelector((state) => state.gameSettings);
-  const firstRenderRef = useRef(0)
+  const { bgSoundPlaying, soundsPlaying } = useSelector((state) => state.gameSettings);
+  const firstRenderRef = useRef(0);
 
   const dispatch = useDispatch();
 
   const handleSound = () => {
+    playSound(buttonClickSound, soundsPlaying)
     if (bgSound.playing()) {
       bgSound.pause();
-      console.log(bgSound.playing());
+      dispatch(setBgSoundPlaying(false))
     } else {
       bgSound.play();
-      console.log(bgSound.playing());
+      dispatch(setBgSoundPlaying(true))
     }
   };
 
   return (
     <div className="relative flex gap-2 items-center justify-center">
-      <div className="bg-green-600 rounded-lg px-2 font-semibold playMusic">
+      {bgSoundPlaying || <div className="bg-green-600 rounded-lg py-1 px-2 font-semibold bubble bubbleright">
         Play Music?
-      </div>
+      </div>}
       <div
         className="w-8 h-8 bg-orange-500 rounded-full p-1 md:w-12 md:h-12 md:p-2 hover:scale-110"
         onClick={handleSound}
       >
-        {bgSound.playing() ? (
+        {bgSoundPlaying ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

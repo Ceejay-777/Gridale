@@ -1,5 +1,6 @@
 import React from "react";
-import { buttonClickSound } from "../modules/soundManager";
+import { buttonClickSound, playSound } from "../modules/soundManager";
+import { useSelector } from "react-redux";
 
 const MainButton = ({
   children,
@@ -8,13 +9,14 @@ const MainButton = ({
   onClick,
   playClick = true,
 }) => {
+  const {soundsPlaying} = useSelector((state) => state.gameSettings)
   return (
     <button
       className={`px-[1.5rem] py-[1rem] w-full rounded-xl text-lg font-bold hover:scale-105 ${background} text-white dark:text-black max-w-[400px] ${addStyles}`}
       onClick={(event) => {
         onClick(event)
         if (playClick) {
-          buttonClickSound.play()
+          playSound(buttonClickSound, soundsPlaying)
         }
       }}
     >

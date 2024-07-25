@@ -1,9 +1,9 @@
 import { setTheme } from "../slices/gameSettingsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { buttonClickSound } from "../modules/soundManager";
+import { buttonClickSound, playSound } from "../modules/soundManager";
 
 const Theme = () => {
-  const { theme } = useSelector((state) => state.gameSettings);
+  const { theme, soundsPlaying } = useSelector((state) => state.gameSettings);
   const dispatch = useDispatch();
   const translation = theme === "dark" ? "translate-x-6 bg-black" : "bg-white";
   const mainBg = theme === "dark" ? "bg-white" : "bg-black";
@@ -14,7 +14,7 @@ const Theme = () => {
         className={`w-12 h-6 rounded-full flex items-center p-1 relative justify-between ${mainBg} md:w-16 md:h-9 md:p-2`}
         onClick={(event) => {
           event.stopPropagation();
-          buttonClickSound.play()
+          playSound(buttonClickSound, soundsPlaying)
           if (theme === "dark") {
             dispatch(setTheme("light"));
           } else dispatch(setTheme("dark"));

@@ -7,13 +7,15 @@ import { junior } from "../assets/Badges/junior.jsx";
 import { journeyman } from "../assets/Badges/journeyman.jsx";
 import { master } from "../assets/Badges/master.jsx";
 import { senior } from "../assets/Badges/senior.jsx";
-import { nextGridSound, successTwoSound } from "../modules/soundManager.js";
+import { nextGridSound, playSound, successTwoSound } from "../modules/soundManager.js";
+import { allgameSettings } from "../slices/gameSettingsSlice.js";
 
 const Results = () => {
   const navigate = useNavigate();
   const { totalClicks, totalCorrectClicks, totalPossibleClicks } = useSelector(
     (state) => state.grid
   );
+  const {soundsPlaying} = useSelector(allgameSettings)
   const aura = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100;
   const composure =
     (parseFloat(totalCorrectClicks) / parseFloat(totalPossibleClicks)) * 100;
@@ -22,7 +24,7 @@ const Results = () => {
   let ranking, badge;
 
   useEffect(() => {
-    successTwoSound.play();
+    playSound(successTwoSound, soundsPlaying)
   }, []);
 
   if (rank) {
@@ -50,7 +52,7 @@ const Results = () => {
         className="h-10 w-10 p-2 bg-orange-500 rounded-full hover:scale-110 fixed top-4 right-4 md:w-14 md:h-14"
         onClick={() => {
           navigate("/");
-          nextGridSound.play()
+          playSound(nextGridSound, soundsPlaying)
         }}
       >
         <svg

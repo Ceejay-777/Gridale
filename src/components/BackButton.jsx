@@ -1,15 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { nextGridSound } from "../modules/soundManager";
+import { nextGridSound, playSound } from "../modules/soundManager";
+import { useSelector } from "react-redux";
+import { allgameSettings } from "../slices/gameSettingsSlice";
 
 const BackButton = () => {
   const navigate = useNavigate();
+  const {soundsPlaying} = useSelector(allgameSettings)
   return (
     <div
       className="absolute top-4 left-4 p-2 rounded-full bg-blue-700 hover:scale-110"
       onClick={() => {
         navigate(-1);
-        nextGridSound.play()
+        playSound(nextGridSound, soundsPlaying)
       }}
     >
       <svg

@@ -612,14 +612,6 @@ video {
   top: 1.5rem;
 }
 
-.top-\[\] {
-  top: ;
-}
-
-.top-\[50\%\] {
-  top: 50%;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -725,11 +717,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
 }
 
 .max-h-\[500px\] {
@@ -942,10 +929,6 @@ video {
   overflow-y: scroll;
 }
 
-.whitespace-nowrap {
-  white-space: nowrap;
-}
-
 .rounded-2xl {
   border-radius: 1rem;
 }
@@ -1148,6 +1131,11 @@ video {
   padding-right: 1.5rem;
 }
 
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -1156,11 +1144,6 @@ video {
 .py-\[1rem\] {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }
 
 .pt-6 {
@@ -1297,6 +1280,53 @@ video {
   --duration: 60s;
 }
 
+.playMusic::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  right: 0px;
+  bottom: 100%;
+  height: 100%;
+  width: 20%;
+  border-bottom-right-radius: 50%;
+  box-shadow: 0 5px 0 0 white;
+  transition: all 200 ease-in-out;
+}
+
+.bubble {
+  --r: 1em;
+  /* the radius */
+  --t: 1em;
+  /* the size of the tail */
+  /* max-width: 300px; */
+  /* padding: 1em; */
+  border-inline: var(--t) solid #0000;
+  border-radius: calc(var(--r) + var(--t))/var(--r);
+  -webkit-mask: 
+    radial-gradient(100% 100% at var(--_p) 0,#0000 99%,#000 102%) 
+      var(--_p) 100%/var(--t) var(--t) no-repeat,
+    linear-gradient(#000 0 0) padding-box;
+          mask: 
+    radial-gradient(100% 100% at var(--_p) 0,#0000 99%,#000 102%) 
+      var(--_p) 100%/var(--t) var(--t) no-repeat,
+    linear-gradient(#000 0 0) padding-box;
+  background: linear-gradient(135deg,#FE6D00,#1384C5) border-box;
+  color: #fff;
+  animation: slide 1s ease-in-out infinite;
+}
+
+/* .bubbleleft {
+  --_p: 0;
+  border-bottom-left-radius: 0 0;
+  place-self: start;
+} */
+
+.bubbleright {
+  --_p: 100%;
+  border-bottom-right-radius: 0 0;
+  place-self: end;
+}
+
 .scrollUp {
   animation: scrollUp var(--duration) linear;
 }
@@ -1322,6 +1352,20 @@ video {
 
   100%{
     transform: rotateY(360deg);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0px)
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0px)
   }
 }
 
