@@ -69,7 +69,7 @@
         transform: translateY(calc(var(--parentEleheight) / 2));
     }
     to {
-        transform: translateY(calc(-100% + var(--parentEleheight)));
+        transform: translateY(calc(-100% + (var(--parentEleheight) * (4 / 5))));
     }
 }
 

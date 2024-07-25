@@ -16,8 +16,8 @@ import {
   setTotalClicks,
   setTotalCorrectClicks,
   setTotalPossibleClicks,
-} from "../slices/gridSlice";
-import { allgameSettings, setCurrentTime } from "../slices/gameSettingsSlice";
+} from "../modules/slices/gridSlice";
+import { allgameSettings, setCurrentTime } from "../modules/slices/gameSettingsSlice";
 import { buttonClickSound, nextGridSound, playSound } from "../modules/soundManager";
 
 const Gameplay = () => {
@@ -162,7 +162,7 @@ const Gameplay = () => {
     if (started) {
       // console.log(currentTime);
       timerRef.current = setTimeout(() => {
-        navigate("/result");
+        // navigate("/result");
       }, currentTime * 1000);
 
       document.documentElement.style.setProperty(
@@ -278,7 +278,7 @@ const Gameplay = () => {
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110 md:w-14 md:h-14"
               onClick={() => {
                 navigate("/");
-                nextGridSound.play()
+                playSound(nextGridSound, soundsPlaying)
               }}
             >
               <svg

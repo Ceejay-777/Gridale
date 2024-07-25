@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSessionStorage, setSessionStorage } from "../modules/getSessionStorage";
+import { getSessionStorage, setSessionStorage } from "../getSessionStorage";
 
 const initialState = {
   gridType: getSessionStorage("gridType", "grid2"),

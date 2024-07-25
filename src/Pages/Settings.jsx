@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 import { useDispatch, useSelector } from "react-redux";
-import { setGridType } from "../slices/gridSlice";
+import { setGridType } from "../modules/slices/gridSlice";
 import {
   setTotalTime,
   setGameMode,
   setBgSoundPlaying,
   setSoundsPlaying,
   allgameSettings,
-} from "../slices/gameSettingsSlice";
+} from "../modules/slices/gameSettingsSlice";
 import {
   bgSound,
   buttonClickSound,

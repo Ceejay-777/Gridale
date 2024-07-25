@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { nextGridSound, playSound } from "../modules/soundManager";
 import { useSelector } from "react-redux";
-import { allgameSettings } from "../slices/gameSettingsSlice";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice";
 
 const BackButton = () => {
   const navigate = useNavigate();

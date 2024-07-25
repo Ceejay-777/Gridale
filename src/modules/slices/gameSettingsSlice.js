@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getSessionStorage,
   setSessionStorage,
-} from "../modules/getSessionStorage";
-import { bgSound } from "../modules/soundManager";
+} from "../getSessionStorage";
+import { bgSound } from "../soundManager";
 
 const initialState = {
   gameMode: getSessionStorage("gameMode", "classic"),
@@ -42,7 +42,7 @@ const gameSettingsSlice = createSlice({
       state.currentTime = action.payload;
     },
     decrementCurrent: (state) => {
-        state.currentTime -= 0.1
+        state.currentTime -= 1
     }
   },
 });

@@ -5,19 +5,9 @@ import GridaleLogo from "./Loaders/GridaleLogo.jsx";
 import PauseOverlay from "./components/PauseOverlay.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setSessionStorage } from "./modules/getSessionStorage.js";
-import { bgSound } from "./modules/soundManager.js";
-import { setBgSoundPlaying } from "./slices/gameSettingsSlice.js";
 
 const App = () => {
-  const { theme, bgSoundPlaying } = useSelector((state) => state.gameSettings);
-  const firstRenderRef = useRef(true);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log(bgSound.playing())
-    dispatch(setBgSoundPlaying(bgSound.playing()))
-  }, [bgSound.playing()])
+  const { theme } = useSelector((state) => state.gameSettings);
 
   useEffect(() => {
     setSessionStorage("theme", theme);

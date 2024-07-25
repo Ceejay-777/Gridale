@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setBgSoundPlaying } from "../slices/gameSettingsSlice";
+import { setBgSoundPlaying } from "../modules/slices/gameSettingsSlice";
 import { bgSound, buttonClickSound, playSound } from "../modules/soundManager";
 
 const Sound = () => {

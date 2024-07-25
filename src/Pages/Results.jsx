@@ -8,7 +8,7 @@ import { journeyman } from "../assets/Badges/journeyman.jsx";
 import { master } from "../assets/Badges/master.jsx";
 import { senior } from "../assets/Badges/senior.jsx";
 import { nextGridSound, playSound, successTwoSound } from "../modules/soundManager.js";
-import { allgameSettings } from "../slices/gameSettingsSlice.js";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice.js";
 
 const Results = () => {
   const navigate = useNavigate();

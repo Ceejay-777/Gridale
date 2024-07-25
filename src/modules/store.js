@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import gridReducer from "../slices/gridSlice";
-import gameSettingsReducer from "../slices/gameSettingsSlice"
+import gridReducer from "./slices/gridSlice";
+import gameSettingsReducer from "./slices/gameSettingsSlice"
 
 export const store = configureStore({
   reducer: {

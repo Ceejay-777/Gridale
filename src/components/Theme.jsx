@@ -1,4 +1,4 @@
-import { setTheme } from "../slices/gameSettingsSlice";
+import { setTheme } from "../modules/slices/gameSettingsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { buttonClickSound, playSound } from "../modules/soundManager";
 
