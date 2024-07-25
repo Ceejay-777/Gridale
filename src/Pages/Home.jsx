@@ -4,10 +4,13 @@ import Theme from "../components/Theme";
 import GridaleLoader from "../Loaders/GridaleLoader";
 import Cee from "../assets/Cee.png";
 import MainButton from "../components/MainButton";
-import { useGridSettings } from "../components/GridContext";
 import Sound from "../components/Sound";
+import { useSelector } from "react-redux";
+import { bgSound } from "../modules/soundManager";
+
 const Home = () => {
   const navigate = useNavigate();
+  const { bgSoundPlaying } = useSelector((state) => state.gameSettings);
 
   return (
     <div className="p-6 min-h-screen 2 lg:p-12 flex flex-col justify-between items-center">

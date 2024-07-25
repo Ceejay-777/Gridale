@@ -7,18 +7,23 @@ import { junior } from "../assets/Badges/junior.jsx";
 import { journeyman } from "../assets/Badges/journeyman.jsx";
 import { master } from "../assets/Badges/master.jsx";
 import { senior } from "../assets/Badges/senior.jsx";
+import { nextGridSound, successTwoSound } from "../modules/soundManager.js";
 
 const Results = () => {
   const navigate = useNavigate();
-  const {totalClicks, totalCorrectClicks, totalPossibleClicks} = useSelector((state) => state.grid)
+  const { totalClicks, totalCorrectClicks, totalPossibleClicks } = useSelector(
+    (state) => state.grid
+  );
   const aura = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100;
-  // const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
   const composure =
     (parseFloat(totalCorrectClicks) / parseFloat(totalPossibleClicks)) * 100;
-  // const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (aura * 0.2))
-  const rank = ((composure * 70) + (aura * 30)) / 100;
+  const rank = (composure * 70 + aura * 30) / 100;
 
   let ranking, badge;
+
+  useEffect(() => {
+    successTwoSound.play();
+  }, []);
 
   if (rank) {
     if (rank <= 20) {
@@ -43,7 +48,10 @@ const Results = () => {
     <div className="flex justify-center items-center min-h-screen flex-col">
       <div
         className="h-10 w-10 p-2 bg-orange-500 rounded-full hover:scale-110 fixed top-4 right-4 md:w-14 md:h-14"
-        onClick={() => navigate("/")}
+        onClick={() => {
+          navigate("/");
+          nextGridSound.play()
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +69,7 @@ const Results = () => {
         </svg>
       </div>
 
-      <div className="w-3/5 max-w-[400px]">{badge}</div>
+      <div className="w-3/5 max-w-[400px] rotate">{badge}</div>
       <div className="w-full p-2 flex flex-col items-center gap-2">
         <p className="dark:text-white">
           {`Composure: ${composure ? composure.toFixed(2) + "%" : "0%"}`}

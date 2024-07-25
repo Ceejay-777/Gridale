@@ -3,11 +3,14 @@ import {
   getSessionStorage,
   setSessionStorage,
 } from "../modules/getSessionStorage";
+import { bgSound } from "../modules/soundManager";
 
 const initialState = {
   gameMode: getSessionStorage("gameMode", "classic"),
   theme: getSessionStorage("theme", "dark"),
   totalTime: getSessionStorage("totalTime", 60),
+  bgSoundPlaying: getSessionStorage("bgSoundPlaying", bgSound.playing()),
+  soundsPlaying: getSessionStorage("soundsPlaying", true),
   currentTime: 60,
 };
 
@@ -27,6 +30,14 @@ const gameSettingsSlice = createSlice({
       state.totalTime = action.payload;
       setSessionStorage("totalTime", action.payload);
     },
+    setBgSoundPlaying: (state, action) => {
+      state.bgSoundPlaying = action.payload
+      setSessionStorage("bgSoundPlaying", action.payload)
+    },
+    setSoundsPlaying: (state, action) => {
+      state.soundsPlaying = action.payload
+      setSessionStorage("soundsPlaying", action.payload)
+    },
     setCurrentTime: (state, action) => {
       state.currentTime = action.payload;
     },
@@ -36,6 +47,6 @@ const gameSettingsSlice = createSlice({
   },
 });
 
-export const { setGameMode, setTheme, setTotalTime, setCurrentTime, decrementCurrent } =
+export const { setGameMode, setTheme, setTotalTime, setCurrentTime, decrementCurrent, setBgSoundPlaying, setSoundsPlaying } =
   gameSettingsSlice.actions;
 export default gameSettingsSlice.reducer;

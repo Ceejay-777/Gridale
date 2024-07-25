@@ -16,15 +16,22 @@ import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
 import MainGrid from "../components/MainGrid";
-import { setTotalClicks, setTotalCorrectClicks, setTotalPossibleClicks } from "../slices/gridSlice";
+import {
+  setTotalClicks,
+  setTotalCorrectClicks,
+  setTotalPossibleClicks,
+} from "../slices/gridSlice";
 import { setCurrentTime } from "../slices/gameSettingsSlice";
+import { buttonClickSound, nextGridSound } from "../modules/soundManager";
 
 const Gameplay = () => {
-  const {gridType} = useSelector((state) => state.grid)
-  const {totalTime, gameMode, currentTime} = useSelector((state) => state.gameSettings)
+  const { gridType } = useSelector((state) => state.grid);
+  const { totalTime, gameMode, currentTime } = useSelector(
+    (state) => state.gameSettings
+  );
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [started, setStarted] = useState(false);
   const timerRef = useRef();
   const [isPaused, setIsPaused] = useState(false);
@@ -37,7 +44,7 @@ const Gameplay = () => {
   const [animationSpeed, setAnimationSpeed] = useState();
 
   let gridListInfo, totalPossibleClicksInfo;
-  
+
   const startComp = (
     <div className="flex flex-col items-center gap-8 w-full">
       <Loading />
@@ -159,7 +166,7 @@ const Gameplay = () => {
 
   useEffect(() => {
     if (started) {
-      console.log(currentTime)
+      // console.log(currentTime);
       timerRef.current = setTimeout(() => {
         navigate("/result");
       }, currentTime * 1000);
@@ -214,7 +221,7 @@ const Gameplay = () => {
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
         const duration = totalHeight / animationSpeed;
-        console.log(duration, animationSpeed, totalHeight);
+        // console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
     };
@@ -252,7 +259,10 @@ const Gameplay = () => {
             {started && (
               <div
                 className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110 md:w-14 md:h-14"
-                onClick={() => setIsPaused(true)}
+                onClick={() => {
+                  setIsPaused(true);
+                  buttonClickSound.play();
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +282,10 @@ const Gameplay = () => {
             )}
             <div
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110 md:w-14 md:h-14"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                nextGridSound.play()
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -311,7 +324,7 @@ const Gameplay = () => {
                       />
                     );
                   })}
-                <p className="text-center text-white">All done</p>
+                  <p className="text-center text-white">All done</p>
                 </div>
               </div>
             </div>

@@ -1,35 +1,36 @@
 import React, { useEffect, useRef } from "react";
 import MyRoutes from "./components/MyRoutes.jsx";
-import { useGridSettings } from "./components/GridContext.jsx";
 import Timer from "./components/Timer.jsx";
 import GridaleLogo from "./Loaders/GridaleLogo.jsx";
 import PauseOverlay from "./components/PauseOverlay.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSessionStorage } from "./modules/getSessionStorage.js";
+import { bgSound } from "./modules/soundManager.js";
+import { setBgSoundPlaying } from "./slices/gameSettingsSlice.js";
 
 const App = () => {
-  const backgroundSoundRef = useRef(null);
-  const { bgSoundPlaying, setBgSoundPlaying, bgSoundRef } = useGridSettings();
-  const {theme} = useSelector((state) => state.gameSettings)
+  const { theme, bgSoundPlaying } = useSelector((state) => state.gameSettings);
+  const firstRenderRef = useRef(true);
 
-    useEffect(() => {
-      setSessionStorage("theme", theme);
+  const dispatch = useDispatch();
 
-      const bodyClasses = document.body.classList;
+  useEffect(() => {
+    console.log(bgSound.playing())
+    dispatch(setBgSoundPlaying(bgSound.playing()))
+  }, [bgSound.playing()])
 
-      if (bodyClasses.contains("dark")) {
-        bodyClasses.remove("dark");
-      } else if (bodyClasses.contains("light")) {
-        bodyClasses.remove("light");
-      }
-      bodyClasses.add(theme);
-    }, [theme]);
+  useEffect(() => {
+    setSessionStorage("theme", theme);
 
-  // useEffect(() => {
-  //   if (bgSoundPlaying === "false") {
-  //     bgSoundRef.current.play();
-  //   } else bgSoundRef.current.pause();
-  // }, [bgSoundPlaying]);
+    const bodyClasses = document.body.classList;
+
+    if (bodyClasses.contains("dark")) {
+      bodyClasses.remove("dark");
+    } else if (bodyClasses.contains("light")) {
+      bodyClasses.remove("light");
+    }
+    bodyClasses.add(theme);
+  }, [theme]);
 
   return (
     <div

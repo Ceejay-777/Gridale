@@ -1,12 +1,16 @@
-import React from 'react'
-import { useNavigate } from 'react-router';
+import React from "react";
+import { useNavigate } from "react-router";
+import { nextGridSound } from "../modules/soundManager";
 
 const BackButton = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div
       className="absolute top-4 left-4 p-2 rounded-full bg-blue-700 hover:scale-110"
-      onClick={() => navigate(-1)}
+      onClick={() => {
+        navigate(-1);
+        nextGridSound.play()
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,6 +28,6 @@ const BackButton = () => {
       </svg>
     </div>
   );
-}
+};
 
-export default BackButton
+export default BackButton;

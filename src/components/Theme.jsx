@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { useGridSettings } from "./GridContext";
 import { setTheme } from "../slices/gameSettingsSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { buttonClickSound } from "../modules/soundManager";
 
 const Theme = () => {
   const { theme } = useSelector((state) => state.gameSettings);
@@ -15,6 +14,7 @@ const Theme = () => {
         className={`w-12 h-6 rounded-full flex items-center p-1 relative justify-between ${mainBg} md:w-16 md:h-9 md:p-2`}
         onClick={(event) => {
           event.stopPropagation();
+          buttonClickSound.play()
           if (theme === "dark") {
             dispatch(setTheme("light"));
           } else dispatch(setTheme("dark"));
