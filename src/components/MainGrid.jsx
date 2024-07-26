@@ -7,11 +7,14 @@ import {
   shuffle,
 } from "../modules/gridGenerate";
 import { v4 as uuidv4 } from "uuid";
-import { correctClickSound, wrongClickSound } from "../modules/soundManager";
+import { correctClickSound, playSound, wrongClickSound } from "../modules/soundManager";
+import { useSelector } from "react-redux";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice";
 
 const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
   const mainGridRef = useRef();
   const clicksRef = useRef(0);
+  const {soundsPlaying} = useSelector(allgameSettings)
   let gridLayout, totalColorNo, gridColorNo, grid;
 
   switch (gridType) {
@@ -48,14 +51,14 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
       event.currentTarget.style.opacity = "0.5";
       if (!thisClasslist.contains("clicked")) {
         thisClasslist.add("clicked");
-        correctClickSound.play()
+        playSound(correctClickSound, soundsPlaying)
         clicksRef.current += 1;
         totalCorrectClicksRef.current += 1;
       } else {
-        wrongClickSound.play();
+         playSound(wrongClickSound, soundsPlaying);
       }
     } else {
-      wrongClickSound.play();
+       playSound(wrongClickSound, soundsPlaying);
     }
   };
 
