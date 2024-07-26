@@ -52,7 +52,7 @@ export const timeUpSound = new Howl({
   onloaderror: (id, error) => {
     console.error("Error loading sound:", error, id);
   },
-  volume: 0,
+  volume: 0.3,
 });
 
 export const buttonClickSound = new Howl({
@@ -61,7 +61,7 @@ export const buttonClickSound = new Howl({
   onloaderror: (id, error) => {
     console.error("Error loading sound:", error, id);
   },
-  volume: 0.5,
+  volume: 0.35,
 });
 
 export const successOneSound = new Howl({
@@ -100,7 +100,6 @@ export const unmuteAllSounds = () => {
 };
 
 export const playSound = (sound, bool) => {
-  console.log(bool)
   if (bool) {
     sound.play()
   }

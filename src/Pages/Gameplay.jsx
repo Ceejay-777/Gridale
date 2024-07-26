@@ -17,18 +17,22 @@ import {
   setTotalCorrectClicks,
   setTotalPossibleClicks,
 } from "../modules/slices/gridSlice";
-import { allgameSettings, setCurrentTime } from "../modules/slices/gameSettingsSlice";
-import { buttonClickSound, nextGridSound, playSound } from "../modules/soundManager";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice";
+import {
+  buttonClickSound,
+  nextGridSound,
+  playSound,
+} from "../modules/soundManager";
 
 const Gameplay = () => {
   const { gridType } = useSelector((state) => state.grid);
-  const { totalTime, gameMode, currentTime, soundsPlaying } = useSelector(allgameSettings);
+  const { totalTime, gameMode, soundsPlaying } = useSelector(allgameSettings);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [started, setStarted] = useState(false);
-  const timerRef = useRef();
   const [isPaused, setIsPaused] = useState(false);
+  const [restart, setRestart] = useState(false);
   const [gridsList, setGridsList] = useState();
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
@@ -150,7 +154,6 @@ const Gameplay = () => {
   }, [gridListInfo, totalPossibleClicksInfo]);
 
   useEffect(() => {
-    dispatch(setCurrentTime(totalTime));
     return () => {
       dispatch(setTotalClicks(totalClicksRef.current));
       dispatch(setTotalCorrectClicks(totalCorrectClicksRef.current));
@@ -160,11 +163,13 @@ const Gameplay = () => {
 
   useEffect(() => {
     if (started) {
-      // console.log(currentTime);
-      timerRef.current = setTimeout(() => {
-        // navigate("/result");
-      }, currentTime * 1000);
+      const container = allGridsRef.current;
+      container.style.animationDuration = `${totalTime}s`;
+    }
+  }, [started]);
 
+  useEffect(() => {
+    if (started) {
       document.documentElement.style.setProperty(
         "--parentEleheight",
         `${allGridsParentRef.current.clientHeight}px`
@@ -173,19 +178,16 @@ const Gameplay = () => {
 
       if (isPaused) {
         allGridsRef.current.style.animationPlayState = "paused";
-        clearTimeout(timerRef.current);
       } else {
         allGridsRef.current.style.animationPlayState = "running";
       }
     }
-    return () => clearTimeout(timerRef.current);
   }, [started, isPaused]);
 
-  const theTimer = useMemo(() => {
-    return (
-      <div className="mb-6 flex justify-between relative">
-        <Timer isPaused={isPaused} />
-        {/* <div className="flex gap-2">
+  const theTimer = (
+    <div className="mb-6 flex justify-between relative">
+      <Timer isPaused={isPaused} />
+      {/* <div className="flex gap-2">
           <button
             className="bg-red-500 w-8 h-8 rounded-lg p-1 hover:scale-105"
             onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed *= 1.5))}
@@ -205,9 +207,21 @@ const Gameplay = () => {
             Add grids
           </button>
         </div> */}
-      </div>
-    );
-  }, [isPaused]);
+    </div>
+  );
+
+  const restartAnimation = () => {
+    const element = allGridsRef.current;
+    // Update the animation property to restart it
+    element.style.animation = "none";
+
+    // Force a reflow
+    void element.offsetWidth;
+
+    // Restore the animation property
+    element.style.animation = "scrollUp";
+    console.log(element.style.animation);
+  };
 
   useEffect(() => {
     const adjustAnimationDuration = () => {
@@ -215,7 +229,7 @@ const Gameplay = () => {
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
         const duration = totalHeight / animationSpeed;
-        // console.log(duration, animationSpeed, totalHeight);
+        console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
     };
@@ -232,7 +246,7 @@ const Gameplay = () => {
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
-          onRestart={() => setStarted(false)} // Work on this
+          onRestart={() => setStarted(false)}
           onSet={() => navigate("/settings")}
         />
       )}
@@ -255,7 +269,7 @@ const Gameplay = () => {
                 className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110 md:w-14 md:h-14"
                 onClick={() => {
                   setIsPaused(true);
-                  playSound(buttonClickSound, soundsPlaying)
+                  playSound(buttonClickSound, soundsPlaying);
                 }}
               >
                 <svg
@@ -278,7 +292,7 @@ const Gameplay = () => {
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110 md:w-14 md:h-14"
               onClick={() => {
                 navigate("/");
-                playSound(nextGridSound, soundsPlaying)
+                playSound(nextGridSound, soundsPlaying);
               }}
             >
               <svg
