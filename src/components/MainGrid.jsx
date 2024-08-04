@@ -16,6 +16,7 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
   const clicksRef = useRef(0);
   const {soundsPlaying} = useSelector(allgameSettings)
   let gridLayout, totalColorNo, gridColorNo, grid;
+  const touchHandledRef = useRef(false)
 
   switch (gridType) {
     case "grid2":
@@ -45,6 +46,13 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
   const [randomColors, primaryColor] = randomColorsList;
 
   const handleGridClick = (event) => {
+    if (event.type === "touchstart") {
+      touchHandledRef.current = true
+    }
+    if (event.type === "mousedown" && touchHandledRef.current) {
+      return
+    }
+    console.log(event.type)
     const thisClasslist = event.currentTarget.classList;
     totalClicksRef.current += 1;
     if (thisClasslist.contains(primaryColor)) {
@@ -59,6 +67,10 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
       }
     } else {
        playSound(wrongClickSound, soundsPlaying);
+    }
+
+    if (event.type === "mousedown") {
+      touchHandledRef.current = false
     }
   };
 
@@ -79,6 +91,7 @@ const MainGrid = ({ gridType, totalClicksRef, totalCorrectClicksRef }) => {
                 key={id}
                 className={`aspect-square ${color} rounded-2xl border border-slate-500`}
                 onMouseDown={handleGridClick}
+                onTouchStart={handleGridClick}
               ></div>
             );
           })}
