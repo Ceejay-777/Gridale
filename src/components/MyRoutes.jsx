@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Pages/Home.jsx";
 import Settings from "../Pages/Settings.jsx";
 import Results from "../Pages/Results.jsx";
-import About from "../Pages/About.jsx";
 import Gameplay from "../Pages/Gameplay.jsx";
+import Info from "../Pages/Info.jsx";
 
 const MyRoutes = () => {
   return (
@@ -15,7 +15,7 @@ const MyRoutes = () => {
           <Route path="settings" element={<Settings />} />
           <Route path="game" element={<Gameplay />} />
           <Route path="result" element={<Results />} />
-          <Route path="about" element={<About />} />
+          <Route path="info" element={<Info />} />
         </Routes>
       </Router>
     </div>

@@ -10,8 +10,8 @@
 }
 
 :root {
-    --parentEleheight: 555px;
-    --duration: 60s;
+  --parentEleheight: 555px;
+  --duration: 60s;
 }
 
 .playMusic::before {
@@ -28,18 +28,17 @@
 }
 
 .bubble {
-  --r: 1em;  /* the radius */
+  --r: 1em; /* the radius */
   --t: 1em; /* the size of the tail */
-  
+
   /* max-width: 300px; */
   /* padding: 1em; */
   border-inline: var(--t) solid #0000;
-  border-radius: calc(var(--r) + var(--t))/var(--r);
-  mask: 
-    radial-gradient(100% 100% at var(--_p) 0,#0000 99%,#000 102%) 
-      var(--_p) 100%/var(--t) var(--t) no-repeat,
+  border-radius: calc(var(--r) + var(--t)) / var(--r);
+  mask: radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%)
+      var(--_p) 100% / var(--t) var(--t) no-repeat,
     linear-gradient(#000 0 0) padding-box;
-  background: linear-gradient(135deg,#FE6D00,#1384C5) border-box;
+  background: linear-gradient(135deg, #fe6d00, #1384c5) border-box;
   color: #fff;
   animation: slide 1s ease-in-out infinite;
 }
@@ -57,40 +56,43 @@
 }
 
 .scrollUp {
-    animation: scrollUp var(--duration) linear;
+  animation: scrollUp var(--duration) linear;
 }
 
 .rotate {
-    animation: rotate 4s linear infinite;
+  animation: rotate 4s linear infinite;
+}
+
+.slideArrow {
+  animation: slide 1s ease-in-out infinite;
 }
 
 @keyframes scrollUp {
-    from {
-        transform: translateY(calc(var(--parentEleheight) / 2));
-    }
-    to {
-        transform: translateY(calc(-100% + (var(--parentEleheight) * (4 / 5))));
-    }
+  from {
+    transform: translateY(calc(var(--parentEleheight) / 2));
+  }
+  to {
+    transform: translateY(calc(-100% + (var(--parentEleheight) * (4 / 5))));
+  }
 }
 
 @keyframes rotate {
- 0%{
+  0% {
     transform: rotateY(0deg);
-   }
-100%{
+  }
+  100% {
     transform: rotateY(360deg);
-   }
+  }
 }
 
 @keyframes slide {
-    0% {
-        transform: translateX(0px)
-    }
-    50% {
-        transform: translateX(10px);
-    }
-    100% {
-        transform: translateX(0px)
-    }
-    
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }

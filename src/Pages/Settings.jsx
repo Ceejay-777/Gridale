@@ -21,6 +21,7 @@ const Settings = () => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
   const {soundsPlaying} = useSelector(allgameSettings)
+  const [selected, setSelected] = useState()
 
   return (
     <div
@@ -34,8 +35,8 @@ const Settings = () => {
       <BackButton />
       <div className="w-4/5 flex flex-col gap-8 text-white items-center dark:text-black">
         <MainButton
-          background=" bg-red-600"
-          addStyles="w-full"
+          background="bg-red-600"
+          addStyles={'w-full ${selected === "mode" && }'}
           onClick={(event) => {
             event.stopPropagation();
             setOptionsOpen(true);
