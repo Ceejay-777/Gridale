@@ -4,8 +4,10 @@ import Theme from "../components/Theme";
 import GridaleLoader from "../Loaders/GridaleLoader";
 import Cee from "../assets/Cee.png";
 import MainButton from "../components/MainButton";
-import { useGridSettings } from "../components/GridContext";
 import Sound from "../components/Sound";
+import { useSelector } from "react-redux";
+import { bgSound } from "../modules/soundManager";
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ const Home = () => {
           </MainButton>
         </div>
       </div>
-      <div className="flex gap-4 justify-center items-center mt-10">
+      <div className="flex gap-4 justify-center items-center mt-4">
         <p className="text-xs dark:text-white text-center ">
           Developed by CeeJay
         </p>

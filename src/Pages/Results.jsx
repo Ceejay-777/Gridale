@@ -1,48 +1,59 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import MainButton from "../components/MainButton";
 import { useNavigate } from "react-router";
-import { useGridSettings } from "../components/GridContext";
 import { apprentice } from "../assets/Badges/apprentice.jsx";
 import { junior } from "../assets/Badges/junior.jsx";
 import { journeyman } from "../assets/Badges/journeyman.jsx";
 import { master } from "../assets/Badges/master.jsx";
 import { senior } from "../assets/Badges/senior.jsx";
+import { nextGridSound, playSound, successTwoSound } from "../modules/soundManager.js";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice.js";
 
 const Results = () => {
   const navigate = useNavigate();
-  const {totalClicks, totalCorrectClicks, totalTime} = useGridSettings()
-  const accuracy = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100
-  const speed = (parseFloat(totalCorrectClicks) / parseInt(totalTime))
-  const rank = (((speed > 5 ? 100 : (speed/5) * 100) * 0.8) + (accuracy * 0.2)) 
+  const { totalClicks, totalCorrectClicks, totalPossibleClicks } = useSelector(
+    (state) => state.grid
+  );
+  const {soundsPlaying} = useSelector(allgameSettings)
+  const aura = (parseInt(totalCorrectClicks) / parseInt(totalClicks)) * 100;
+  const composure =
+    (parseFloat(totalCorrectClicks) / parseFloat(totalPossibleClicks)) * 100;
+  const rank = (composure * 70 + aura * 30) / 100;
 
-  let ranking
-  let badge
+  let ranking, badge;
+
+  useEffect(() => {
+    playSound(successTwoSound, soundsPlaying)
+  }, []);
 
   if (rank) {
     if (rank <= 20) {
-    ranking = "Junior"
-    badge = junior
-  } else if(rank <= 40) {
-    ranking = "Apprentice"
-    badge = apprentice
-  } else if(rank <= 60) {
-    ranking = "Journeyman" 
-    badge = journeyman
-  } else if(rank <= 80) {
-    ranking = "Senior"
-    badge = senior
-  } else {
-    ranking = "Master"
-    badge = master
-  } 
-  } else badge = junior
-  
+      ranking = "Junior";
+      badge = junior;
+    } else if (rank <= 40) {
+      ranking = "Apprentice";
+      badge = apprentice;
+    } else if (rank <= 60) {
+      ranking = "Journeyman";
+      badge = journeyman;
+    } else if (rank <= 80) {
+      ranking = "Senior";
+      badge = senior;
+    } else {
+      ranking = "Master";
+      badge = master;
+    }
+  } else badge = junior;
 
   return (
     <div className="flex justify-center items-center min-h-screen flex-col">
       <div
         className="h-10 w-10 p-2 bg-orange-500 rounded-full hover:scale-110 fixed top-4 right-4 md:w-14 md:h-14"
-        onClick={() => navigate("/")}
+        onClick={() => {
+          navigate("/");
+          playSound(nextGridSound, soundsPlaying)
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,18 +71,16 @@ const Results = () => {
         </svg>
       </div>
 
-      <div className="w-3/5 max-w-[600px]">{badge}</div>
+      <div className="w-3/5 max-w-[400px] rotate">{badge}</div>
       <div className="w-full p-2 flex flex-col items-center gap-2">
+        <p className="dark:text-white">
+          {`Composure: ${composure ? composure.toFixed(2) + "%" : "0%"}`}
+        </p>
         <p className="dark:text-white ">
-          {`Accuracy: ${accuracy ? accuracy.toFixed(2) + "%" : "0%"}`}
+          {`Aura: ${aura ? aura.toFixed(2) + "%" : "0%"}`}
         </p>
         <p className="dark:text-white">
-          {`Speed: ${
-            speed ? speed.toFixed(2) + " clicks/sec" : "0 clicks/sec"
-          }`}
-        </p>
-        <p className="dark:text-white">
-          {`Rank: ${rank ? " Grid " + ranking : "No rank"}`}
+          {`Rank: ${rank ? " Grid " + ranking : "Nothing for you eje!"}`}
         </p>
         <div className="w-4/5 mt-6 justify-center flex ">
           <MainButton
@@ -81,6 +90,7 @@ const Results = () => {
             Play Again
           </MainButton>
         </div>
+        <p className="dark:text-white text-black hover:underline mt-4">See ranking info</p>
       </div>
     </div>
   );

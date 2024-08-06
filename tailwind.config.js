@@ -11,7 +11,17 @@ export default {
     "index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        scrollUp: {
+          "0%": { transform: "translateY(24px)" },
+          "100%": { transform: `translateY(100%)` },
+        },
+      },
+      animation: {
+        "scrollUp" : "scrollUp 10s linear"
+      }
+    },
     fontFamily: {
       bangers: ["Bangers", "system-ui"],
       press: ["'Press Start 2P'", "system-ui"],

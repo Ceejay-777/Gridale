@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import { useGridSettings } from "./GridContext";
+import { setTheme } from "../modules/slices/gameSettingsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { buttonClickSound, playSound } from "../modules/soundManager";
 
 const Theme = () => {
-  const { theme, setTheme } = useGridSettings();
+  const { theme, soundsPlaying } = useSelector((state) => state.gameSettings);
+  const dispatch = useDispatch();
   const translation = theme === "dark" ? "translate-x-6 bg-black" : "bg-white";
   const mainBg = theme === "dark" ? "bg-white" : "bg-black";
 
@@ -11,10 +13,11 @@ const Theme = () => {
       <div
         className={`w-12 h-6 rounded-full flex items-center p-1 relative justify-between ${mainBg} md:w-16 md:h-9 md:p-2`}
         onClick={(event) => {
-          event.stopPropagation()
+          event.stopPropagation();
+          playSound(buttonClickSound, soundsPlaying)
           if (theme === "dark") {
-            setTheme("light")
-          } else setTheme("dark")
+            dispatch(setTheme("light"));
+          } else dispatch(setTheme("dark"));
         }}
       >
         <svg

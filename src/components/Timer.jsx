@@ -1,53 +1,57 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useGridSettings } from "./GridContext";
+import { useSelector } from "react-redux";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice";
+import { playSound, timeUpSound } from "../modules/soundManager";
+import Countdown, { zeroPad } from "react-countdown";
+import { useNavigate } from "react-router";
 
 const Timer = ({ isPaused }) => {
-  const { currentTimerTime, setCurrentTimerTime, timeUpSoundRef } =
-    useGridSettings();
-  const [time, setTime] = useState(currentTimerTime);
-  const timerRef = useRef();
-
-  useEffect(() => {
-    if (time <= 0) {
-      return;
-    }
-
-    if (time < 6 && !timeUpSoundRef.current.playing()) {
-      timeUpSoundRef.current.play();
-    }
-
-    if (!isPaused) {
-      timerRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-        setCurrentTimerTime((prevTime) => prevTime - 1);
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timerRef.current);
-      timeUpSoundRef.current.stop();
-    };
-  }, [time, isPaused]);
+  const { totalTime, soundsPlaying } = useSelector(allgameSettings);
+  const [now, setNow] = useState(Date.now());
+  const [time, setTime] = useState()
+  const countdownRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isPaused) {
-      console.log("Paused");
-      setCurrentTimerTime(time);
+      if (timeUpSound.playing()) {
+        timeUpSound.pause();
+      }
+      countdownRef.current.pause();
+    } else {
+      countdownRef.current.start();
     }
   }, [isPaused]);
 
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
-    return `${minutes}:${seconds}`;
+  useEffect(() => {
+    if (time < 6 && !timeUpSound.playing()) {
+      playSound(timeUpSound, soundsPlaying);
+    }
+
+    return () => {
+      timeUpSound.stop();
+    };
+  }, [time]);
+
+  const renderer = ({ minutes, seconds, milliseconds }) => {
+    return (
+      <div className={`w-fit text-xl md:text-2xl ${time < 6 ? "text-red-500 dark:text-red-500" : "text-black dark:text-white"}`}>
+        {`${zeroPad(minutes)}:${zeroPad(seconds)}:${zeroPad(milliseconds, 4)}`}
+      </div>
+    );
   };
 
   return (
-    <div className={"dark:text-white text-black w-fit text-xl md:text-2xl"}>
-      {formatTime(time)}
-    </div>
+    <Countdown
+      date={now + totalTime * 1000}
+      intervalDelay={1}
+      precision={3}
+      renderer={renderer}
+      key={1}
+      ref={countdownRef}
+      onComplete={() => navigate("/result")}
+      onTick={({seconds}) => setTime(seconds)}
+    ></Countdown>
   );
 };
 

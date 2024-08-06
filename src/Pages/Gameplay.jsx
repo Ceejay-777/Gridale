@@ -1,107 +1,50 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import { Howl } from "howler";
-import { v4 as uuidv4 } from "uuid";
-
+import { useSelector, useDispatch } from "react-redux";
 import {
   color_2x2_bg,
-  color_3x3_bg,
-  color_4x4_bg,
-  generateRandomColors,
-} from "../gridGenerate";
-import { useGridSettings } from "../components/GridContext";
+  generateGridslist,
+  shuffle,
+} from "../modules/gridGenerate";
 import { useNavigate } from "react-router";
 import Loading from "../Loaders/Loading";
 import Timer from "../components/Timer";
 import GridaleLogo from "../Loaders/GridaleLogo";
 import MainButton from "../components/MainButton";
 import PauseOverlay from "../components/PauseOverlay";
-import Start from "./Start";
-// import {sound} from "../assets/Sounds/interfaceWav.wav"
+import MainGrid from "../components/MainGrid";
+import {
+  setTotalClicks,
+  setTotalCorrectClicks,
+  setTotalPossibleClicks,
+} from "../modules/slices/gridSlice";
+import { allgameSettings } from "../modules/slices/gameSettingsSlice";
+import {
+  buttonClickSound,
+  nextGridSound,
+  playSound,
+} from "../modules/soundManager";
 
 const Gameplay = () => {
-  const {
-    totalTime,
-    gridColorList,
-    totalColorNo,
-    gridColorNo,
-    setGridColorList,
-    gameMode,
-    gridType,
-    setGridType,
-    currentTimerTime,
-    setCurrentTimerTime,
-    setTotalClicks,
-    setTotalCorrectClicks,
-    gridCorrectClickSoundRef,
-    gridWrongClickSoundRef,
-    nextGridSoundRef,
-  } = useGridSettings();
+  const { gridType } = useSelector((state) => state.grid);
+  const { totalTime, gameMode, soundsPlaying } = useSelector(allgameSettings);
 
   const navigate = useNavigate();
-  const [randomColorsList, setRandomColorsList] = useState(
-    generateRandomColors(gridColorList, totalColorNo, gridColorNo)
-  );
+  const dispatch = useDispatch();
   const [started, setStarted] = useState(false);
-  const clicksRef = useRef(0);
-  const timerRef = useRef();
-  const mainGridRef = useRef();
-  const gridsCountRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [restart, setRestart] = useState(false);
+  const [gridsList, setGridsList] = useState();
   const totalClicksRef = useRef(0);
   const totalCorrectClicksRef = useRef(0);
+  const totalPossibleClicksRef = useRef(0);
+  const allGridsRef = useRef();
+  const allGridsParentRef = useRef();
+  const [animationSpeed, setAnimationSpeed] = useState();
 
-  const [randomColors, primaryColor] = randomColorsList;
-
-  const handleGridClick = (event) => {
-    const thisClasslist = event.currentTarget.classList;
-    totalClicksRef.current += 1;
-    if (thisClasslist.contains(primaryColor)) {
-      event.currentTarget.style.opacity = "0.5";
-      gridCorrectClickSoundRef.current.play();
-      if (!thisClasslist.contains("clicked")) {
-        thisClasslist.add("clicked");
-        clicksRef.current += 1;
-        totalCorrectClicksRef.current += 1;
-      }
-    } else {
-      gridWrongClickSoundRef.current.play();
-    }
-
-    if (
-      (mainGridRef.current.classList.contains("grid-cols-2") &&
-        clicksRef.current === 1) ||
-      (mainGridRef.current.classList.contains("grid-cols-3") &&
-        clicksRef.current === 3) ||
-      (mainGridRef.current.classList.contains("grid-cols-4") &&
-        clicksRef.current === 4)
-    ) {
-      nextGridSoundRef.current.play();
-      nextGrid();
-    }
-  };
-
-  const nextClassicGrid = () => {
-    gridsCountRef.current += 1;
-    clicksRef.current = 0;
-
-    if (gridsCountRef.current <= 5) {
-      setRandomColorsList(generateRandomColors(color_2x2_bg, 4, 4));
-    } else if (gridsCountRef.current <= 9) {
-      setRandomColorsList(generateRandomColors(color_3x3_bg, 9, 7));
-    } else if (gridsCountRef.current > 8) {
-      setRandomColorsList(generateRandomColors(color_4x4_bg, 16, 13));
-    }
-  };
-
-  const nextCustomGrid = () => {
-    clicksRef.current = 0;
-    setRandomColorsList(
-      generateRandomColors(gridColorList, totalColorNo, gridColorNo)
-    );
-  };
+  let gridListInfo, totalPossibleClicksInfo;
 
   const startComp = (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-8 w-full">
       <Loading />
       <MainButton
         background="bg-red-600"
@@ -122,76 +65,197 @@ const Gameplay = () => {
     </div>
   );
 
-  const nextGrid = gameMode === "classic" ? nextClassicGrid : nextCustomGrid;
+  useEffect(() => {
+    switch (gameMode) {
+      case "classic":
+        [gridListInfo, totalPossibleClicksInfo] = generateGridslist(13, 16, 16);
+        break;
+      case "custom":
+        switch (gridType) {
+          case "grid2":
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  23,
+                  0,
+                  0
+                );
+                break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  33,
+                  0,
+                  0
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  45,
+                  0,
+                  0
+                );
+                break;
+            }
+            break;
+          case "grid3":
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  23,
+                  0
+                );
+                break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  33,
+                  0
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  45,
+                  0
+                );
+                break;
+            }
+            break;
+          case "grid4":
+            switch (totalTime) {
+              case 30:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  23
+                );
+                break;
+              case 45:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  33
+                );
+                break;
+              case 60:
+                [gridListInfo, totalPossibleClicksInfo] = generateGridslist(
+                  0,
+                  0,
+                  45
+                );
+                break;
+            }
+            break;
+        }
+    }
+    setGridsList(gridListInfo);
+    totalPossibleClicksRef.current = totalPossibleClicksInfo;
+  }, [gridListInfo, totalPossibleClicksInfo]);
 
   useEffect(() => {
-    setCurrentTimerTime(totalTime);
     return () => {
-      setTotalClicks(totalClicksRef.current);
-      setTotalCorrectClicks(totalCorrectClicksRef.current);
+      dispatch(setTotalClicks(totalClicksRef.current));
+      dispatch(setTotalCorrectClicks(totalCorrectClicksRef.current));
+      dispatch(setTotalPossibleClicks(totalPossibleClicksRef.current));
     };
   }, []);
 
   useEffect(() => {
-    if (randomColorsList[0].length === 4) {
-      setGridType("grid-cols-2");
-    } else if (randomColorsList[0].length === 9) {
-      setGridType("grid-cols-3");
-    } else if (randomColorsList[0].length === 16) setGridType("grid-cols-4");
-  }, [randomColorsList]);
+    if (started) {
+      const container = allGridsRef.current;
+      container.style.animationDuration = `${totalTime}s`;
+    }
+  }, [started]);
 
   useEffect(() => {
     if (started) {
-      timerRef.current = setTimeout(() => {
-        navigate("/result");
-      }, currentTimerTime * 1000);
-    }
+      document.documentElement.style.setProperty(
+        "--parentEleheight",
+        `${allGridsParentRef.current.clientHeight}px`
+      );
+      setAnimationSpeed(allGridsRef.current.clientHeight / totalTime);
 
-    if (isPaused) {
-      clearTimeout(timerRef.current);
+      if (isPaused) {
+        allGridsRef.current.style.animationPlayState = "paused";
+      } else {
+        allGridsRef.current.style.animationPlayState = "running";
+      }
     }
-
-    return () => clearTimeout(timerRef.current);
   }, [started, isPaused]);
 
-  const theTimer = useMemo(() => {
-    return <Timer isPaused={isPaused} />;
-  }, [isPaused]);
+  const theTimer = (
+    <div className="mb-6 flex justify-between relative">
+      <Timer isPaused={isPaused} />
+      {/* <div className="flex gap-2">
+          <button
+            className="bg-red-500 w-8 h-8 rounded-lg p-1 hover:scale-105"
+            onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed *= 1.5))}
+          >
+            +
+          </button>
+          <button
+            className="bg-red-500 rounded-lg p-1 w-8 h-8 hover:scale-105"
+            onClick={() => setAnimationSpeed((prevSpeed) => (prevSpeed /= 1.5))}
+          >
+            -
+          </button>
+          <button
+            className="bg-red-500 rounded-lg p-1 hover:scale-105"
+            onClick={() => addGrid(color_4x4_bg)}
+          >
+            Add grids
+          </button>
+        </div> */}
+    </div>
+  );
 
-  const mainGrid = useMemo(() => {
-    return (
-      <div
-        className={`grid ${gridType} mx-auto gap-1`}
-        ref={mainGridRef}
-      >
-        {randomColors.map((color) => {
-          const id = uuidv4();
-          return (
-            <div
-              key={id}
-              className={`aspect-square ${color} rounded-2xl border border-slate-500`}
-              onClick={handleGridClick}
-            ></div>
-          );
-        })}
-      </div>
-    );
-  }, [randomColors, gridType]);
+  const restartAnimation = () => {
+    const element = allGridsRef.current;
+    // Update the animation property to restart it
+    element.style.animation = "none";
+
+    // Force a reflow
+    void element.offsetWidth;
+
+    // Restore the animation property
+    element.style.animation = "scrollUp";
+    console.log(element.style.animation);
+  };
+
+  useEffect(() => {
+    const adjustAnimationDuration = () => {
+      const container = allGridsRef.current;
+      if (container && animationSpeed) {
+        const totalHeight = container.scrollHeight;
+        const duration = totalHeight / animationSpeed;
+        console.log(duration, animationSpeed, totalHeight);
+        container.style.animationDuration = `${duration}s`;
+      }
+    };
+
+    adjustAnimationDuration();
+  }, [gridsList, animationSpeed]);
+
+  const addGrid = () => {
+    setGridsList((prevList) => [...prevList, color_2x2_bg]);
+  };
 
   return (
-    <div className="">
+    <>
       {isPaused && (
         <PauseOverlay
           onCancle={() => setIsPaused(false)}
-          onRestart={() => window.location.reload()} // Work on this
+          onRestart={() => setStarted(false)}
           onSet={() => navigate("/settings")}
         />
       )}
-      <div className="flex justify-center items-center flex-col min-h-screen">
-        <div className="fixed top-6 w-full flex justify-center items-center">
+      <div className="flex items-center flex-col justify-between max-h-screen h-screen pt-6">
+        <div className="w-full flex justify-center items-center mb-12">
           <div className="fixed left-4">
             <GridaleLogo />
           </div>
+
           <h1
             className={
               "text-black dark:text-white capitalize font-bold text-sm md:text-xl"
@@ -203,7 +267,10 @@ const Gameplay = () => {
             {started && (
               <div
                 className="h-10 w-10 p-1 bg-yellow-400 rounded-full hover:scale-110 md:w-14 md:h-14"
-                onClick={() => setIsPaused(true)}
+                onClick={() => {
+                  setIsPaused(true);
+                  playSound(buttonClickSound, soundsPlaying);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -223,7 +290,10 @@ const Gameplay = () => {
             )}
             <div
               className="h-10 w-10 p-2 bg-green-700 rounded-full hover:scale-110 md:w-14 md:h-14"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                playSound(nextGridSound, soundsPlaying);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -243,23 +313,35 @@ const Gameplay = () => {
           </div>
         </div>
 
-        <div className="w-4/5 max-w-[500px] md:mt-12">
-          {started && (
-            <div>
-              <div className="flex justify-between items-center mb-16 mx-auto">
-                {theTimer}
-                <div
-                  className={`w-1/6 aspect-square ${primaryColor} rounded-xl border-[1px] border-slate-500`}
-                ></div>
+        <div className="w-4/5 max-w-[500px] md:mt-12 flex items-center flex-[1]">
+          {started ? (
+            <div className="w-full h-full flex flex-col">
+              {theTimer}
+              <div
+                className="flex-[1] relative overflow-y-hidden"
+                ref={allGridsParentRef}
+              >
+                <div ref={allGridsRef} className={`scrollUp absolute w-full`}>
+                  {shuffle(gridsList).map((gridType, id) => {
+                    return (
+                      <MainGrid
+                        gridType={gridType}
+                        totalClicksRef={totalClicksRef}
+                        totalCorrectClicksRef={totalCorrectClicksRef}
+                        key={id}
+                      />
+                    );
+                  })}
+                  <p className="text-center text-white">All done</p>
+                </div>
               </div>
-              {mainGrid}
             </div>
+          ) : (
+            startComp
           )}
-
-          {started || startComp}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
