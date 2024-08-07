@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 import { apprentice } from "../assets/Badges/apprentice.jsx";
 import { junior } from "../assets/Badges/junior.jsx";
@@ -11,6 +11,7 @@ import gmail from "../assets/Icons/mail.svg";
 import Xlogo from "../assets/Icons/Xlogo.svg";
 import linkedin from "../assets/Icons/linkedin.svg";
 import phone from "../assets/Icons/phone.svg";
+import { useParams } from "react-router";
 
 const socialLinks = [
   {
@@ -94,7 +95,8 @@ const down = (
 );
 
 const Info = () => {
-  const [infoDisplay, setInfoDisplay] = useState("play");
+  let { page } = useParams();
+  const [infoDisplay, setInfoDisplay] = useState(page);
 
   return (
     <div className="p-4">
@@ -313,7 +315,14 @@ const About = () => {
       </p>
       <Socials />
       <br />
-      <p>You can also visit my portfolio <span className="text-green-600 hover:underline"><a href="https://resume-ceejay777.vercel.app" target="_blank">here</a></span></p>
+      <p>
+        You can also visit my portfolio{" "}
+        <span className="text-green-600 hover:underline">
+          <a href="https://resume-ceejay777.vercel.app" target="_blank">
+            here
+          </a>
+        </span>
+      </p>
     </div>
   );
 };
@@ -343,11 +352,7 @@ const Socials = () => {
                         />
                       </a>
                     </div>
-                    <a
-                      href={ref}
-                      target="_blank"
-                      className="hover:underline"
-                    >
+                    <a href={ref} target="_blank" className="hover:underline">
                       {text}
                     </a>
                   </div>

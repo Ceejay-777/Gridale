@@ -34,13 +34,13 @@ const Home = () => {
           </MainButton>
           <MainButton
             background="bg-red-700"
-            onClick={() => navigate("/info")}
+            onClick={() => navigate("/info/play")}
           >
             Info
           </MainButton>
         </div>
       </div>
-      <div className="flex gap-4 justify-center items-center mt-4">
+      <div className="flex gap-4 justify-center items-center mt-4" onClick={() => navigate("/info/about")}>
         <p className="text-xs dark:text-white text-center ">
           Developed by CeeJay
         </p>

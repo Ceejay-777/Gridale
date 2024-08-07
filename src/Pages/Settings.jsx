@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 import { useDispatch, useSelector } from "react-redux";

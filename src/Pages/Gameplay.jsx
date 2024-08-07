@@ -229,7 +229,7 @@ const Gameplay = () => {
       if (container && animationSpeed) {
         const totalHeight = container.scrollHeight;
         const duration = totalHeight / animationSpeed;
-        console.log(duration, animationSpeed, totalHeight);
+        // console.log(duration, animationSpeed, totalHeight);
         container.style.animationDuration = `${duration}s`;
       }
     };

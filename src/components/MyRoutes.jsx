@@ -15,7 +15,7 @@ const MyRoutes = () => {
           <Route path="settings" element={<Settings />} />
           <Route path="game" element={<Gameplay />} />
           <Route path="result" element={<Results />} />
-          <Route path="info" element={<Info />} />
+          <Route path="info/:page" element={<Info />} />
         </Routes>
       </Router>
     </div>
