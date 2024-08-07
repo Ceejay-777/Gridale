@@ -90,7 +90,7 @@ const Results = () => {
             Play Again
           </MainButton>
         </div>
-        <p className="dark:text-white text-black hover:underline mt-4">See ranking info</p>
+        <p className="dark:text-white text-black hover:underline mt-4" onClick={() => navigate("/info/rank")}>See ranking info</p>
       </div>
     </div>
   );

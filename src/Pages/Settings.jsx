@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ const Settings = () => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionType, setOptionType] = useState();
   const {soundsPlaying} = useSelector(allgameSettings)
+  const [selected, setSelected] = useState()
 
   return (
     <div
@@ -28,18 +29,22 @@ const Settings = () => {
       onClick={() => {
         if (optionsOpen) {
           setOptionsOpen(false);
+          playSound(nextGridSound, soundsPlaying)
+          setSelected(undefined)
         }
       }}
     >
       <BackButton />
       <div className="w-4/5 flex flex-col gap-8 text-white items-center dark:text-black">
         <MainButton
-          background=" bg-red-600"
+          background="bg-red-600"
           addStyles="w-full"
+          bordered={selected === "mode"}
           onClick={(event) => {
             event.stopPropagation();
             setOptionsOpen(true);
             setOptionType("mode");
+            setSelected("mode");
           }}
         >
           Mode
@@ -47,10 +52,12 @@ const Settings = () => {
         <MainButton
           background="bg-yellow-400"
           addStyles="w-full"
+          bordered={selected === "sound"}
           onClick={(event) => {
             event.stopPropagation();
             setOptionsOpen(true);
             setOptionType("soundSettings");
+            setSelected("sound")
           }}
         >
           Sound
@@ -65,8 +72,9 @@ const Settings = () => {
         <div
           className=" absolute top-4 left-4 p-2 rounded-full bg-red-600 hover:scale-105 w-fit"
           onClick={() => {
-            playSound(nextGridSound, soundsPlaying)
+            playSound(nextGridSound, soundsPlaying);
             setOptionsOpen(false);
+            setSelected(undefined)
           }}
         >
           <svg
@@ -94,6 +102,7 @@ const Settings = () => {
 
 const ModeSelect = ({ setOptionType }) => {
   const dispatch = useDispatch();
+  const [selected, setSelected] = useState()
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center text-white dark:text-black">
@@ -101,9 +110,11 @@ const ModeSelect = ({ setOptionType }) => {
         <MainButton
           background="bg-green-600"
           addStyles={"mb-8"}
+          bordered={selected === "classic"}
           onClick={() => {
             dispatch(setGameMode("classic"));
             dispatch(setTotalTime(60));
+            setSelected("classic");
           }}
         >
           Classic
@@ -111,17 +122,21 @@ const ModeSelect = ({ setOptionType }) => {
         <MainButton
           background="bg-blue-700"
           addStyles={"mb-8"}
+          bordered={selected === "custom"}
           onClick={() => {
             dispatch(setGameMode("custom"));
             setOptionType("customSettings");
+             setSelected("custom");
           }}
         >
           Custom
         </MainButton>
         <MainButton
           background="bg-orange-600"
+          bordered={selected === "survival"}
           onClick={() => {
             dispatch(setGameMode("survival"));
+             setSelected("survival");
           }}
         >
           Survival
@@ -133,6 +148,8 @@ const ModeSelect = ({ setOptionType }) => {
 
 const CustomSettings = () => {
   const dispatch = useDispatch();
+  const [gridSelected, setGridSelected] = useState()
+  const [timeSelected, setTImeSelected] = useState()
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center dark:text-white flex-col gap-8 max-w-[350px] mx-auto">
@@ -141,7 +158,9 @@ const CustomSettings = () => {
         <div className="w-4/5 mx-auto flex flex-col items-center gap-6">
           <MainButton
             background=" bg-orange-600"
+            bordered={gridSelected === "2"}
             onClick={() => {
+              setGridSelected("2")
               dispatch(setGridType("grid2"));
             }}
           >
@@ -149,7 +168,9 @@ const CustomSettings = () => {
           </MainButton>
           <MainButton
             background="bg-green-600"
+            bordered={gridSelected === "3"}
             onClick={() => {
+              setGridSelected("3")
               dispatch(setGridType("grid3"));
             }}
           >
@@ -157,8 +178,10 @@ const CustomSettings = () => {
           </MainButton>
           <MainButton
             background="bg-yellow-400"
+            bordered={gridSelected === "4"}
             onClick={() => {
               dispatch(setGridType("grid4"));
+              setGridSelected("4")
             }}
           >
             4 x 4
@@ -173,24 +196,30 @@ const CustomSettings = () => {
         <div className="w-4/5 mx-auto flex flex-col items-center gap-6">
           <MainButton
             background="bg-blue-600"
+            bordered={timeSelected === "30"}
             onClick={() => {
               dispatch(setTotalTime(30));
+              setTImeSelected("30")
             }}
           >
             30 secs
           </MainButton>
           <MainButton
             background="bg-orange-600"
+            bordered={timeSelected === "45"}
             onClick={() => {
               dispatch(setTotalTime(45));
+              setTImeSelected("45")
             }}
           >
             45 secs
           </MainButton>
           <MainButton
             background="bg-red-600"
+            bordered={timeSelected === "60"}
             onClick={() => {
               dispatch(setTotalTime(60));
+              setTImeSelected("60")
             }}
           >
             60 secs

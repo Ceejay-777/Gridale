@@ -1,4 +1,10 @@
-span {
+.let1,
+.let2,
+.let3,
+.let4,
+.let5,
+.let6,
+.let7 {
   position: relative;
   display: inline-block;
   opacity: 0;

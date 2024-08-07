@@ -5,8 +5,6 @@ import GridaleLoader from "../Loaders/GridaleLoader";
 import Cee from "../assets/Cee.png";
 import MainButton from "../components/MainButton";
 import Sound from "../components/Sound";
-import { useSelector } from "react-redux";
-import { bgSound } from "../modules/soundManager";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -36,13 +34,13 @@ const Home = () => {
           </MainButton>
           <MainButton
             background="bg-red-700"
-            onClick={() => navigate("/about")}
+            onClick={() => navigate("/info/play")}
           >
-            About
+            Info
           </MainButton>
         </div>
       </div>
-      <div className="flex gap-4 justify-center items-center mt-4">
+      <div className="flex gap-4 justify-center items-center mt-4" onClick={() => navigate("/info/about")}>
         <p className="text-xs dark:text-white text-center ">
           Developed by CeeJay
         </p>
