@@ -6,10 +6,8 @@ export const bgSound = new Howl({
   preload: true,
   loop: true,
   onplay: (id) => {
-    // console.log("Playing Sound", id);
   },
   onpause: (id) => {
-    // console.log("Paused Sound", id);
   },
   onmute: (id) => console.log("Muted:", id),
   onplayerror: (id, error) => console.error("Play error", error),
