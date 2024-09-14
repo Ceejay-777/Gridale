@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainButton from "../components/MainButton";
 import BackButton from "../components/BackButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,6 +95,7 @@ const Settings = () => {
         {optionType === "mode" && <ModeSelect setOptionType={setOptionType} />}
         {optionType === "customSettings" && <CustomSettings />}
         {optionType === "soundSettings" && <SoundSettings />}
+        {optionType === "survivalSettings" && <SurvivalSettings />} 
       </div>
     </div>
   );
@@ -135,8 +136,9 @@ const ModeSelect = ({ setOptionType }) => {
           background="bg-orange-600"
           bordered={selected === "survival"}
           onClick={() => {
-            dispatch(setGameMode("survival"));
-             setSelected("survival");
+            // dispatch(setGameMode("survival"));
+            //  setSelected("survival");
+            setOptionType("survivalSettings")
           }}
         >
           Survival
@@ -229,6 +231,14 @@ const CustomSettings = () => {
     </div>
   );
 };
+
+const SurvivalSettings = () => {
+  return (
+    <div className="w-full min-h-screen flex justify-center items-center text-white dark:text-black">
+      <h1 className="dark:text-white text-2xl font-semibold text-center">Survival Mode is Coming Soon</h1>
+    </div>
+  )
+}
 
 const SoundSettings = () => {
   const { bgSoundPlaying, soundsPlaying } = useSelector(
